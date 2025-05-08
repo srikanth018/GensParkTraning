@@ -162,7 +162,6 @@ select title,dbo.fn_CalculateTax(price,12) from titles
 
 -- older way of TVF 
 -- slower but supports more logic
--- Process with
 create function fn_tableSampleOld(@minprice float)
   returns @Result table(Book_Name nvarchar(100), price float)
   as
