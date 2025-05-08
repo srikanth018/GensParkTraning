@@ -1,0 +1,24 @@
+Take away points - 8/5/2025 - Day 4 
+
+-> Stored procedure with out parameter
+-> Bulk Insert from external file through procedure
+-> Exception handling - Try catch 
+-> CTE - Common table expression
+
+-> Data Pagination with CTE (old method - with row_number)
+-> Pagination using offset (newer method)
+   syntax 
+	offset {start} rows fetch next {no of rows} only 
+
+-> Functions
+   1) Pre Defined like max(), min(), sum() etc...
+   2) user Defined
+	two types -> Saclar(return single value) and table-valued(returns a table)
+
+
+
+--> user Defined Functions
+
+	-> Have to return a value
+	--> the function just return a single function called Scalar function
+	--> We may use the function call in the select statements also
