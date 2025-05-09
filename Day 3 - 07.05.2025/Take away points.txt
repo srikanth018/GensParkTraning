@@ -1,0 +1,55 @@
+Take away points from Morning Session (7/5/2025 - Day 3) - Sample Codes are done in the sql file
+
+Topics - SQL Joins, Stored Procedures, Manipulate JSON data
+
+
+-- Stored Procedures
+-- Syntax 
+create procedure proc_NameOfProcedure
+as
+begin
+ -- Statements
+end
+
+-- For execution 
+exec proc_NameOfProcedure -- exec is not mandatory
+
+-- Hello world Printing
+create procedure proc_HelloWorld -- also proc key word , also parameter may give
+as
+begin
+ print 'Hello World'
+end
+
+go -- > is use to execute the more than one query at a time, it exects the query sequentially
+
+exec proc_HelloWorld
+
+
+-- Points to remember
+
+--> for Procedures
+
+-- 1. when we execute the procedure then we can't edit it
+-- 2. but we can use create or alter procedure in the procedure -> if any changes inside the begin and end no problem
+-- 3. If we want to change the parameter then drop the procedure and re-create it
+
+--> For JSON data accessing
+
+-- JSON_QUERY(column name, '$.Object key in the data') -> to fetch the json data in json format
+-- JSON_VALUE(column name, '$.Object key in the data') -> to get the value of the key
+-- JSON_MODIFY(column name, '$.Object key in the data', new updated value) -> to modify the json data
+
+--> Syntax for inserting bulk json data
+
+	insert into Posts(user_id,id,title,body) 
+	select userId,id,title,body from openjson(@jsondata) --> openjson is used to insert bulk
+	with (userId int,id int, title varchar(100), body varchar(max)) --> this line is to specify the incomming data's datatypes
+
+--> try_cast(json_value(details,'$.spec.cpu') as nvarchar(20)) ='i5' 
+
+--> this is used to cast the data type
+
+-- Strored procedure with parameter
+-- Example : Inserting data in a table with procedure
+-- Created by Gayathri Mahadevan
