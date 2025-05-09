@@ -1,0 +1,196 @@
+Question 1:
+
+Plus-minus
+
+https://www.hackerrank.com/challenges/plus-minus/problem?isFullScreen=true
+
+Solution:
+public static void plusMinus(List<int> arr)
+    {
+        int pos = 0;
+        int neg = 0;
+        int zero = 0;
+        foreach(var i in arr){
+            int operation = i>0?pos++ : (i<0 ? neg++ : zero++);
+        }
+        Console.WriteLine($"{(double)pos/arr.Count:F6}");
+        Console.WriteLine($"{(double)neg/arr.Count:F6}");
+        Console.WriteLine($"{(double)zero/arr.Count:F6}");
+    }
+
+Question 2:
+Staircase
+
+Method 1 -> Using 2 loops
+
+public static void staircase(int n)
+    {
+        for(int i=1;i<=n;i++){
+            
+             for(int j=1; j<=n-i;j++){
+                 Console.Write(' ');
+             }
+             for(int j=1; j<=i;j++){
+                 Console.Write('#');
+             }
+             Console.WriteLine();
+            
+                     }
+    }
+
+Method 2 -> using String class
+public static void staircase(int n)
+    {
+            
+         
+         Console.WriteLine(new string(' ',n-i)+new string('#',i));
+        }
+    }
+
+Question 3
+Min-max-sum
+
+public static void miniMaxSum(List<int> arr)
+    {
+        arr.Sort();
+        long sum1 = 0;
+        long sum2 = 0;
+        for(int val=0; val<4;val++){
+            sum1 = sum1+arr[val];
+            sum2 = sum2+arr[arr.Count-1-val]; 
+        }
+
+        Console.Write($"{sum1} {sum2}");
+    }
+Question 4
+Birthday cake candles
+
+    public static int birthdayCakeCandles(List<int> candles)
+    {
+        candles.Sort();
+        int tallestValue=candles[candles.Count-1];
+        int index = candles.IndexOf(tallestValue);
+        
+        int returnVal = candles.Count-index;
+        return returnVal;
+    }
+
+question 5
+   public static string timeConversion(string s)
+    {
+        string time="";
+        if(s.Substring(8,1) == "A"){
+            if(int.Parse(s.Substring(0,2)) == 12){
+                time = $"00:{s.Substring(3,5)}";
+            }else{
+            time = s.Substring(0,8);
+                
+            }
+            
+        }
+        else{
+            int h = int.Parse(s.Substring(0,2))+12;
+            
+            if(int.Parse(s.Substring(0,2)) == 12){
+                time = s.Substring(0,8);
+            }
+            else 
+            time = $"{h}:{s.Substring(3,5)}";
+        }
+        return time;
+        
+        
+    }
+
+Question 6
+
+Grading
+    public static List<int> gradingStudents(List<int> grades)
+    {
+        List<int> finalGrades = new List<int>();
+        
+        foreach(var gra in grades){
+            if(gra<38){
+                finalGrades.Add(gra);
+            }
+            else{
+                int nextMul = 0;
+                
+                if(gra%5==0) nextMul=gra;
+                
+                else nextMul = ((gra/5)+1)*5;
+                
+                
+                if(nextMul-gra <3){
+                    finalGrades.Add(nextMul);
+                }
+                else{
+                    finalGrades.Add(gra);
+                }
+            }
+        }
+        return finalGrades;
+    }
+
+Question 7
+Apples and Oranges
+
+  public static void countApplesAndOranges(int s, int t, int a, int b, List<int> apples, List<int> oranges)
+    {
+        int AppleCount = 0;
+        int OrangesCount = 0;
+        
+        foreach(var i in apples){
+            if(a+i >=s && a+i<=t){
+                AppleCount++;
+            }
+        }        
+        foreach(var i in oranges){
+            if(b+i >=s && b+i<=t){
+                OrangesCount++;
+            }
+        } 
+        Console.WriteLine(AppleCount);
+        Console.WriteLine(OrangesCount);
+    }
+
+}
+
+Question 8:
+    public static string kangaroo(int x1, int v1, int x2, int v2)
+    {
+        if(v2>v1) return "NO";
+        if(v1==v2 && x2>x1) return "NO";
+        if((x2-x1)%(v1-v2)==0){
+            return "YES";
+        }
+        return "NO";
+    }
+
+Question 9
+
+
+Question 10
+    public static List<int> breakingRecords(List<int> scores)
+    {
+        int lowCount = 0;
+        int highCount = 0;
+        int lowScore = scores[0];
+        int highScore = scores[0];
+        List<int> output = new List<int>();
+        foreach(var scr in scores){
+            if(scr<lowScore){
+                lowCount++;
+                lowScore = scr;
+                continue;
+            }
+            if(scr>highScore){
+                highCount++;
+                highScore=scr;
+            }
+        }
+        output.Add(highCount);
+        output.Add(lowCount);
+        return output;
+        
+    }
