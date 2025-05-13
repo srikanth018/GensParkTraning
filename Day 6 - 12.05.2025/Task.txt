@@ -1,0 +1,66 @@
+
+
+1️. If I perform multiple updates and an error happens in the third statement, and I issue a ROLLBACK — will my first two updates persist?
+
+Answer: 
+No. In PostgreSQL, when it ROLLBACK, it undoes everything in the transaction.
+All the updates, including the first two, will be rolled back. None will persist.
+Only if we had used SAVEPOINT before statement 3, we could have rolled back partially.
+
+2. If Transaction A updates Alice's balance but does not commit, can Transaction B read the new balance if isolation level is READ COMMITTED?
+
+Answer: 
+No. In READ COMMITTED:
+Other transactions cannot see uncommitted changes.
+Transaction B will read the last committed balance.
+
+3. What will happen if two concurrent transactions both execute:
+UPDATE tbl_bank_accounts SET balance = balance - 100 WHERE account_name = 'Alice';
+
+Answer: 
+First transaction locks Alice's row (FOR UPDATE internally).
+Second transaction waits until the first commits.
+So both updates will subtract 100 safely. No lost updates.
+
+4. If I issue ROLLBACK TO SAVEPOINT after_alice;, will it undo only changes made after the savepoint or everything?
+
+Answer:
+Only changes after the savepoint will be undone.
+All statements before the savepoint remain executed.
+
+5. Which isolation level in PostgreSQL prevents phantom reads?
+
+Answer: SERIALIZABLE isolation level.
+
+6. Can Postgres perform a dirty read (reading uncommitted data from another transaction)?
+
+Answer: 
+No. PostgreSQL does not support dirty reads in any isolation level.
+
+7. If autocommit is ON (default in Postgres), and I execute an UPDATE, is it safe to assume the change is immediately committed?
+
+Answer: 
+Yes.
+Every individual UPDATE, INSERT, DELETE is a transaction.
+After the statement finishes, it is automatically committed.
+So yes, the change is committed immediately and visible to other sessions.
+
+
+8. If I do this:
+
+BEGIN;
+UPDATE accounts SET balance = balance - 500 WHERE id = 1;
+-- (No COMMIT yet)
+
+And from another session, I run:
+
+SELECT balance FROM accounts WHERE id = 1;
+Will the second session see the deducted balance?
+
+Answer: 
+No. The second session will see the old balance (the last committed value).
+
+The UPDATE has not committed yet, so the new version is invisible to others.
+PostgreSQL uses MVCC — readers see only committed versions.
+Only after COMMIT, then only other sessions will see the deducted balance.
+
