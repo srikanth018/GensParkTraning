@@ -1,0 +1,85 @@
+Take away - Day 7, 13/5/2025 - Topics-> Lock, Trigger, Cursor
+
+Locking Mechanism
+PostgreSQL automatically applies locks, but you can control them manually when needed.
+
+Types of Locks
+
+MVCC VS Locks
+MVCC allows readers and writers to work together without blocking.
+Locks are needed when multiple writers try to touch the same row or table.
+
+Simple Rule of Locks
+Readers don’t block each other.
+Writers block other writers on the same row.
+
+two types of locks
+ 1. Row level
+ 2. Table level
+
+Row-Level Locking (Default Behavior) / Implicit Lock
+Two Users updating the same row
+
+-- Table-Level Locks / Explicit Table Lock
+1. ACCESS SHARE -- select
+-- Allows reads and writes
+
+2. ROW SHARE
+-- SELECT ... FOR UPDATE -> lock the selected row for later update
+
+3. EXCLUSIVE
+-- Blocks writes (INSERT, UPDATE, DELETE) but allows reads (SELECT)
+
+4. ACCESS EXCLUSIVE  -- Most agressive lock 
+-- Blocks everything, Used by ALTER TABLE, DROP TABLE, TRUNCATE, 
+-- Internally used by DDL.
+
+Types of locks:
+
+🔒 Lock Type           Meaning                                  Blocks?
+--------------------  ----------------------------------------  -------------------------
+Row-Level Lock        Locks a specific row (during UPDATE/DELETE)  Other writers, not readers
+Table-Level Lock      Locks the whole table                      Depends on mode
+Advisory Lock         User-defined lock (custom)                 Depends
+
+Action               MVCC Behavior                          Locking Behavior
+-------------------  -------------------------------------  -------------------------------------
+Reader vs. Reader    Never blocks (reads old snapshots)     Usually doesn’t block
+Writer vs. Reader    Doesn’t block (reader sees old version) Reader might wait if writer locks
+Writer vs. Writer    Can block (only one can commit)        Blocks (both fight for lock)
+
+Types of lock modes in table level locks
+
+Lock Mode             Blocks Reads?    Blocks Writes?
+--------------------  ---------------  ----------------
+ACCESS SHARE          ❌ No             ❌ No
+ROW SHARE             ❌ No             ❌ No
+EXCLUSIVE             ❌ No             ✅ Yes
+ACCESS EXCLUSIVE      ✅ Yes            ✅ Yes
+
+
+
+
+Triggers:
+
+Set of statements which executes automatically when a modification in the table, like while insert/update/delete
+
+example:
+after insert in a table log the inserted information in the log table automatically
+
+In PostgreSQL only, Trigger implementation should be in a function
+first write a function what the trigger should do and that function should return a trigger
+then create the trigger and call the function 
+
+OLD/NEW:
+
+Temporary tables were created as OLD/NEW and get dropped when trigger completes
+
+Cursor:
+
+steps:
+ declare
+ open
+ fetch(loop)
+ close
+ deallocate
