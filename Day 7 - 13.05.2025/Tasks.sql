@@ -52,13 +52,13 @@ do $$
 declare
 	row_record record;
 	row_record_cursor cursor for
-		select f.title as filmTitle,Count(r.inventory_id) rentalCount from film f
+		select f.title as filmTitle,Count(r.rental_id) rentalCount from film f
 		join inventory i on i.film_id = f.film_id
 		join rental r on r.inventory_id = i.inventory_id
 		where f.film_id in (select film_id from film_category where category_id = 5)
 		group by f.title
-		having Count(r.inventory_id)>10
-		order by Count(r.inventory_id) desc;
+		having Count(r.rental_id)>10
+		order by Count(r.rental_id) desc;
 begin
 	open row_record_cursor;
 	loop
@@ -199,16 +199,16 @@ where customer_id = 603
 -- 2. Simulate a transaction where one update fails (e.g., invalid rental ID), and ensure the entire transaction rolls back.
 begin;
 do $$
-begin
-	update rental
-	set staff_id = 20
-	where rental_id = 166655;
-	commit;
-exception
-	when others then
-		raise notice 'Invalid ID';
-		rollback;
-end;
+	begin
+		update rental
+		set staff_id = 20
+		where rental_id = 166655;
+		commit;
+	exception
+		when others then
+			raise notice 'Invalid ID';
+			rollback;
+	end;
 $$;
 commit;
 
