@@ -1,0 +1,51 @@
+Day 9 - 15/05/2025
+
+Encryption and storing:
+
+create SP to encrypt
+
+another SP to mask that
+
+store the masked data and while reading show unmasked data
+
+another SP to insert 
+
+comparing 
+
+----------------------
+
+password encryption can be done in 2 ways 
+    1. SCRAM-SHA-256 (SCRAM- Salted Challenge Response Authentication Mechanism)
+
+OpenPGP (RFC 4880) standard.
+
+
+
+Major aspects of security:
+Authentication and authorization,
+access control,
+encryption,
+auditing
+
+
+--> pg_hba.conf file is the authentication file in the PostgreSQL
+md5 -> simple hash
+scram -> advanced hash
+
+
+in the PostgreSQL console:
+create role readonly login password 'rol123';
+create database sample;
+grant connect on database sample to readonly;
+grant select on all tables in schema public to readonly; --> grant the authorization to the user readonly
+
+
+in the bin >
+psql -U readonly -d sample -p 5433
+
+
+
+in the PostgreSQL console:
+grant connect on database sample to readonly
+
+revoke connect on database sample from readonly;
