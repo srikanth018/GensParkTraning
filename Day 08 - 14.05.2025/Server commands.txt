@@ -1,0 +1,9 @@
+pg_ctl -D D:\Replication_Sample\sec stop
+
+
+pg_ctl -D D:\Replication_Sample\pri stop
+
+
+pg_ctl -D D:\Replication_Sample\sec -o "-p 5435" -l D:\Replication_Sample\sec\logfile start
+
+pg_ctl -D D:\Replication_Sample\pri -o "-p 5433" -l D:\Replication_Sample\pri\logfile start
