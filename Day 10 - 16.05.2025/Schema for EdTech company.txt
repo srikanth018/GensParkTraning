@@ -1,0 +1,37 @@
+Schema for EdTech company
+
+course_status
+status_id, status
+
+enroll_status
+status_id, status
+
+candidate_trainer_status
+status_id, status
+
+address
+id, street, city, state, country, postal_code
+
+candidates
+id, name, phone, email, password, address_id, education_level, status_id
+
+trainer
+id, name,phone, email, password, address_id, Profession, status_id
+
+content
+id, type, source
+
+course
+id, title, description, duration, content_id, fee
+
+course_trainer
+course_id, trainer_id
+
+certificate
+id, course_id, candidate_id, serial_number
+
+enrollment
+id, candidate_id, course_id, trainer_id, payment_id, status_id
+
+payment
+id, candidate_id, amount, transaction_id
