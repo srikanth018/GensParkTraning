@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\srikanthm\\Documents\\GensParkTraning\\Day 11 - 19.05.2025\\ConsoleTasksApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|c:\\users\\srikanthm\\documents\\gensparktraning\\day 11 - 19.05.2025\\consoletasksapp\\consoletasksapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|solutionrelative:consoletasksapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|c:\\users\\srikanthm\\documents\\gensparktraning\\day 11 - 19.05.2025\\consoletasksapp\\consoletasksapp\\validateallrows.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|solutionrelative:consoletasksapp\\validateallrows.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|c:\\users\\srikanthm\\documents\\gensparktraning\\day 11 - 19.05.2025\\consoletasksapp\\consoletasksapp\\validrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|solutionrelative:consoletasksapp\\validrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|c:\\users\\srikanthm\\documents\\gensparktraning\\day 11 - 19.05.2025\\consoletasksapp\\consoletasksapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|solutionrelative:consoletasksapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{52A50B0D-167F-4156-B946-99432B72D60C}|ConsoleTasksApp\\ConsoleTasksApp.csproj|c:\\users\\srikanthm\\documents\\gensparktraning\\day 11 - 19.05.2025\\consoletasksapp\\consoletasksapp\\countfrequency.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,24 +38,23 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ValidateAllRows.cs",
               "DocumentMoniker": "C:\\Users\\srikanthm\\Documents\\GensParkTraning\\Day 11 - 19.05.2025\\ConsoleTasksApp\\ConsoleTasksApp\\ValidateAllRows.cs",
               "RelativeDocumentMoniker": "ConsoleTasksApp\\ValidateAllRows.cs",
-              "ToolTip": "C:\\Users\\srikanthm\\Documents\\GensParkTraning\\Day 11 - 19.05.2025\\ConsoleTasksApp\\ConsoleTasksApp\\ValidateAllRows.cs*",
-              "RelativeToolTip": "ConsoleTasksApp\\ValidateAllRows.cs*",
-              "ViewState": "AgIAAAYAAAAAAAAAAADwvxYAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\srikanthm\\Documents\\GensParkTraning\\Day 11 - 19.05.2025\\ConsoleTasksApp\\ConsoleTasksApp\\ValidateAllRows.cs",
+              "RelativeToolTip": "ConsoleTasksApp\\ValidateAllRows.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAAAFoAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T11:13:32.037Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T11:13:32.037Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ValidRow.cs",
               "DocumentMoniker": "C:\\Users\\srikanthm\\Documents\\GensParkTraning\\Day 11 - 19.05.2025\\ConsoleTasksApp\\ConsoleTasksApp\\ValidRow.cs",
               "RelativeDocumentMoniker": "ConsoleTasksApp\\ValidRow.cs",
@@ -63,8 +62,7 @@
               "RelativeToolTip": "ConsoleTasksApp\\ValidRow.cs",
               "ViewState": "AgIAADwAAAAAAAAAAAAQwEYAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T11:04:39.178Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T11:04:39.178Z"
             },
             {
               "$type": "Document",
@@ -76,8 +74,7 @@
               "RelativeToolTip": "ConsoleTasksApp\\SecretWordGame.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAQwCwAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T10:45:42.542Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T10:45:42.542Z"
             },
             {
               "$type": "Document",
@@ -89,18 +86,17 @@
               "RelativeToolTip": "ConsoleTasksApp\\MergeTwoArray.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T10:44:45.285Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T10:44:45.285Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\srikanthm\\Documents\\GensParkTraning\\Day 11 - 19.05.2025\\ConsoleTasksApp\\ConsoleTasksApp\\Program.cs",
               "RelativeDocumentMoniker": "ConsoleTasksApp\\Program.cs",
               "ToolTip": "C:\\Users\\srikanthm\\Documents\\GensParkTraning\\Day 11 - 19.05.2025\\ConsoleTasksApp\\ConsoleTasksApp\\Program.cs",
               "RelativeToolTip": "ConsoleTasksApp\\Program.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAQwFEAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAAAFYAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-19T06:23:08.858Z",
               "EditorCaption": ""
@@ -115,8 +111,7 @@
               "RelativeToolTip": "ConsoleTasksApp\\CountFrequency.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAQwB0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T06:27:16.918Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T06:27:16.918Z"
             },
             {
               "$type": "Document",
@@ -128,8 +123,7 @@
               "RelativeToolTip": "ConsoleTasksApp\\GetArrayFromUser.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAASwCMAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T07:09:37.015Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T07:09:37.015Z"
             }
           ]
         }
