@@ -1,0 +1,34 @@
+Writing Business logic for login/registration:
+
+?? -> null colasing operator
+
+console.readline() ?? ""; --> if input is null the it replace with the ""(blank)
+
+Repository pattern:
+
+Repo should be generic repo, get all should have ICollection return type.
+use abstract class
+
+abstract: Cannot be instantiated directly. It’s meant to be inherited.
+Abstract methos should be in abstract class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
