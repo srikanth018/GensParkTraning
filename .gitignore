@@ -1,3 +1,5 @@
 # Ignore all .vs folders everywhere
 **/.vs/
 
+**/bin/
+**/obj/
