@@ -1,0 +1,78 @@
+Delegate, Lambda expression, Dependency Injection:
+
+update - reseduling
+
+sorting
+
+use login button as loading while login and show loggin success messege
+
+-----Delegate---
+
+delegate is a reference type
+Used as reference with multiple methods
+Unicast Delegate, Multicast Delegate (reference for more than one method)
+we can also write generic type in delegate like
+	
+anonymous method => Method without name
+
+// Anonymous Function with delegate
+
+//del += delegate (int n1, int n2)
+//{
+//    Console.WriteLine($"The division result of {n1} and {n2} is {n1 / n2}");
+//};
+
+//Lambda with delegate
+del += (int n1, int n2) => Console.WriteLine($"The division result of {n1} and {n2} is {n1 / n2}");
+            
+
+Pre Defined delegate
+function (Func)-> for the method with return 
+	Func<int> getRandom = () => new Random().Next();
+	Func<int, int, int> multiply = (a, b) => a * b;
+	Func<string, int> getLength = s => s.Length;
+	The last type parameter is the return type.
+action -> for the method without return (takes upto 16 parameters)
+Predicate -> for the method returning bool (takes single parameter)
+
+new Program(); --> To create Instance
+Program program = new(); --> new method to create Instance
+
+Find(predicate) => takes predicate as parameter
+
+Sorting with delegate also possible
+
+The code you've shown uses a lambda expression as a delegate inside the OrderBy method:
+
+var sortedEmployees = employees.OrderBy(e => e.Name);
+
+How this is a delegate:
+The method OrderBy is defined to take a delegate of type Func<T, TKey>.
+
+In your case, OrderBy(e => e.Name) passes a lambda e => e.Name, which is equivalent to a delegate of type Func<Employee, string> (assuming employees is a collection of Employee objects).
+
+So even though you're not explicitly declaring a delegate, you're using an inline delegate (via lambda expression) when calling OrderBy.
+
+
+---Extension function in c#---
+Must be static class
+Available in both predefined and use defined
+predefined sample: .Where, .OrderBy and more..
+
+Loose coupling-dependency inversion
+
+---SOLID principles---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
