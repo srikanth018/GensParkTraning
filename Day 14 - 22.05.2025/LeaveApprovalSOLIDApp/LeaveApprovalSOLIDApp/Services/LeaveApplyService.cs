@@ -6,7 +6,7 @@ namespace LeaveApprovalSOLIDApp.Services
 {
     public class LeaveApplyService : ILeaveApply<Leave>
     {
-        private readonly List<Leave> _leaveList = new();
+        private readonly List<Leave> _leaveList;
         private List<Leave> sharedList;
 
         public LeaveApplyService(List<Leave> sharedList)
