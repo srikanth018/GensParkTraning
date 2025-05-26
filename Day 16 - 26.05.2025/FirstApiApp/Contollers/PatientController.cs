@@ -40,7 +40,7 @@ namespace FirstApiApp.Controllers
             int? id = (patients.Count > 0 && (patient.Id == null || patient.Id == 0)) ? patients.Max(p => p.Id) + 1 : 1;
             patient.Id = id;
 
-            if (patient.PhoneNumber.Length != 10)
+            if (patient.PhoneNumber?.Length != 10)
             {
                 return BadRequest("Phone number must be exactly 10 digits");
             }
