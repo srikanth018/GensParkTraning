@@ -1,0 +1,19 @@
+Singleton -> a class has only one instance, while providing a global access point to this instance.
+
+make default constructor as private
+
+create a static method which creates the instance => This method either creates a new object or returns an existing one if it has already been created
+
+why method is static?
+    we can't able to create instance or object to that class, static method get called without the instance
+
+
+
+Factory Method =>  provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.
+
+Adapter/Flyweight/Proxy/
+Builder/
+
+-----Proxy Pattern---------
+
+This pattern provides a proxy for other objects to control access to them; 
