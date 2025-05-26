@@ -1,15 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("/api/[controller]")]
-public class SampleController : ControllerBase
+
+
+ namespace FirstApiApp.Controllers
 {
-    [HttpGet]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
     
-    public ActionResult GetGreet()
+    [ApiController]
+    [Route("/api/[controller]")]
+    public class SampleController : ControllerBase
     {
-        return Ok("Hello World");
+        [HttpGet]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+
+        public ActionResult GetGreet()
+        {
+            return Ok("Hello World");
+        }
     }
+    
 }
