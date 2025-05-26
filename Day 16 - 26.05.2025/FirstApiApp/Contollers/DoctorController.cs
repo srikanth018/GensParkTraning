@@ -22,9 +22,19 @@ namespace FirstApiApp.Controllers
         {
             if (doctors.Count == 0)
             {
-                return NotFound("No doctors found");
+                return NotFound("No doctors found in the list");
             }
             return Ok(doctors);
+        }
+        [HttpGet("{id}")]
+        public ActionResult<Doctor> GetDoctor(int id)
+        {
+            var doctor = doctors.FirstOrDefault(d => d.Id == id);
+            if (doctor == null)
+            {
+                return NotFound("Doctor not found with the given id");
+            }
+            return Ok(doctor);
         }
 
 
@@ -54,13 +64,13 @@ namespace FirstApiApp.Controllers
             return Ok(updateDoctor);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult<Doctor> DeleteDoctor(int id)
         {
             var deleteDoctor = doctors.FirstOrDefault(d => d.Id == id);
             if (deleteDoctor == null)
             {
-                return NotFound(deleteDoctor);
+                return NotFound("No Doctor found with the given id");
             }
             doctors.Remove(deleteDoctor);
             return Ok(deleteDoctor);
