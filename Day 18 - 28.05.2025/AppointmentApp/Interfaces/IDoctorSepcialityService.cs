@@ -11,7 +11,6 @@ namespace AppointmentApp.Interfaces
         Task<DoctorSpeciality> Add(DoctorSpeciality doctorSpeciality);
         Task<DoctorSpeciality> Update(int id, DoctorSpeciality doctorSpeciality);
         Task<DoctorSpeciality> Delete(int id);
-        Task<IEnumerable<DoctorSpeciality>> GetByDoctorIdAndSpecialityId(int doctorId, int specialityId);
         
     }
 }

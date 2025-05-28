@@ -20,7 +20,7 @@ namespace AppointmentApp.Repositories
             return doctorSpecialities;
         }
 
-        public override async Task<DoctorSpeciality>? GetById(int key)
+        public override async Task<DoctorSpeciality> GetById(int key)
         {
             var doctorSpeciality = await _clinicContext.DoctorSpecialities
                 // .Include(ds => ds.Doctor)

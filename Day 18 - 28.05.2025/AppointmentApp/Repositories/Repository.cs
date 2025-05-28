@@ -13,7 +13,7 @@ namespace AppointmentApp.Repositories
         }
 
         public abstract Task<IEnumerable<T>>? GetAll();
-        public abstract Task<T>? GetById(K key);
+        public abstract Task<T> GetById(K key);
 
         public async Task<T> Add(T item)
         {

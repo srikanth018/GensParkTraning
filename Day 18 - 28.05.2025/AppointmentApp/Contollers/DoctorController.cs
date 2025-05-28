@@ -1,5 +1,7 @@
 using System.Data;
+using AppointmentApp.Interfaces;
 using AppointmentApp.Models;
+using AppointmentApp.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppointmentApp.Controllers
@@ -11,69 +13,68 @@ namespace AppointmentApp.Controllers
 
     public class DoctorController : ControllerBase
     {
-        static List<Doctor> doctors = new List<Doctor>()
+        private readonly IDoctorService _doctorService;
+        public DoctorController(IDoctorService doctorService)
         {
-            new Doctor { Id = 101, Name = "Sri" },
-            new Doctor { Id = 102, Name = "Kanth" },
-        };
-
-        [HttpGet]
-        public ActionResult<IEnumerable<Doctor>> GetDoctors()
-        {
-            if (doctors.Count == 0)
-            {
-                return NotFound("No doctors found in the list");
-            }
-            return Ok(doctors);
+            _doctorService = doctorService;
         }
-        [HttpGet("{id}")]
-        public ActionResult<Doctor> GetDoctor(int id)
+
+        [HttpPost]
+        public async Task<IActionResult> AddDoctor([FromBody] AddDoctorRequest doctor)
         {
-            var doctor = doctors.FirstOrDefault(d => d.Id == id);
             if (doctor == null)
             {
-                return NotFound("Doctor not found with the given id");
+                return BadRequest("Doctor cannot be null");
             }
+
+            if (string.IsNullOrWhiteSpace(doctor.Name) || string.IsNullOrWhiteSpace(doctor.PhoneNumber))
+            {
+                return BadRequest("Doctor name and phone number are required");
+            }
+            if (doctor.YearsOfExperience < 0)
+            {
+                return BadRequest("Years of experience cannot be negative");
+            }
+
+            var addedDoctor = await _doctorService.Add(doctor);
+            return Ok(addedDoctor);
+
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDoctorById(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid doctor ID");
+            }
+
+            var doctor = await _doctorService.GetById(id);
+            if (doctor == null)
+            {
+                return NotFound($"Doctor with ID {id} not found");
+            }
+
             return Ok(doctor);
         }
 
-
-        [HttpPost]
-        public ActionResult<Doctor> AddDoctor(Doctor doctor)
+        [HttpGet]
+        public async Task<IActionResult> GetAllDoctors()
         {
-            
-            int? id = (doctors.Count > 0 && (doctor.Id == null || doctor.Id == 0)) ?  doctors.Max(d => d.Id) + 1 : 101;
-            
-            
-            doctor.Id = id;
-            
-            doctors.Add(doctor);
-            return Created("", doctor);
+            var doctors = await _doctorService.GetAll();
+            return Ok(doctors);
         }
-
-        [HttpPut]
-
-        public ActionResult<Doctor> UpdateDoctor(Doctor doctor)
+        [HttpGet("name")]
+        public async Task<IActionResult> GetDoctorsByName([FromQuery] string name)
         {
-            var updateDoctor = doctors.FirstOrDefault(d => d.Id == doctor.Id);
-            if (updateDoctor == null)
-            {
-                return NotFound(doctor);
-            }
-            updateDoctor.Name = doctor.Name;
-            return Ok(updateDoctor);
-        }
+            
 
-        [HttpDelete("{id}")]
-        public ActionResult<Doctor> DeleteDoctor(int id)
-        {
-            var deleteDoctor = doctors.FirstOrDefault(d => d.Id == id);
-            if (deleteDoctor == null)
+            var doctors = await _doctorService.GetByName(name);
+            if (doctors == null || !doctors.Any())
             {
-                return NotFound("No Doctor found with the given id");
+                return NotFound($"No doctors found with the name {name}");
             }
-            doctors.Remove(deleteDoctor);
-            return Ok(deleteDoctor);
+
+            return Ok(doctors);
         }
     }
 }

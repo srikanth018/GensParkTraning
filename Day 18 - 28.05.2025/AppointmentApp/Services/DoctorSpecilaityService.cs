@@ -5,19 +5,19 @@ namespace AppointmentApp.Services
 {
     public class DoctorSpecilaityService : IDoctorSepcialityService
     {
-        private readonly DoctorSpecialityRepository _doctorSpecialityRepository;
-        public DoctorSpecilaityService(DoctorSpecialityRepository doctorSpecialityRepository)
+        private readonly IRepository<int,DoctorSpeciality> _doctorSpecialityRepository;
+        public DoctorSpecilaityService(IRepository<int,DoctorSpeciality> doctorSpecialityRepository)
         {
             _doctorSpecialityRepository = doctorSpecialityRepository;
         }
-        public Task<DoctorSpeciality> Add(DoctorSpeciality doctorSpeciality)
+        public async Task<DoctorSpeciality> Add(DoctorSpeciality doctorSpeciality)
         {
             if (doctorSpeciality == null)
             {
                 throw new ArgumentNullException(nameof(doctorSpeciality), "DoctorSpeciality cannot be null");
             }
 
-            return _doctorSpecialityRepository.Add(doctorSpeciality);
+            return await _doctorSpecialityRepository.Add(doctorSpeciality);
         }
 
         public Task<DoctorSpeciality> Delete(int id)
@@ -25,19 +25,16 @@ namespace AppointmentApp.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<DoctorSpeciality>> GetAll()
+        public async Task<IEnumerable<DoctorSpeciality>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<DoctorSpeciality>> GetByDoctorId(int doctorId)
+        public async Task<IEnumerable<DoctorSpeciality>> GetByDoctorId(int doctorId)
         {
-            throw new NotImplementedException();
-        }
 
-        public Task<IEnumerable<DoctorSpeciality>> GetByDoctorIdAndSpecialityId(int doctorId, int specialityId)
-        {
-            throw new NotImplementedException();
+            var doctorSpecialities = await _doctorSpecialityRepository.GetAll();
+            return doctorSpecialities.Where(ds => ds.DoctorId == doctorId);
         }
 
         public Task<DoctorSpeciality> GetById(int id)

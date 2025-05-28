@@ -16,7 +16,7 @@ namespace AppointmentApp.Repositories
             if (patients.Count == 0) throw new Exception("No Patients in the database");
             return patients;
         }
-        public override async Task<Patient>? GetById(int key)
+        public override async Task<Patient> GetById(int key)
         {
             var patient = await _clinicContext.Patients.FirstOrDefaultAsync(p => p.Id == key);
             if(patient == null) throw new Exception("No Patients for the provide id");

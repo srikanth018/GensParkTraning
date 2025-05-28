@@ -17,7 +17,7 @@ namespace AppointmentApp.Repositories
             return appointments;
         }
 
-        public override async Task<Appointment>? GetById(int key)
+        public override async Task<Appointment> GetById(int key)
         {
             var appointment = await _clinicContext.Appointments.FirstOrDefaultAsync(a => a.Id == key);
             if (appointment == null) throw new Exception("No Appointment found for the provided id");

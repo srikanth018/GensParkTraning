@@ -7,77 +7,81 @@ namespace AppointmentApp.Services
 {
     public class DoctorService : IDoctorService
     {
-        private readonly DoctorRepository _doctorRepository;
-        private readonly SpecialityRepository _specialityRepository;
-        private readonly DoctorSpecialityRepository _doctorSpecialityRepository;
+        private readonly IRepository<int, Doctor> _doctorRepository;
+        private readonly IRepository<int, Speciality> _specialityRepository;
+        private readonly IRepository<int, DoctorSpeciality> _doctorSpecialityRepository;
 
-        public DoctorService(DoctorRepository doctorRepository,
-            SpecialityRepository specialityRepository,
-            DoctorSpecialityRepository doctorSpecialityRepository)
+        public DoctorService(IRepository<int, Doctor> doctorRepository,
+            IRepository<int, Speciality> specialityRepository,
+            IRepository<int, DoctorSpeciality> doctorSpecialityRepository)
         {
             _doctorRepository = doctorRepository;
             _specialityRepository = specialityRepository;
             _doctorSpecialityRepository = doctorSpecialityRepository;
 
         }
-        public Task<Doctor> Add(AddDoctorRequest doctor)
+        public async Task<Doctor> Add(AddDoctorRequest doctor)
         {
             if (doctor == null)
-            {
-                throw new ArgumentNullException(nameof(doctor), "Doctor cannot be null");
-            }
+                throw new ArgumentNullException(nameof(doctor));
 
             var newDoctor = new Doctor
             {
                 Name = doctor.Name,
                 Status = "Active",
                 PhoneNumber = doctor.PhoneNumber,
-                YearsOfExperience = doctor.YearsOfExperience,
+                YearsOfExperience = doctor.YearsOfExperience
             };
 
-            var addedDoctor = _doctorRepository.Add(newDoctor);
+            var addedDoctor = await _doctorRepository.Add(newDoctor);
 
-            if (addedDoctor == null)
-            {
+            if (addedDoctor == null || addedDoctor.Id == null)
                 throw new Exception("Failed to add doctor.");
-            }
 
             foreach (var specialityId in doctor.SpecialityIds)
             {
-                var speciality = _specialityRepository.GetById(specialityId);
+                var speciality = await _specialityRepository.GetById(specialityId);
                 if (speciality == null)
-                {
                     throw new Exception($"Speciality with ID {specialityId} does not exist.");
-                }
 
-                _doctorSpecialityRepository.Add(new DoctorSpeciality
+                var doctorSpeciality = new DoctorSpeciality
                 {
-                    DoctorId = addedDoctor.Id,
+                    DoctorId = addedDoctor.Id.Value,
                     SpecialityId = specialityId
-                }).Wait();
+                };
+
+                await _doctorSpecialityRepository.Add(doctorSpeciality);
             }
 
             return addedDoctor;
         }
 
-        public Task<Doctor> Delete(int id)
+        public async Task<Doctor> Delete(int id)
         {
-            throw new NotImplementedException();
+
+            return await _doctorRepository.Delete(id);
         }
 
-        public Task<IEnumerable<Doctor>> GetAll()
+        public async Task<IEnumerable<Doctor>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _doctorRepository.GetAll();
         }
 
-        public Task<Doctor> GetById(int id)
+        public async Task<Doctor> GetById(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                throw new ArgumentException("Invalid doctor ID.", nameof(id));
+
+            return await _doctorRepository.GetById(id);
         }
 
-        public Task<IEnumerable<Doctor>> GetByName(string name)
+        public async Task<IEnumerable<Doctor>> GetByName(string name)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Doctor name cannot be null or empty.", nameof(name));
+
+            var doctors = await _doctorRepository.GetAll();
+            return doctors.Where(d => d.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public Task<IEnumerable<Doctor>> GetBySpeciality(int specialityId)
@@ -90,11 +94,25 @@ namespace AppointmentApp.Services
             throw new NotImplementedException();
         }
 
-        public Task<Doctor> Update(int id, UpdateDoctorRequest doctor)
+        public async Task<Doctor> Update(int id, UpdateDoctorRequest doctor)
         {
-            throw new NotImplementedException();
+            if (doctor == null)
+                throw new ArgumentNullException(nameof(doctor));
+
+            if (id <= 0)
+                throw new ArgumentException("Invalid doctor ID.", nameof(id));
+
+            var existingDoctor = await _doctorRepository.GetById(id);
+            if (existingDoctor == null)
+                throw new Exception($"Doctor with ID {id} does not exist.");
+
+            existingDoctor.Name = doctor.Name ?? existingDoctor.Name;
+            existingDoctor.PhoneNumber = doctor.PhoneNumber ?? existingDoctor.PhoneNumber;
+            existingDoctor.YearsOfExperience = doctor.YearsOfExperience >= 0 ? doctor.YearsOfExperience : existingDoctor.YearsOfExperience;
+
+            return await _doctorRepository.Update(id, existingDoctor);
         }
 
-        
+
     }
 }

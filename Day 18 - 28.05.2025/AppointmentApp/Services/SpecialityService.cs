@@ -7,8 +7,8 @@ namespace AppointmentApp.Services
 {
     public class SpecialityService : ISpecialityService
     {
-        private SpecialityRepository _specialityRepository;
-        public SpecialityService(SpecialityRepository specialityRepository)
+        private IRepository<int,Speciality> _specialityRepository;
+        public SpecialityService(IRepository<int,Speciality> specialityRepository)
         {
             _specialityRepository = specialityRepository ;
         }
@@ -27,9 +27,9 @@ namespace AppointmentApp.Services
             throw new NotImplementedException();
         }
 
-        public Task<Speciality> GetById(int id)
+        public async Task<Speciality> GetById(int id)
         {
-            return _specialityRepository.GetById(id);
+            return  await _specialityRepository.GetById(id);
         }
 
         public Task<IEnumerable<Speciality>> GetByName(string name)
