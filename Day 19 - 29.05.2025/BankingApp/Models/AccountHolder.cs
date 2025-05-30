@@ -15,6 +15,9 @@ namespace BankApp.Models
         public int AccountDetailId { get; set; }
         public AccountDetail? AccountDetail { get; set; }
 
+        // public ICollection<Transfer>? Transfers { get; set; } = new List<Transfer>();
+        public ICollection<Transaction>? Transactions { get; set; } = new List<Transaction>();
+
         public string Status { get; set; } = "Active";
     }
 }

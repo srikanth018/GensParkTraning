@@ -12,6 +12,8 @@ namespace BankApp.Contexts
         public DbSet<AccountDetail> AccountDetails { get; set; }
         public DbSet<AccountHolder> AccountHolders { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Transfer> Transfers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +27,21 @@ namespace BankApp.Contexts
                 .HasOne(ah => ah.AccountDetail)
                 .WithOne(ad => ad.AccountHolder)
                 .HasForeignKey<AccountHolder>(ah => ah.AccountDetailId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Transaction>().HasKey(t => t.TransactionId);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Transfer)
+                .WithOne(tr => tr.Transaction)
+                .HasForeignKey<Transfer>(tr => tr.TransactionId)
+                .HasPrincipalKey<Transaction>(t => t.TransactionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.AccountHolder)
+                .WithMany(ah => ah.Transactions)
+                .HasForeignKey(t => t.AccountHolderId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
