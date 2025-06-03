@@ -1,0 +1,4 @@
+.venv311
+/ChatbotModel/local_model
+/ChatbotModel/local_phi2_model
+/ChatbotModel/local_tinyllama_model
