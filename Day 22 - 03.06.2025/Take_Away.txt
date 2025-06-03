@@ -1,0 +1,18 @@
+OAuth -> Authentication and Configuration
+
+Microsoft Passport Service
+
+Single signOn -> Sign in using third party with key
+
+Implementing Auth0 -> Third party application 
+
+Throttling -> 
+
+
+Authorisation, Unit Testing and Throttling - OAuth and Policy based Authorisation 
+
+Unit testing is done by AAA principle
+
+Arrange, Action, Assert
+
+In memory database
