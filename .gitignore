@@ -1,7 +1,12 @@
-# Ignore all .vs folders everywhere
-**/.vs/
+# Ignore system files
+.DS_Store
+**/.DS_Store
 
+# Ignore .vs and build artifacts everywhere
+**/.vs/
 **/bin/
-**/obj/.DS_Store
+**/obj/
+
+# Python environment
 .venv/
 __pycache__/
