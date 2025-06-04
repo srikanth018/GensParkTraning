@@ -9,29 +9,38 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Logging;
+
+IdentityModelEventSource.ShowPII = true;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container
 builder.Services.AddEndpointsApiExplorer();
-
-
 builder.Services.AddSwaggerGen(opt =>
 {
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = "Clinic API", Version = "v1" });
-    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+
+    // Auth0 OAuth2 configuration for Swagger UI
+    opt.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
-        In = ParameterLocation.Header,
-        Description = "Please enter token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "bearer"
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri("https://dev-de5ffoekrcokjysz.us.auth0.com/authorize"),
+                TokenUrl = new Uri("https://dev-de5ffoekrcokjysz.us.auth0.com/oauth/token"),
+                Scopes = new Dictionary<string, string>
+            {
+                { "read:messages", "Read access to messages" }
+            }
+            }
+        }
     });
+
     opt.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -39,17 +48,19 @@ builder.Services.AddSwaggerGen(opt =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "oauth2"
                 }
             },
-            new string[]{}
+            new[] { "read:messages" }
         }
     });
 });
 
-
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 
 builder.Logging.AddLog4Net();
 
@@ -57,16 +68,15 @@ builder.Services.AddDbContext<ClinicContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-#region Repositories
+// Repositories
 builder.Services.AddTransient<IRepository<int, Doctor>, DoctorRepository>();
 builder.Services.AddTransient<IRepository<int, DoctorSpeciality>, DoctorSpecialityRepository>();
 builder.Services.AddTransient<IRepository<int, Speciality>, SpecialityRepository>();
 builder.Services.AddTransient<IRepository<string, User>, UserRepository>();
 builder.Services.AddTransient<IRepository<int, Patient>, PatientRepository>();
 builder.Services.AddTransient<IRepository<int, Appointment>, AppointmentRepository>();
-#endregion
 
-#region Services
+// Services
 builder.Services.AddTransient<IDoctorService, DoctorService>();
 builder.Services.AddTransient<IDoctorSepcialityService, DoctorSpecilaityService>();
 builder.Services.AddTransient<ISpecialityService, SpecialityService>();
@@ -74,28 +84,46 @@ builder.Services.AddTransient<IPatientService, PatientService>();
 builder.Services.AddTransient<IAppointmentService, AppointmentService>();
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
-#endregion
 
-#region Misc
+// Misc
 builder.Services.AddTransient<IOtherContextFunctionities, OtherFuncinalitiesImplementation>();
 builder.Services.AddTransient<UserPatientMapper>();
 builder.Services.AddAutoMapper(typeof(User));
-#endregion
+builder.Services.AddScoped<CustomExceptionFilters>();
 
-#region AuthenticationFilter
+// JWT Authentication using Auth0
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateAudience = false,
-                        ValidateIssuer = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Keys:JwtTokenKey"]))
-                    };
-                });
-#endregion
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://dev-de5ffoekrcokjysz.us.auth0.com/";
+
+        // Replace this with your actual Auth0 API Identifier from the dashboard (not localhost)
+        options.Audience = "https://dev-de5ffoekrcokjysz.us.auth0.com/api/v2/";
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "https://dev-de5ffoekrcokjysz.us.auth0.com/",
+            ValidateAudience = true,
+            ValidAudience = "https://dev-de5ffoekrcokjysz.us.auth0.com/api/v2/",
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine("Token successfully validated.");
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 builder.Services.AddAuthorization(options =>
 {
@@ -105,27 +133,29 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSingleton<IAuthorizationHandler, ExperiencedDoctorHandler>();
 
-
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; 
-});
-
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Development middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Clinic API v1");
+
+        c.OAuthClientId("j1jYsiNzHGCLdjb6jwpizRCDmuDX7xwJ");
+        c.OAuthClientSecret("v8GeLWLS3z9sMAiDJrhzs79spsk8i1tnhsjL1JZUmBJBF9KDnsWUo12GJD2iaJXb");
+        c.OAuthUsePkce();
+        c.OAuthScopeSeparator(" ");
+        c.OAuthScopes("read:messages");
+    });
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
-
 app.Run();
-
-
