@@ -17,13 +17,11 @@ IdentityModelEventSource.ShowPII = true;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
 {
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = "Clinic API", Version = "v1" });
 
-    // Auth0 OAuth2 configuration for Swagger UI
     opt.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.OAuth2,
@@ -84,6 +82,7 @@ builder.Services.AddTransient<IPatientService, PatientService>();
 builder.Services.AddTransient<IAppointmentService, AppointmentService>();
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddTransient<IFileHandlingService, FileHandlingService>();
 
 // Misc
 builder.Services.AddTransient<IOtherContextFunctionities, OtherFuncinalitiesImplementation>();
