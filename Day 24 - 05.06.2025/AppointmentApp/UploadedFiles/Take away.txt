@@ -1,0 +1,52 @@
+﻿ML and AI
+
+Conglomerates-> Having lot of businesses like Adithiya brila 
+
+Learn LLM:
+
+sophisticated pattern-matching
+
+Mostly they are works with probability or randomness with its pre-traning data
+
+Using Neural networks to predict
+
+How chatgpt works:
+
+3 phases of Chatgpt
+	1. Training Phase (Pre-training)
+	2. Fine-Tuning Phase
+	3. Inference (Chatting with You!)
+Chatgpt works with probabilities not random
+
+Architecture:
+	Transformer Model -> figure out the important words in the sentences
+	Tokens -> process text in chunks called tokens (around 4,096 tokens for GPT-3.5, higher for GPT-4)
+	Probabilities -> predict a probability for all possible next words and pick the most likely
+
+
+Phi-2 -> language model developed by Microsoft,
+	-> Phi-2 utilizes a decoder-only transformer design
+	-> Sample applications uses : Customer Service Automation
+
+Model Type	Architecture	Example Models	Typical Use Cases
+Encoder-only	Encoder blocks	BERT, RoBERTa, DeBERTa	Text classification, sentence embedding, semantic search
+Decoder-only	Decoder blocks	GPT-2, GPT-3, LLaMA, Phi-2	Text generation, chatbots, code generation
+Encoder-Decoder(Seq2Seq)	Both encoder and decoder	T5, BART, FLAN-T5	Translation, summarization, question answering
+
+
+    1 How Transformers Work:
+    2 1. Input Processing: The input sequence (e.g., a sentence) is first tokenized and converted into embeddings. 
+    3 2. Encoder: The encoder processes the input sequence, using self-attention mechanisms to capture relationships between tokens. 
+    4 3. Decoder: The decoder uses the encoder's output and previously predicted tokens to generate the output sequence. 
+    5 4. Output: The output is typically a new sequence of tokens, such as a translated sentence or a predicted response. 
+
+    1 Encoder-only Transformers process input sequences by converting them into contextualized embeddings, focusing on understanding the input rather than generating output,
+
+
+
+
+
+
+
+
+

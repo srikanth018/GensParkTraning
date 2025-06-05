@@ -1,0 +1,13 @@
+Unit Testing:
+
+Filters in .net -> Search google 
+
+Setup and TearDown Methods should be written in each file
+
+Setup -> executes before testcases
+TearDown -> Executes after test cases completed
+
+Moq -> Is framework for mocking the dependencies
+Mock<<dependency>> dependencyName = new(); --> Creating the dummy instance for the dependency need for that specific service layer for unit testing 
+
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+</head>
+<body>
+  <div id="content"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+  <script>
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("http://localhost:5123/notificationhub", {
+        withCredentials: true
+      })
+      .build();
+
+    connection.on("FileUpload", (filename, message) => {
+      console.log("New File:", filename, "-", message);
+    //   alert(`New File: ${filename} - ${message}`);
+      const contentDiv = document.getElementById("content");
+      const fileElement = document.createElement("div");
+      fileElement.textContent = `File: ${filename} - Message: ${message}`;
+      contentDiv.appendChild(fileElement);
+    });
+
+    connection.start()
+      .then(() => console.log("SignalR connection started"))
+      .catch(err => console.error("SignalR connection error:", err));
+  </script>
+</body>
+</html>

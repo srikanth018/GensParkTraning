@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Message Page</h1>
+    <input type="text" id="messageInput" placeholder="Type your message here" />
+    <input type="text" id="userInput" placeholder="Type your username here" />
+    <button id="sendMessage">Send Message</button>
+
+    <!-- Show message -->
+    <div id="messagesList"></div>
+    
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+
+  <script>
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("http://localhost:5263/notificationhub",{
+        withCredentials: true,
+      })
+      .build();
+
+    connection.on("ReceiveMessage", (user, message) => {
+      const msg = `${user}: ${message}`;
+      console.log(msg);
+        const messagesList = document.getElementById("messagesList");
+        const messageElement = document.createElement("div");
+        messageElement.textContent = msg;
+        messagesList.appendChild(messageElement);
+    });
+
+    connection.start()
+      .then(() => console.log("Connection started"))
+      .catch(err => console.error("Error while starting connection: " + err));
+    
+    document.getElementById("sendMessage").addEventListener("click", () => {
+      const message = document.getElementById("messageInput").value;
+      const user = document.getElementById("userInput").value;
+
+      if (message && user) {
+        connection.invoke("SendMessage", user, message)
+          .catch(err => console.error("Error while sending message: " + err));
+      } else {
+        alert("Please enter both username and message.");
+      }
+    });
+
+   
+  </script>
+</html>
