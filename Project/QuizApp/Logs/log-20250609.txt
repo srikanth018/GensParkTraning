@@ -1,0 +1,496 @@
+2025-06-09 09:24:53 [DBG] Connection id "0HND6LTRR68MS" accepted.
+2025-06-09 09:24:53 [DBG] Connection id "0HND6LTRR68MS" started.
+2025-06-09 09:24:53 [INF] Request starting HTTP/1.1 POST http://localhost:5038/api/v1/auth/login - application/json 56
+2025-06-09 09:24:53 [DBG] 1 candidate(s) found for the request path '/api/v1/auth/login'
+2025-06-09 09:24:53 [DBG] Endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)' with route pattern 'api/v{version:apiVersion}/auth/login' is valid for the request path '/api/v1/auth/login'
+2025-06-09 09:24:53 [DBG] Request matched endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:24:53 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-06-09 09:24:53 [INF] Executing endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:24:53 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(QuizApp.DTOs.UserLoginRequestDTO) on controller QuizApp.Controllers.v1.AuthController (QuizApp).
+2025-06-09 09:24:53 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-06-09 09:24:53 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-06-09 09:24:53 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-06-09 09:24:53 [DBG] Execution plan of exception filters (in the following order): ["QuizApp.Misc.CustomException (Order: 0)"]
+2025-06-09 09:24:53 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-06-09 09:24:53 [DBG] Executing controller factory for controller QuizApp.Controllers.v1.AuthController (QuizApp)
+2025-06-09 09:24:53 [DBG] Executed controller factory for controller QuizApp.Controllers.v1.AuthController (QuizApp)
+2025-06-09 09:24:53 [DBG] Attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' ...
+2025-06-09 09:24:53 [DBG] Attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' using the name '' in request data ...
+2025-06-09 09:24:53 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2025-06-09 09:24:53 [DBG] Connection id "0HND6LTRR68MS", Request id "0HND6LTRR68MS:00000001": started reading request body.
+2025-06-09 09:24:53 [DBG] Connection id "0HND6LTRR68MS", Request id "0HND6LTRR68MS:00000001": done reading request body.
+2025-06-09 09:24:53 [DBG] JSON input formatter succeeded, deserializing to type 'QuizApp.DTOs.UserLoginRequestDTO'
+2025-06-09 09:24:53 [DBG] Done attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:24:53 [DBG] Done attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:24:53 [DBG] Attempting to validate the bound parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' ...
+2025-06-09 09:24:53 [DBG] Done attempting to validate the bound parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:24:53 [DBG] Entity Framework Core 9.0.5 initialized 'QuizAppContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:9.0.4+fd2380957bee5cd86f336466af36b08c0163f1a5' with options: None
+2025-06-09 09:24:53 [DBG] Creating DbConnection.
+2025-06-09 09:24:53 [DBG] Created DbConnection. (1ms).
+2025-06-09 09:24:53 [DBG] Opening connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] Opened connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-09 09:24:53 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:24:53 [DBG] Initialized DbCommand for 'ExecuteReader' (1ms).
+2025-06-09 09:24:53 [DBG] Executing DbCommand [Parameters=[@__key_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Email", u."CreatedAt", u."Password", u."Role"
+FROM "Users" AS u
+WHERE u."Email" = @__key_0
+LIMIT 1
+2025-06-09 09:24:53 [INF] Executed DbCommand (12ms) [Parameters=[@__key_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Email", u."CreatedAt", u."Password", u."Role"
+FROM "Users" AS u
+WHERE u."Email" = @__key_0
+LIMIT 1
+2025-06-09 09:24:53 [DBG] Context 'QuizAppContext' started tracking 'User' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:24:53 [DBG] Closing data reader to 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] A data reader for 'QuizAppDB' on server 'tcp://localhost:5432' is being disposed after spending 3ms reading results.
+2025-06-09 09:24:53 [DBG] Closing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] Closed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (0ms).
+2025-06-09 09:24:53 [DBG] Opening connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] Opened connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-09 09:24:53 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:24:53 [DBG] Initialized DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:24:53 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."CreatedAt", t."Email", t."Name", t."PhoneNumber", t."Status"
+FROM "Teachers" AS t
+2025-06-09 09:24:53 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."CreatedAt", t."Email", t."Name", t."PhoneNumber", t."Status"
+FROM "Teachers" AS t
+2025-06-09 09:24:53 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:24:53 [DBG] The navigation 'User.Teacher' was detected as changed. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:24:53 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:24:53 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:24:53 [DBG] Closing data reader to 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] A data reader for 'QuizAppDB' on server 'tcp://localhost:5432' is being disposed after spending 3ms reading results.
+2025-06-09 09:24:53 [DBG] Closing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] Closed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (0ms).
+2025-06-09 09:24:53 [DBG] Request was short circuited at exception filter 'QuizApp.Misc.CustomException'.
+2025-06-09 09:24:53 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-06-09 09:24:53 [DBG] No information found on request to perform content negotiation.
+2025-06-09 09:24:53 [DBG] Attempting to select the first output formatter in the output formatters list which supports a content type from the explicitly specified content types '["application/problem+json","application/problem+xml","application/problem+json","application/problem+xml"]'.
+2025-06-09 09:24:53 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/problem+json' to write the response.
+2025-06-09 09:24:53 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-06-09 09:24:53 [INF] Executed action QuizApp.Controllers.v1.AuthController.Login (QuizApp) in 487.9611ms
+2025-06-09 09:24:53 [INF] Executed endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:24:53 [DBG] Connection id "0HND6LTRR68MS" completed keep alive response.
+2025-06-09 09:24:53 [DBG] 'QuizAppContext' disposed.
+2025-06-09 09:24:53 [DBG] Disposing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:24:53 [DBG] Disposed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (0ms).
+2025-06-09 09:24:53 [INF] Request finished HTTP/1.1 POST http://localhost:5038/api/v1/auth/login - 500 null application/problem+json; charset=utf-8 537.7295ms
+2025-06-09 09:25:52 [DBG] Connection id "0HND6LTRR68MS" received FIN.
+2025-06-09 09:25:52 [DBG] Connection id "0HND6LTRR68MS" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-09 09:25:52 [DBG] Connection id "0HND6LTRR68MS" disconnecting.
+2025-06-09 09:25:52 [DBG] Connection id "0HND6LTRR68MS" stopped.
+2025-06-09 09:33:32 [INF] Application is shutting down...
+2025-06-09 09:33:32 [DBG] Hosting stopping
+2025-06-09 09:33:32 [DBG] Hosting stopped
+2025-06-09 09:33:43 [DBG] Registered model binder providers, in the following order: ["Asp.Versioning.ApiVersionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-06-09 09:33:43 [DBG] Hosting starting
+2025-06-09 09:33:43 [INF] Now listening on: http://localhost:5038
+2025-06-09 09:33:43 [DBG] Loaded hosting startup assembly QuizApp
+2025-06-09 09:33:43 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-09 09:33:43 [INF] Hosting environment: Development
+2025-06-09 09:33:43 [INF] Content root path: /Users/presidio/Library/CloudStorage/OneDrive-PresidioNetworkSolutions/Documents/GensParkTraning/Project/QuizApp
+2025-06-09 09:33:43 [DBG] Hosting started
+2025-06-09 09:33:57 [DBG] Connection id "0HND71AK6UMC9" accepted.
+2025-06-09 09:33:57 [DBG] Connection id "0HND71AK6UMC9" started.
+2025-06-09 09:33:57 [INF] Request starting HTTP/1.1 GET http://localhost:5038/swagger/index.html - null null
+2025-06-09 09:33:57 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-06-09 09:33:57 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-06-09 09:33:57 [DBG] Request did not match any endpoints
+2025-06-09 09:33:57 [DBG] Connection id "0HND71AK6UMC9" completed keep alive response.
+2025-06-09 09:33:57 [INF] Request finished HTTP/1.1 GET http://localhost:5038/swagger/index.html - 200 null text/html;charset=utf-8 193.3952ms
+2025-06-09 09:33:58 [INF] Request starting HTTP/1.1 GET http://localhost:5038/swagger/v1/swagger.json - null null
+2025-06-09 09:33:58 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-06-09 09:33:58 [DBG] Request did not match any endpoints
+2025-06-09 09:33:58 [DBG] Connection id "0HND71AK6UMC9" completed keep alive response.
+2025-06-09 09:33:58 [INF] Request finished HTTP/1.1 GET http://localhost:5038/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 144.8826ms
+2025-06-09 09:34:04 [INF] Request starting HTTP/1.1 POST http://localhost:5038/api/v1/auth/login - application/json 56
+2025-06-09 09:34:04 [DBG] 1 candidate(s) found for the request path '/api/v1/auth/login'
+2025-06-09 09:34:04 [DBG] Endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)' with route pattern 'api/v{version:apiVersion}/auth/login' is valid for the request path '/api/v1/auth/login'
+2025-06-09 09:34:04 [DBG] Request matched endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:34:04 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-06-09 09:34:04 [WRN] Failed to determine the https port for redirect.
+2025-06-09 09:34:04 [INF] Executing endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:34:04 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(QuizApp.DTOs.UserLoginRequestDTO) on controller QuizApp.Controllers.v1.AuthController (QuizApp).
+2025-06-09 09:34:04 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-06-09 09:34:04 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-06-09 09:34:04 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-06-09 09:34:04 [DBG] Execution plan of exception filters (in the following order): ["QuizApp.Misc.CustomException (Order: 0)"]
+2025-06-09 09:34:04 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-06-09 09:34:04 [DBG] Executing controller factory for controller QuizApp.Controllers.v1.AuthController (QuizApp)
+2025-06-09 09:34:05 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-06-09 09:34:05 [DBG] Executed controller factory for controller QuizApp.Controllers.v1.AuthController (QuizApp)
+2025-06-09 09:34:05 [DBG] Attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' ...
+2025-06-09 09:34:05 [DBG] Attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' using the name '' in request data ...
+2025-06-09 09:34:05 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2025-06-09 09:34:05 [DBG] Connection id "0HND71AK6UMC9", Request id "0HND71AK6UMC9:00000003": started reading request body.
+2025-06-09 09:34:05 [DBG] Connection id "0HND71AK6UMC9", Request id "0HND71AK6UMC9:00000003": done reading request body.
+2025-06-09 09:34:05 [DBG] JSON input formatter succeeded, deserializing to type 'QuizApp.DTOs.UserLoginRequestDTO'
+2025-06-09 09:34:05 [DBG] Done attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:34:05 [DBG] Done attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:34:05 [DBG] Attempting to validate the bound parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' ...
+2025-06-09 09:34:05 [DBG] Done attempting to validate the bound parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:34:05 [DBG] Entity Framework Core 9.0.5 initialized 'QuizAppContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:9.0.4+fd2380957bee5cd86f336466af36b08c0163f1a5' with options: None
+2025-06-09 09:34:06 [DBG] Compiling query expression: 
+'DbSet<User>()
+    .FirstOrDefault(u => u.Email == __key_0)'
+2025-06-09 09:34:06 [DBG] Generated query execution expression: 
+'queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<User>(
+    asyncEnumerable: SingleQueryingEnumerable.Create<User>(
+        relationalQueryContext: (RelationalQueryContext)queryContext, 
+        relationalCommandResolver: parameters => [LIFTABLE Constant: RelationalCommandCache.QueryExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: User.Email (string) Required PK AfterSave:Throw, 0], [Property: User.CreatedAt (DateTime) Required, 1], [Property: User.Password (string) Required, 2], [Property: User.Role (string) Required, 3] }
+            SELECT TOP(1) u.Email, u.CreatedAt, u.Password, u.Role
+            FROM Users AS u
+            WHERE u.Email == @__key_0) | Resolver: c => new RelationalCommandCache(
+            c.Dependencies.MemoryCache, 
+            c.RelationalDependencies.QuerySqlGeneratorFactory, 
+            c.RelationalDependencies.RelationalParameterBasedSqlProcessorFactory, 
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: User.Email (string) Required PK AfterSave:Throw, 0], [Property: User.CreatedAt (DateTime) Required, 1], [Property: User.Password (string) Required, 2], [Property: User.Role (string) Required, 3] }
+            SELECT TOP(1) u.Email, u.CreatedAt, u.Password, u.Role
+            FROM Users AS u
+            WHERE u.Email == @__key_0, 
+            False, 
+            new HashSet<string>(
+                new string[]{ }, 
+                StringComparer.Ordinal
+            )
+        )].GetRelationalCommandTemplate(parameters), 
+        readerColumns: null, 
+        shaper: (queryContext, dataReader, resultContext, resultCoordinator) => 
+        {
+            User entity;
+            entity = 
+            {
+                MaterializationContext materializationContext1;
+                IEntityType entityType1;
+                User instance1;
+                InternalEntityEntry entry1;
+                bool hasNullKey1;
+                materializationContext1 = new MaterializationContext(
+                    [LIFTABLE Constant: ValueBuffer | Resolver: _ => (object)ValueBuffer.Empty], 
+                    queryContext.Context
+                );
+                instance1 = default(User);
+                entry1 = queryContext.TryGetEntry(
+                    key: [LIFTABLE Constant: Key: User.Email PK | Resolver: c => c.Dependencies.Model.FindEntityType("QuizApp.Models.User").FindPrimaryKey()], 
+                    keyValues: new object[]{ (object)dataReader.GetString(0) }, 
+                    throwOnNullKey: True, 
+                    hasNullKey: hasNullKey1);
+                !(hasNullKey1) ? entry1 != default(InternalEntityEntry) ? 
+                {
+                    entityType1 = entry1.EntityType;
+                    return instance1 = (User)entry1.Entity;
+                } : 
+                {
+                    ISnapshot shadowSnapshot1;
+                    shadowSnapshot1 = [LIFTABLE Constant: Snapshot | Resolver: _ => Snapshot.Empty];
+                    entityType1 = [LIFTABLE Constant: EntityType: User | Resolver: namelessParameter{0} => namelessParameter{0}.Dependencies.Model.FindEntityType("QuizApp.Models.User")];
+                    instance1 = switch (entityType1)
+                    {
+                        case [LIFTABLE Constant: EntityType: User | Resolver: namelessParameter{1} => namelessParameter{1}.Dependencies.Model.FindEntityType("QuizApp.Models.User")]: 
+                            {
+                                return 
+                                {
+                                    User instance;
+                                    instance = new User();
+                                    instance.<Email>k__BackingField = dataReader.GetString(0);
+                                    instance.<CreatedAt>k__BackingField = dataReader.GetDateTime(1);
+                                    instance.<Password>k__BackingField = dataReader.GetString(2);
+                                    instance.<Role>k__BackingField = dataReader.GetString(3);
+                                    (instance is IInjectableService) ? ((IInjectableService)instance).Injected(
+                                        context: materializationContext1.Context, 
+                                        entity: instance, 
+                                        queryTrackingBehavior: TrackAll, 
+                                        structuralType: [LIFTABLE Constant: EntityType: User | Resolver: namelessParameter{2} => namelessParameter{2}.Dependencies.Model.FindEntityType("QuizApp.Models.User")]) : default(void);
+                                    return instance;
+                                }}
+                        default: 
+                            default(User)
+                    }
+                    ;
+                    entry1 = entityType1 == default(IEntityType) ? default(InternalEntityEntry) : queryContext.StartTracking(
+                        entityType: entityType1, 
+                        entity: instance1, 
+                        snapshot: shadowSnapshot1);
+                    return instance1;
+                } : default(void);
+                return instance1;
+            };
+            return entity;
+        }, 
+        contextType: QuizApp.Contexts.QuizAppContext, 
+        standAloneStateManager: False, 
+        detailedErrorsEnabled: False, 
+        threadSafetyChecksEnabled: True), 
+    cancellationToken: queryContext.CancellationToken)'
+2025-06-09 09:34:06 [DBG] Creating DbConnection.
+2025-06-09 09:34:06 [DBG] Created DbConnection. (42ms).
+2025-06-09 09:34:06 [DBG] Opening connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:06 [DBG] Opened connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:06 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-09 09:34:06 [DBG] Created DbCommand for 'ExecuteReader' (3ms).
+2025-06-09 09:34:06 [DBG] Initialized DbCommand for 'ExecuteReader' (14ms).
+2025-06-09 09:34:06 [DBG] Executing DbCommand [Parameters=[@__key_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Email", u."CreatedAt", u."Password", u."Role"
+FROM "Users" AS u
+WHERE u."Email" = @__key_0
+LIMIT 1
+2025-06-09 09:34:06 [INF] Executed DbCommand (71ms) [Parameters=[@__key_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Email", u."CreatedAt", u."Password", u."Role"
+FROM "Users" AS u
+WHERE u."Email" = @__key_0
+LIMIT 1
+2025-06-09 09:34:06 [DBG] Context 'QuizAppContext' started tracking 'User' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:34:06 [DBG] Closing data reader to 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:06 [DBG] A data reader for 'QuizAppDB' on server 'tcp://localhost:5432' is being disposed after spending 90ms reading results.
+2025-06-09 09:34:06 [DBG] Closing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:06 [DBG] Closed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (4ms).
+2025-06-09 09:34:07 [DBG] Compiling query expression: 
+'DbSet<Teacher>()'
+2025-06-09 09:34:07 [DBG] Generated query execution expression: 
+'queryContext => SingleQueryingEnumerable.Create<Teacher>(
+    relationalQueryContext: (RelationalQueryContext)queryContext, 
+    relationalCommandResolver: parameters => [LIFTABLE Constant: RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: Teacher.Id (string) Required PK AfterSave:Throw, 0], [Property: Teacher.CreatedAt (DateTime) Required, 1], [Property: Teacher.Email (string) Required FK Index, 2], [Property: Teacher.Name (string) Required, 3], [Property: Teacher.PhoneNumber (string) Required, 4], [Property: Teacher.Status (string) Required, 5] }
+        SELECT t.Id, t.CreatedAt, t.Email, t.Name, t.PhoneNumber, t.Status
+        FROM Teachers AS t) | Resolver: c => new RelationalCommandCache(
+        c.Dependencies.MemoryCache, 
+        c.RelationalDependencies.QuerySqlGeneratorFactory, 
+        c.RelationalDependencies.RelationalParameterBasedSqlProcessorFactory, 
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: Teacher.Id (string) Required PK AfterSave:Throw, 0], [Property: Teacher.CreatedAt (DateTime) Required, 1], [Property: Teacher.Email (string) Required FK Index, 2], [Property: Teacher.Name (string) Required, 3], [Property: Teacher.PhoneNumber (string) Required, 4], [Property: Teacher.Status (string) Required, 5] }
+        SELECT t.Id, t.CreatedAt, t.Email, t.Name, t.PhoneNumber, t.Status
+        FROM Teachers AS t, 
+        False, 
+        new HashSet<string>(
+            new string[]{ }, 
+            StringComparer.Ordinal
+        )
+    )].GetRelationalCommandTemplate(parameters), 
+    readerColumns: null, 
+    shaper: (queryContext, dataReader, resultContext, resultCoordinator) => 
+    {
+        Teacher entity;
+        entity = 
+        {
+            MaterializationContext materializationContext1;
+            IEntityType entityType1;
+            Teacher instance1;
+            InternalEntityEntry entry1;
+            bool hasNullKey1;
+            materializationContext1 = new MaterializationContext(
+                [LIFTABLE Constant: ValueBuffer | Resolver: _ => (object)ValueBuffer.Empty], 
+                queryContext.Context
+            );
+            instance1 = default(Teacher);
+            entry1 = queryContext.TryGetEntry(
+                key: [LIFTABLE Constant: Key: Teacher.Id PK | Resolver: c => c.Dependencies.Model.FindEntityType("QuizApp.Models.Teacher").FindPrimaryKey()], 
+                keyValues: new object[]{ (object)dataReader.GetString(0) }, 
+                throwOnNullKey: True, 
+                hasNullKey: hasNullKey1);
+            !(hasNullKey1) ? entry1 != default(InternalEntityEntry) ? 
+            {
+                entityType1 = entry1.EntityType;
+                return instance1 = (Teacher)entry1.Entity;
+            } : 
+            {
+                ISnapshot shadowSnapshot1;
+                shadowSnapshot1 = [LIFTABLE Constant: Snapshot | Resolver: _ => Snapshot.Empty];
+                entityType1 = [LIFTABLE Constant: EntityType: Teacher | Resolver: namelessParameter{0} => namelessParameter{0}.Dependencies.Model.FindEntityType("QuizApp.Models.Teacher")];
+                instance1 = switch (entityType1)
+                {
+                    case [LIFTABLE Constant: EntityType: Teacher | Resolver: namelessParameter{1} => namelessParameter{1}.Dependencies.Model.FindEntityType("QuizApp.Models.Teacher")]: 
+                        {
+                            return 
+                            {
+                                Teacher instance;
+                                instance = new Teacher();
+                                instance.<Id>k__BackingField = dataReader.GetString(0);
+                                instance.<CreatedAt>k__BackingField = dataReader.GetDateTime(1);
+                                instance.<Email>k__BackingField = dataReader.GetString(2);
+                                instance.<Name>k__BackingField = dataReader.GetString(3);
+                                instance.<PhoneNumber>k__BackingField = dataReader.GetString(4);
+                                instance.<Status>k__BackingField = dataReader.GetString(5);
+                                (instance is IInjectableService) ? ((IInjectableService)instance).Injected(
+                                    context: materializationContext1.Context, 
+                                    entity: instance, 
+                                    queryTrackingBehavior: TrackAll, 
+                                    structuralType: [LIFTABLE Constant: EntityType: Teacher | Resolver: namelessParameter{2} => namelessParameter{2}.Dependencies.Model.FindEntityType("QuizApp.Models.Teacher")]) : default(void);
+                                return instance;
+                            }}
+                    default: 
+                        default(Teacher)
+                }
+                ;
+                entry1 = entityType1 == default(IEntityType) ? default(InternalEntityEntry) : queryContext.StartTracking(
+                    entityType: entityType1, 
+                    entity: instance1, 
+                    snapshot: shadowSnapshot1);
+                return instance1;
+            } : default(void);
+            return instance1;
+        };
+        return entity;
+    }, 
+    contextType: QuizApp.Contexts.QuizAppContext, 
+    standAloneStateManager: False, 
+    detailedErrorsEnabled: False, 
+    threadSafetyChecksEnabled: True)'
+2025-06-09 09:34:07 [DBG] Opening connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:07 [DBG] Opened connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:07 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-09 09:34:07 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:34:07 [DBG] Initialized DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:34:07 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."CreatedAt", t."Email", t."Name", t."PhoneNumber", t."Status"
+FROM "Teachers" AS t
+2025-06-09 09:34:07 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."CreatedAt", t."Email", t."Name", t."PhoneNumber", t."Status"
+FROM "Teachers" AS t
+2025-06-09 09:34:07 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:34:07 [DBG] The navigation 'User.Teacher' was detected as changed. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:34:07 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:34:07 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:34:07 [DBG] Closing data reader to 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:07 [DBG] A data reader for 'QuizAppDB' on server 'tcp://localhost:5432' is being disposed after spending 39ms reading results.
+2025-06-09 09:34:07 [DBG] Closing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:07 [DBG] Closed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (0ms).
+2025-06-09 09:34:07 [ERR] Unhandled exception | ErrorID: "d5560b12-5290-4883-b59a-d11c705a1996" | Path: /api/v1/auth/login | Method: POST
+System.ArgumentOutOfRangeException: IDX10720: Unable to create KeyedHashAlgorithm for algorithm 'http://www.w3.org/2001/04/xmldsig-more#hmac-sha256', the key size must be greater than: '256' bits, key has '208' bits. (Parameter 'keyBytes')
+   at Microsoft.IdentityModel.Tokens.CryptoProviderFactory.ValidateKeySize(Byte[] keyBytes, String algorithm, Int32 expectedNumberOfBytes)
+   at Microsoft.IdentityModel.Tokens.CryptoProviderFactory.CreateKeyedHashAlgorithm(Byte[] keyBytes, String algorithm)
+   at Microsoft.IdentityModel.Tokens.SymmetricSignatureProvider.CreateKeyedHashAlgorithm()
+   at Microsoft.IdentityModel.Tokens.DisposableObjectPool`1.CreateInstance()
+   at Microsoft.IdentityModel.Tokens.DisposableObjectPool`1.Allocate()
+   at Microsoft.IdentityModel.Tokens.SymmetricSignatureProvider.GetKeyedHashAlgorithm(Byte[] keyBytes, String algorithm)
+   at Microsoft.IdentityModel.Tokens.SymmetricSignatureProvider.Sign(Byte[] input)
+   at Microsoft.IdentityModel.JsonWebTokens.JwtTokenUtilities.CreateEncodedSignature(String input, SigningCredentials signingCredentials)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CreateJwtSecurityTokenPrivate(SecurityTokenDescriptor tokenDescriptor)
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CreateToken(SecurityTokenDescriptor tokenDescriptor)
+   at QuizApp.Services.TokenService.GenerateToken(User user) in /Users/presidio/Library/CloudStorage/OneDrive-PresidioNetworkSolutions/Documents/GensParkTraning/Project/QuizApp/Services/TokenService.cs:line 41
+   at QuizApp.Services.AuthenticationService.Login(UserLoginRequestDTO userResponse) in /Users/presidio/Library/CloudStorage/OneDrive-PresidioNetworkSolutions/Documents/GensParkTraning/Project/QuizApp/Services/AuthenticationService.cs:line 39
+   at QuizApp.Controllers.v1.AuthController.Login(UserLoginRequestDTO loginRequest) in /Users/presidio/Library/CloudStorage/OneDrive-PresidioNetworkSolutions/Documents/GensParkTraning/Project/QuizApp/Controllers/v1/AuthController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+2025-06-09 09:34:07 [DBG] Request was short circuited at exception filter 'QuizApp.Misc.CustomException'.
+2025-06-09 09:34:07 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-06-09 09:34:07 [DBG] No information found on request to perform content negotiation.
+2025-06-09 09:34:07 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-06-09 09:34:07 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-06-09 09:34:07 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-06-09 09:34:07 [INF] Executing ObjectResult, writing value of type 'QuizApp.Models.CustomError'.
+2025-06-09 09:34:07 [INF] Executed action QuizApp.Controllers.v1.AuthController.Login (QuizApp) in 2344.4151ms
+2025-06-09 09:34:07 [INF] Executed endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:34:07 [DBG] Connection id "0HND71AK6UMC9" completed keep alive response.
+2025-06-09 09:34:07 [DBG] 'QuizAppContext' disposed.
+2025-06-09 09:34:07 [DBG] Disposing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:34:07 [DBG] Disposed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (1ms).
+2025-06-09 09:34:07 [INF] Request finished HTTP/1.1 POST http://localhost:5038/api/v1/auth/login - 500 null application/json; charset=utf-8 2449.413ms
+2025-06-09 09:34:57 [DBG] Connection id "0HND71AK6UMC9" received FIN.
+2025-06-09 09:34:57 [DBG] Connection id "0HND71AK6UMC9" disconnecting.
+2025-06-09 09:34:57 [DBG] Connection id "0HND71AK6UMC9" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-09 09:34:57 [DBG] Connection id "0HND71AK6UMC9" stopped.
+2025-06-09 09:35:53 [DBG] Config reload token fired. Checking for changes...
+2025-06-09 09:35:53 [DBG] Config reload token fired. Checking for changes...
+2025-06-09 09:36:17 [DBG] Config reload token fired. Checking for changes...
+2025-06-09 09:36:17 [DBG] Config reload token fired. Checking for changes...
+2025-06-09 09:36:24 [DBG] Config reload token fired. Checking for changes...
+2025-06-09 09:36:25 [DBG] Config reload token fired. Checking for changes...
+2025-06-09 09:36:30 [DBG] Connection id "0HND71AK6UMCA" accepted.
+2025-06-09 09:36:30 [DBG] Connection id "0HND71AK6UMCA" started.
+2025-06-09 09:36:30 [INF] Request starting HTTP/1.1 POST http://localhost:5038/api/v1/auth/login - application/json 56
+2025-06-09 09:36:30 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-06-09 09:36:30 [DBG] 1 candidate(s) found for the request path '/api/v1/auth/login'
+2025-06-09 09:36:30 [DBG] Endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)' with route pattern 'api/v{version:apiVersion}/auth/login' is valid for the request path '/api/v1/auth/login'
+2025-06-09 09:36:30 [DBG] Request matched endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:36:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-06-09 09:36:30 [INF] Executing endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:36:30 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(QuizApp.DTOs.UserLoginRequestDTO) on controller QuizApp.Controllers.v1.AuthController (QuizApp).
+2025-06-09 09:36:30 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-06-09 09:36:30 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-06-09 09:36:30 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-06-09 09:36:30 [DBG] Execution plan of exception filters (in the following order): ["QuizApp.Misc.CustomException (Order: 0)"]
+2025-06-09 09:36:30 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-06-09 09:36:30 [DBG] Executing controller factory for controller QuizApp.Controllers.v1.AuthController (QuizApp)
+2025-06-09 09:36:30 [DBG] Executed controller factory for controller QuizApp.Controllers.v1.AuthController (QuizApp)
+2025-06-09 09:36:30 [DBG] Attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' ...
+2025-06-09 09:36:30 [DBG] Attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' using the name '' in request data ...
+2025-06-09 09:36:30 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2025-06-09 09:36:30 [DBG] Connection id "0HND71AK6UMCA", Request id "0HND71AK6UMCA:00000001": started reading request body.
+2025-06-09 09:36:30 [DBG] Connection id "0HND71AK6UMCA", Request id "0HND71AK6UMCA:00000001": done reading request body.
+2025-06-09 09:36:30 [DBG] JSON input formatter succeeded, deserializing to type 'QuizApp.DTOs.UserLoginRequestDTO'
+2025-06-09 09:36:30 [DBG] Done attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:36:30 [DBG] Done attempting to bind parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:36:30 [DBG] Attempting to validate the bound parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO' ...
+2025-06-09 09:36:30 [DBG] Done attempting to validate the bound parameter 'loginRequest' of type 'QuizApp.DTOs.UserLoginRequestDTO'.
+2025-06-09 09:36:30 [DBG] Entity Framework Core 9.0.5 initialized 'QuizAppContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:9.0.4+fd2380957bee5cd86f336466af36b08c0163f1a5' with options: None
+2025-06-09 09:36:30 [DBG] Creating DbConnection.
+2025-06-09 09:36:30 [DBG] Created DbConnection. (0ms).
+2025-06-09 09:36:30 [DBG] Opening connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:30 [DBG] Opened connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:30 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-09 09:36:30 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:36:30 [DBG] Initialized DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:36:30 [DBG] Executing DbCommand [Parameters=[@__key_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Email", u."CreatedAt", u."Password", u."Role"
+FROM "Users" AS u
+WHERE u."Email" = @__key_0
+LIMIT 1
+2025-06-09 09:36:30 [INF] Executed DbCommand (1ms) [Parameters=[@__key_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Email", u."CreatedAt", u."Password", u."Role"
+FROM "Users" AS u
+WHERE u."Email" = @__key_0
+LIMIT 1
+2025-06-09 09:36:30 [DBG] Context 'QuizAppContext' started tracking 'User' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:36:30 [DBG] Closing data reader to 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:30 [DBG] A data reader for 'QuizAppDB' on server 'tcp://localhost:5432' is being disposed after spending 0ms reading results.
+2025-06-09 09:36:30 [DBG] Closing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:30 [DBG] Closed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (0ms).
+2025-06-09 09:36:31 [DBG] Opening connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:31 [DBG] Opened connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:31 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-06-09 09:36:31 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:36:31 [DBG] Initialized DbCommand for 'ExecuteReader' (0ms).
+2025-06-09 09:36:31 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."CreatedAt", t."Email", t."Name", t."PhoneNumber", t."Status"
+FROM "Teachers" AS t
+2025-06-09 09:36:31 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."CreatedAt", t."Email", t."Name", t."PhoneNumber", t."Status"
+FROM "Teachers" AS t
+2025-06-09 09:36:31 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:36:31 [DBG] The navigation 'User.Teacher' was detected as changed. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:36:31 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:36:31 [DBG] Context 'QuizAppContext' started tracking 'Teacher' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-06-09 09:36:31 [DBG] Closing data reader to 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:31 [DBG] A data reader for 'QuizAppDB' on server 'tcp://localhost:5432' is being disposed after spending 1ms reading results.
+2025-06-09 09:36:31 [DBG] Closing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:31 [DBG] Closed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (0ms).
+2025-06-09 09:36:31 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-06-09 09:36:31 [DBG] No information found on request to perform content negotiation.
+2025-06-09 09:36:31 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-06-09 09:36:31 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-06-09 09:36:31 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-06-09 09:36:31 [INF] Executing OkObjectResult, writing value of type 'QuizApp.DTOs.UserLoginResponseDTO'.
+2025-06-09 09:36:31 [INF] Executed action QuizApp.Controllers.v1.AuthController.Login (QuizApp) in 321.0373ms
+2025-06-09 09:36:31 [INF] Executed endpoint 'QuizApp.Controllers.v1.AuthController.Login (QuizApp)'
+2025-06-09 09:36:31 [DBG] Connection id "0HND71AK6UMCA" completed keep alive response.
+2025-06-09 09:36:31 [DBG] 'QuizAppContext' disposed.
+2025-06-09 09:36:31 [DBG] Disposing connection to database 'QuizAppDB' on server 'tcp://localhost:5432'.
+2025-06-09 09:36:31 [DBG] Disposed connection to database 'QuizAppDB' on server 'tcp://localhost:5432' (0ms).
+2025-06-09 09:36:31 [INF] Request finished HTTP/1.1 POST http://localhost:5038/api/v1/auth/login - 200 null application/json; charset=utf-8 330.1595ms
+2025-06-09 09:37:31 [DBG] Connection id "0HND71AK6UMCA" received FIN.
+2025-06-09 09:37:31 [DBG] Connection id "0HND71AK6UMCA" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-06-09 09:37:31 [DBG] Connection id "0HND71AK6UMCA" disconnecting.
+2025-06-09 09:37:31 [DBG] Connection id "0HND71AK6UMCA" stopped.
