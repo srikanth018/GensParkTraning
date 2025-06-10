@@ -42,6 +42,17 @@ namespace QuizApp.Contexts
                 .HasForeignKey<Student>(s => s.Email)
                 .HasConstraintName("FK_Student_User");
 
+            modelBuilder.Entity<Teacher>()
+                .HasAlternateKey(t => t.Email)
+                .HasName("AK_Teacher_Email");
+
+            modelBuilder.Entity<Quiz>()
+                .HasOne(q => q.Teacher)
+                .WithMany(t => t.Quizzes)
+                .HasForeignKey(q => q.UploadedBy)   // Quiz.UploadedBy is the FK
+                .HasPrincipalKey(t => t.Email)      // Teacher.Email is the PK on the principal side for FK
+                .HasConstraintName("FK_Quiz_Teacher_Email");
+
             // Teacher - Quiz (One-to-Many)
             modelBuilder.Entity<Quiz>()
                 .HasOne(q => q.Teacher)

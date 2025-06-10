@@ -6,6 +6,6 @@ namespace QuizApp.Interfaces
         Task<ICollection<T>> GetAll();
         Task<T> GetById(K key);
         Task<T> Update(K key,T item);
-        Task<T> Delete(K key);
+        Task<T> Delete(T item);
     }
 }

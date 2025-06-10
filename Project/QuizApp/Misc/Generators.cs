@@ -1,4 +1,7 @@
+using System.Threading.Tasks;
 using BCrypt.Net;
+using ClosedXML.Excel;
+using QuizApp.DTOs;
 
 namespace QuizApp.Misc
 {
@@ -8,10 +11,12 @@ namespace QuizApp.Misc
 
         public static string GenerateID(string prefix)
         {
-            var timePart = DateTime.UtcNow.ToString("HHmmss");
-            var randomSuffix = _random.Next(10, 100);
-            return $"{prefix}{timePart}{randomSuffix}";
+            long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            int random = new Random().Next(0, 65536);
+            return $"{prefix}{timestamp:X8}{random:X4}";
         }
+
+
         public static string GenerateHashedPassword(string password)
         {
             if (string.IsNullOrWhiteSpace(password))
@@ -25,6 +30,81 @@ namespace QuizApp.Misc
                 throw new ArgumentException("Password and hashed password cannot be null or empty");
 
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+        }
+
+        private static async Task<string> UploadImageAsync(IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+                throw new ArgumentException("Invalid image file");
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Questions");
+
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{Guid.NewGuid()}_{imageFile.FileName}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+
+            // Return relative path for public URL (served via wwwroot)
+            return $"/uploads/questions/{fileName}";
+        }
+
+        public static async Task<string> GenerateImageFilePath(IFormFile imageFile)
+        {
+            if (imageFile == null || string.IsNullOrWhiteSpace(imageFile.FileName))
+                throw new ArgumentException("Image file cannot be null or empty");
+
+            return await UploadImageAsync(imageFile);
+        }
+        public static CreateQuizRequestDTO ParseQuizFromWorksheet(IXLWorksheet worksheet)
+        {
+            var quiz = new CreateQuizRequestDTO();
+            quiz.Questions = new List<CreateQuestionDTO>();
+
+            // Assume quiz-wide info is in first data row (row 2)
+            var firstDataRow = worksheet.Row(2);
+
+            quiz.Title = firstDataRow.Cell(1).GetValue<string>();
+            quiz.Category = firstDataRow.Cell(2).GetValue<string>();
+            quiz.UploadedBy = firstDataRow.Cell(3).GetValue<string>();
+            quiz.TotalMarks = firstDataRow.Cell(4).GetValue<int>();
+
+            int optionStartCol = 8;  // Option1 starts at column 8
+
+            foreach (var row in worksheet.RowsUsed().Skip(1)) // Skip header
+            {
+                if (string.IsNullOrWhiteSpace(row.Cell(5).GetValue<string>())) continue; // Skip if QuestionText is empty
+
+                var question = new CreateQuestionDTO
+                {
+                    QuestionText = row.Cell(5).GetValue<string>(),
+                    Mark = row.Cell(6).GetValue<int>(),
+                    Options = new List<CreateOptionDTO>()
+                };
+
+                // Parse options dynamically
+                for (int i = optionStartCol; i <= row.LastCellUsed().Address.ColumnNumber; i += 2)
+                {
+                    var optionText = row.Cell(i).GetValue<string>();
+                    var isCorrect = row.Cell(i + 1).GetValue<bool>();
+
+                    if (!string.IsNullOrWhiteSpace(optionText))
+                    {
+                        question.Options.Add(new CreateOptionDTO
+                        {
+                            OptionText = optionText,
+                            IsCorrect = isCorrect
+                        });
+                    }
+                }
+
+                quiz.Questions.Add(question);
+            }
+
+            return quiz;
         }
 
     }

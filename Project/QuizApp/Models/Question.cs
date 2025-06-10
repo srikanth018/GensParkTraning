@@ -8,6 +8,7 @@ namespace QuizApp.Models
         public Quiz? Quiz { get; set; }
         public ICollection<Option>? Options { get; set; }
         public int Mark { get; set; }
+        public QuestionImage? UploadImage { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     }

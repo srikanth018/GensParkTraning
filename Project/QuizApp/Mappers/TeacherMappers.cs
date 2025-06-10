@@ -19,9 +19,24 @@ namespace QuizApp.Mappers
                 {
                     Email = teacherRequest.Email,
                     Password = Generators.GenerateHashedPassword(teacherRequest.Password),
-                    Role = "Teacher"
-                }
+                    Role = "Teacher",
+                    CreatedAt = DateTime.Now
+                },
+                CreatedAt = DateTime.Now
             };
+            return teacher;
+        }
+        public static Teacher TeacherUpdate(TeacherUpdateRequestDTO request)
+        {
+            Teacher teacher = new();
+            if (request.Name is not null)
+                teacher.Name = request.Name;
+            if (request.Email is not null)
+                teacher.Email = request.Email;
+            if (request.PhoneNumber is not null)
+                teacher.PhoneNumber = request.PhoneNumber;
+            if (request.Status is not null)
+                teacher.Status = request.Status;
             return teacher;
         }
     }

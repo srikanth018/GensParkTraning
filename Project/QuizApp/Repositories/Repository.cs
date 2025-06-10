@@ -17,14 +17,13 @@ namespace QuizApp.Repositories
 
         public async Task<T> Add(T item)
         {
-            _quizAppContext.Add(item);
+            await _quizAppContext.AddAsync(item);
             await _quizAppContext.SaveChangesAsync();
             return item;
         }
 
-        public async Task<T> Delete(K key)
+        public async Task<T> Delete(T deleteItem)
         {
-            var deleteItem = await GetById(key);
             if (deleteItem != null)
             {
                 _quizAppContext.Remove(deleteItem);

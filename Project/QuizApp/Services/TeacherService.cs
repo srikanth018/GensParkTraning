@@ -31,20 +31,25 @@ namespace QuizApp.Services
             return newTeacher;
         }
 
-        public Task<Teacher> DeleteTeacherAsync(string id)
+        public async Task<Teacher> DeleteTeacherAsync(string id)
         {
-            throw new NotImplementedException();
+            var deleteTeacher = await _teacherRepository.GetById(id);
+            if (deleteTeacher == null)
+            {
+                throw new KeyNotFoundException($"Teacher not found with the provided id - {id} for delete");
+            }
+            return await _teacherRepository.Delete(deleteTeacher);
         }
 
-        public Task<IEnumerable<Teacher>> GetAllTeachersAsync()
+        public async Task<IEnumerable<Teacher>> GetAllTeachersAsync()
         {
-            throw new NotImplementedException();
+            return await _teacherRepository.GetAll();
         }
 
         public async Task<Teacher> GetByEmailAsync(string email)
         {
             var teachers = await _teacherRepository.GetAll();
-            var teacher = teachers.FirstOrDefault(t => t.User?.Email == email);
+            var teacher = teachers.FirstOrDefault(t => t.Email == email);
             if (teacher == null)
             {
                 throw new KeyNotFoundException($"Teacher with email {email} not found.");
@@ -52,14 +57,19 @@ namespace QuizApp.Services
             return teacher;
         }
 
-        public Task<Teacher?> GetTeacherByIdAsync(string id)
+        public async Task<Teacher?> GetTeacherByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _teacherRepository.GetById(id);
         }
 
         public Task<Teacher> UpdateTeacherAsync(string id, Teacher teacher)
         {
-            throw new NotImplementedException();
+            var existingTeacher = _teacherRepository.GetById(id);
+            if (existingTeacher == null)
+            {
+                throw new KeyNotFoundException($"Teacher not found with the provided id - {id} for update");
+            }
+            return _teacherRepository.Update(id, teacher);
         }
     }
 }

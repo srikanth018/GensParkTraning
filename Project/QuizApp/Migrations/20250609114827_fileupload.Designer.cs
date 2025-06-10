@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using QuizApp.Contexts;
@@ -11,9 +12,11 @@ using QuizApp.Contexts;
 namespace QuizApp.Migrations
 {
     [DbContext(typeof(QuizAppContext))]
-    partial class QuizAppContextModelSnapshot : ModelSnapshot
+    [Migration("20250609114827_fileupload")]
+    partial class fileupload
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,8 +234,8 @@ namespace QuizApp.Migrations
                     b.HasKey("Id")
                         .HasName("PK_Teachers");
 
-                    b.HasAlternateKey("Email")
-                        .HasName("AK_Teacher_Email");
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Teachers");
                 });
@@ -311,7 +314,6 @@ namespace QuizApp.Migrations
                     b.HasOne("QuizApp.Models.Teacher", "Teacher")
                         .WithMany("Quizzes")
                         .HasForeignKey("UploadedBy")
-                        .HasPrincipalKey("Email")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Quiz_Teacher");

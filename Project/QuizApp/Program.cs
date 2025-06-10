@@ -10,6 +10,10 @@ using QuizApp.Interfaces;
 using QuizApp.Services;
 using QuizApp.Models;
 using QuizApp.Repositories;
+using QuizApp.Misc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +31,9 @@ builder.Host.UseSerilog();
 #region Repositories
 builder.Services.AddTransient<IRepository<string, Teacher>, TeacherRepository>();
 builder.Services.AddTransient<IRepository<string, User>, UserRepository>();
-
+builder.Services.AddTransient<IRepository<string, Quiz>, QuizRepository>();
+builder.Services.AddTransient<IRepository<string, Question>, QuestionRepository>();
+builder.Services.AddTransient<IRepository<string, Option>, OptionRepository>();
 #endregion
 
 
@@ -36,16 +42,31 @@ builder.Services.AddTransient<ITeacherService, TeacherService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IAuthenticateService, AuthenticationService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
-
+builder.Services.AddTransient<IQuizService, QuizService>();
+builder.Services.AddTransient<IQuizTemplateService, QuizTemplateService>();
 #endregion
 
+#region Filters
+builder.Services.AddScoped<ITransaction, Transaction>();
+
+builder.Services.AddScoped<TransactionFilter>();
+builder.Services.AddScoped<CustomException>();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.AddService<TransactionFilter>();
+    options.Filters.Add<CustomException>();
+}).AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.MaxDepth = 64;
+    });;
+#endregion
 
 
 builder.Services.AddDbContext<QuizAppContext>(opt =>
 {
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddApiVersioning(options =>
@@ -60,7 +81,68 @@ builder.Services.AddApiVersioning(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "QuizApp API", Version = "v1" });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter: Bearer {your JWT token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()   // Or .WithOrigins("http://localhost:4200") etc.
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
+#region AuthenticationFilter
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Keys:JwtTokenKey"]))
+                    };
+                });
+#endregion
+builder.Services.AddAuthorization();
+
+
+
+
+
+
 
 // Optional: Bind versioned Swagger to description provider
 // builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
@@ -81,7 +163,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors("AllowAll");
 app.Run();
 

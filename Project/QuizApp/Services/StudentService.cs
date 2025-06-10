@@ -1,5 +1,6 @@
 using QuizApp.DTOs;
 using QuizApp.Interfaces;
+using QuizApp.Mappers;
 using QuizApp.Models;
 
 namespace QuizApp.Services
@@ -14,34 +15,59 @@ namespace QuizApp.Services
             _userRepository = userRepository;
             _studentRepositry = studentRepositry;
         }
-        public Task<Student> CreateStudentAsync(CreateStudentRequestDTO student)
+        public async Task<Student> CreateStudentAsync(CreateStudentRequestDTO student)
         {
-            throw new NotImplementedException();
+            var newStudent = StudentMappers.CreateStudentMapper(student);
+            var newUser = newStudent.User;
+            if (newUser == null)
+            {
+                throw new InvalidOperationException("User data of the new teacher is null.");
+            }
+            await _userRepository.Add(newUser);
+            newStudent.User = null;
+            await _studentRepositry.Add(newStudent);
+            newStudent.User = newUser;
+            return newStudent;
         }
 
-        public Task<Student> DeleteStudentAsync(string id)
+        public async Task<Student> DeleteStudentAsync(string id)
         {
-            throw new NotImplementedException();
+            var deleteStudent = await _studentRepositry.GetById(id);
+            if (deleteStudent == null)
+            {
+                throw new KeyNotFoundException($"student not found with the provided id - {id} for delete");
+            }
+            return await _studentRepositry.Delete(deleteStudent);
         }
 
-        public Task<IEnumerable<Student>> GetAllStudentsAsync()
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
-            throw new NotImplementedException();
+            return await _studentRepositry.GetAll();
         }
 
-        public Task<Student> GetByEmailAsync(string email)
+        public async Task<Student> GetByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            var students = await _studentRepositry.GetAll();
+            var student = students.FirstOrDefault(s => s.Email == email);
+            if (student == null) throw new InvalidOperationException($"Student with this {email} is not available");
+            return student;
         }
 
-        public Task<Student?> GetStudentByIdAsync(string id)
+        public async Task<Student?> GetStudentByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _studentRepositry.GetById(id);
         }
 
-        public Task<Student> UpdateStudentAsync(string id, Student student)
+        public async Task<Student> UpdateStudentAsync(string id, StudentUpdateRequestDto studentDto)
         {
-            throw new NotImplementedException();
+            var existingstudent = await _studentRepositry.GetById(id);
+            if (existingstudent == null)
+            {
+                throw new KeyNotFoundException($"student not found with the provided id - {id} for update");
+            }
+            var student = StudentMappers.StudentUpdateMApper(studentDto);
+            var updateStudent = await _studentRepositry.Update(id, student);
+            return updateStudent;
         }
     }
 }

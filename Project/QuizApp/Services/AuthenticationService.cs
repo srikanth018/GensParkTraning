@@ -30,12 +30,20 @@ namespace QuizApp.Services
             {
                 throw new UnauthorizedAccessException("Invalid password.");
             }
-            var teacher = await _teacherService.GetByEmailAsync(userResponse.Email);
-            if (teacher == null)
+            if (existingUser.Role == "Teacher")
             {
-                throw new KeyNotFoundException($"Teacher with email {userResponse.Email} not found for login.");
+                var teacher = await _teacherService.GetByEmailAsync(userResponse.Email);
+                if (teacher == null)
+                {
+                    throw new KeyNotFoundException($"Teacher with email {userResponse.Email} not found for login.");
+                }
+                existingUser.Teacher = teacher;
             }
-            existingUser.Teacher = teacher;
+            else if (existingUser.Role == "Student")
+            {
+                
+            }
+
             var token = await _tokenService.GenerateToken(existingUser);
             return new UserLoginResponseDTO
             {
