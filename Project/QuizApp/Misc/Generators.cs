@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using BCrypt.Net;
 using ClosedXML.Excel;
 using QuizApp.DTOs;
+using QuizApp.Models;
 
 namespace QuizApp.Misc
 {
@@ -105,6 +106,28 @@ namespace QuizApp.Misc
             }
 
             return quiz;
+        }
+
+        public static int GenerateTotalMarksSecured(SubmitQuizRequestDTO submitedQuiz, Quiz quiz)
+        {
+            if (submitedQuiz == null)
+                throw new ArgumentException("Quiz or questions cannot be null or empty");
+
+            int TotalMarksSecured = 0;
+
+            foreach (var question in submitedQuiz.Questions)
+            {
+                var quizQuestion = quiz.Questions?.FirstOrDefault(q => q.Id == question.QuestionId);
+                if (quizQuestion != null)
+                {
+                    var correctOptions = quizQuestion.Options?.Where(o => o.IsCorrect).Select(o => o.Id).ToList();
+                    if (correctOptions != null && question.SelectedOptionIds.All(id => correctOptions.Contains(id)))
+                    {
+                        TotalMarksSecured += quizQuestion.Mark;
+                    }
+                }
+            }
+            return TotalMarksSecured;
         }
 
     }

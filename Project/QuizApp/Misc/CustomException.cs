@@ -13,48 +13,79 @@ namespace QuizApp.Misc
             var errorId = Guid.NewGuid();
             var request = context.HttpContext.Request;
 
-            if (exception is InvalidOperationException)
+            CustomError customError = new()
             {
-                Log.Warning(exception, 
-                    "Bad request | ErrorID: {ErrorID} | Path: {Path} | Method: {Method}",
-                    errorId, request.Path, request.Method);
-                
-                context.Result = new BadRequestObjectResult(new CustomError
-                {
-                    Message = exception.Message,
-                    StatusCode = 400,
-                    ErrorId = errorId
-                });
-            }
-            else if (exception is KeyNotFoundException)
+                ErrorId = errorId
+            };
+
+            int statusCode;
+            string logMessage;
+
+            switch (exception)
             {
-                Log.Warning(exception, 
-                    "Resource not found | ErrorID: {ErrorID} | Path: {Path} | Method: {Method}",
-                    errorId, request.Path, request.Method);
-                
-                context.Result = new NotFoundObjectResult(new CustomError
-                {
-                    Message = exception.Message,
-                    StatusCode = 404,
-                    ErrorId = errorId
-                });
+                case InvalidOperationException:
+                    statusCode = 400;
+                    logMessage = "Bad request";
+                    customError.Message = exception.Message;
+                    break;
+
+                case ArgumentNullException or ArgumentException:
+                    statusCode = 400;
+                    logMessage = "Invalid argument provided";
+                    customError.Message = exception.Message;
+                    break;
+
+                case UnauthorizedAccessException:
+                    statusCode = 401;
+                    logMessage = "Unauthorized";
+                    customError.Message = "Authentication is required to access this resource.";
+                    break;
+
+                case KeyNotFoundException:
+                    statusCode = 404;
+                    logMessage = "Resource not found";
+                    customError.Message = exception.Message;
+                    break;
+
+                case TimeoutException:
+                    statusCode = 408;
+                    logMessage = "Request timeout";
+                    customError.Message = "The request timed out. Please try again later.";
+                    break;
+
+                case NotImplementedException:
+                    statusCode = 501;
+                    logMessage = "Not implemented";
+                    customError.Message = "This feature is not implemented.";
+                    break;
+
+                case NotSupportedException:
+                    statusCode = 415;
+                    logMessage = "Unsupported operation or media type";
+                    customError.Message = "The request is in an unsupported format.";
+                    break;
+
+                default:
+                    statusCode = 500;
+                    logMessage = "Unhandled exception";
+                    customError.Message = $"An unexpected error occurred. Reference ID: {errorId}";
+                    break;
             }
+
+            customError.StatusCode = statusCode;
+
+            // Write to Serilog
+            if (statusCode >= 500)
+                Log.Error(exception, "{LogMessage} | ErrorID: {ErrorID} | Path: {Path} | Method: {Method} | {CustomErrorMessage}",
+                    logMessage, errorId, request.Path, request.Method, customError.Message);
             else
+                Log.Warning(exception, "{LogMessage} | ErrorID: {ErrorID} | Path: {Path} | Method: {Method} | {CustomErrorMessage}",
+                    logMessage, errorId, request.Path, request.Method, customError.Message);
+
+            context.Result = new ObjectResult(customError)
             {
-                Log.Error(exception, 
-                    "Unhandled exception | ErrorID: {ErrorID} | Path: {Path} | Method: {Method}",
-                    errorId, request.Path, request.Method);
-                
-                context.Result = new ObjectResult(new CustomError
-                {
-                    Message = $"An error occurred. Reference: {errorId}",
-                    StatusCode = 500,
-                    ErrorId = errorId
-                })
-                {
-                    StatusCode = 500
-                };
-            }
+                StatusCode = statusCode
+            };
 
             context.ExceptionHandled = true;
         }

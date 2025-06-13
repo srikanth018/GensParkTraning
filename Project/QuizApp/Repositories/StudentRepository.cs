@@ -17,7 +17,7 @@ namespace QuizApp.Repositories
 
         public override async Task<Student> GetById(string key)
         {
-            var student = await _quizAppContext.Students.FirstOrDefaultAsync(u => u.Email == key);
+            var student = await _quizAppContext.Students.FirstOrDefaultAsync(u => u.Id == key);
             if (student == null) throw new Exception("Student not found with the key");
             return student;
         }

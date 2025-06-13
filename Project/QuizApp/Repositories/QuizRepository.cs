@@ -17,11 +17,19 @@ namespace QuizApp.Repositories
 
         public override async Task<Quiz> GetById(string key)
         {
-            var quiz = await _quizAppContext.Quizzes.FirstOrDefaultAsync(q => q.Id == key);
-            if (quiz == null) throw new Exception("Quiz not found with the key");
+            Console.WriteLine($"Looking for Quiz ID: {key}");
+
+            var quiz = await _quizAppContext.Quizzes
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.Options)
+                .FirstOrDefaultAsync(q => q.Id.Trim() == key.Trim());
+
+            if (quiz == null)
+                throw new Exception($"Quiz not found with the key: {key}");
+
             return quiz;
         }
 
     }
-    
+
 }

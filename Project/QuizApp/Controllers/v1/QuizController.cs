@@ -68,6 +68,20 @@ namespace QuizApp.Controllers.v1
 
             return Ok(new { createdQuiz.Id, createdQuiz.Title });
         }
+        [HttpGet("{id}")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetQuizById(string id)
+        {
+            try
+            {
+                var quiz = await _quizService.GetQuizByIdAsync(id);
+                return Ok(quiz);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
     }
 }

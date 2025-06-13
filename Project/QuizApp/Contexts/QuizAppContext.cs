@@ -78,7 +78,8 @@ namespace QuizApp.Contexts
             modelBuilder.Entity<CompletedQuiz>()
                 .HasOne(cq => cq.Student)
                 .WithMany(s => s.CompletedQuizzes)
-                .HasForeignKey(cq => cq.StudentId)
+                .HasForeignKey(cq => cq.StudentEmail)
+                .HasPrincipalKey(s => s.Email) // Student.Email is the PK on the principal side for FK
                 .HasConstraintName("FK_CompletedQuiz_Student");
         }
 

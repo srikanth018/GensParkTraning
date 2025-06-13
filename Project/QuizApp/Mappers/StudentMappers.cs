@@ -6,27 +6,28 @@ namespace QuizApp.Mappers
 {
     public static class StudentMappers
     {
-        public static Student CreateStudentMapper(CreateStudentRequestDTO request)
+public static Student CreateStudentMapper(CreateStudentRequestDTO request)
+{
+    return new Student
+    {
+        Id = Generators.GenerateID("ST"),
+        Name = request.Name,
+        Email = request.Email,
+        PhoneNumber = request.PhoneNumber,
+        DateOfBirth = request.DateOfBirth, 
+        HighestQualification = request.HighestQualification,
+        Status = "Active",
+        User = new User
         {
-            return new Student
-            {
-                Id = Generators.GenerateID("ST"),
-                Name = request.Name,
-                Email = request.Email,
-                PhoneNumber = request.PhoneNumber,
-                DateOfBirth = request.DateOfBirth,
-                HighestQualification = request.HighestQualification,
-                Status = "Active",
-                User = new User
-                {
-                    Email = request.Email,
-                    Role = "Student",
-                    Password = Generators.GenerateHashedPassword(request.Password),
-                    CreatedAt = DateTime.Now
-                },
-                CreatedAt = DateTime.Now
-            };
-        }
+            Email = request.Email,
+            Role = "Student",
+            Password = Generators.GenerateHashedPassword(request.Password),
+            CreatedAt = DateTime.UtcNow 
+        },
+        CreatedAt = DateTime.UtcNow
+    };
+}
+
         public static Student StudentUpdateMApper(StudentUpdateRequestDto request)
         {
             Student student = new();

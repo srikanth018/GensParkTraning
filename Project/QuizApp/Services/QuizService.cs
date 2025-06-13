@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.SignalR;
 using QuizApp.DTOs;
+using QuizApp.Hubs;
 using QuizApp.Interfaces;
 using QuizApp.Mappers;
 using QuizApp.Models;
@@ -11,16 +13,21 @@ namespace QuizApp.Services
         private readonly IRepository<string, Question> _questionRepository;
         private readonly IRepository<string, Option> _optionRepository;
         private readonly ITeacherService _teacherService;
+        // private readonly IHubContext<QuizHub> _hubContext;
+
 
         public QuizService(IRepository<string, Quiz> quizRepository,
                            IRepository<string, Question> questionRepository,
                            IRepository<string, Option> optionRepository,
-                           ITeacherService teacherService)
+                           ITeacherService teacherService
+                        //    IHubContext<QuizHub> hubContext
+                           )
         {
             _quizRepository = quizRepository;
             _questionRepository = questionRepository;
             _optionRepository = optionRepository;
             _teacherService = teacherService;
+            // _hubContext = hubContext;
         }
 
         public async Task<Quiz> CreateQuizAsync(CreateQuizRequestDTO quiz)
@@ -32,7 +39,11 @@ namespace QuizApp.Services
             }
 
             var quizEntity = await QuizMappers.CreateQuiz(quiz);
-            return await _quizRepository.Add(quizEntity); 
+            var createdQuiz = await _quizRepository.Add(quizEntity);
+
+            // await _hubContext.Clients.All.SendAsync("ReceiveNewQuiz", createdQuiz.Category, createdQuiz.Title);
+
+            return createdQuiz;
         }
         public async Task<Quiz?> GetQuizByIdAsync(string id)
         {

@@ -20,7 +20,6 @@ namespace QuizApp.Controllers.v1
 
         [HttpPost("login")]
         [MapToApiVersion("1.0")]
-        [CustomException]
         public async Task<IActionResult> Login([FromBody] UserLoginRequestDTO loginRequest)
         {
             var response = await _authenticateService.Login(loginRequest);

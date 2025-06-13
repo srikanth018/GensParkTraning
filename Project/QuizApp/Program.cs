@@ -14,6 +14,7 @@ using QuizApp.Misc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using QuizApp.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +29,17 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 
+
+
+
 #region Repositories
 builder.Services.AddTransient<IRepository<string, Teacher>, TeacherRepository>();
 builder.Services.AddTransient<IRepository<string, User>, UserRepository>();
 builder.Services.AddTransient<IRepository<string, Quiz>, QuizRepository>();
 builder.Services.AddTransient<IRepository<string, Question>, QuestionRepository>();
 builder.Services.AddTransient<IRepository<string, Option>, OptionRepository>();
+builder.Services.AddTransient<IRepository<string, Student>, StudentRepository>();
+builder.Services.AddTransient<IRepository<string, CompletedQuiz>, CompletedQuizRepository>();
 #endregion
 
 
@@ -44,6 +50,10 @@ builder.Services.AddTransient<IAuthenticateService, AuthenticationService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IQuizService, QuizService>();
 builder.Services.AddTransient<IQuizTemplateService, QuizTemplateService>();
+builder.Services.AddTransient<IAttemptQuizService, AttemptQuizService>();
+builder.Services.AddTransient<IStudentService, StudentService>();
+builder.Services.AddTransient<IAttemptQuizService, AttemptQuizService>();
+builder.Services.AddTransient<ICompletedQuizService, CompletedQuizService>();
 #endregion
 
 #region Filters
@@ -59,13 +69,15 @@ builder.Services.AddControllers(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
         options.JsonSerializerOptions.MaxDepth = 64;
-    });;
+    });
+
 #endregion
 
 
 builder.Services.AddDbContext<QuizAppContext>(opt =>
 {
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.EnableSensitiveDataLogging();
 });
 builder.Services.AddEndpointsApiExplorer();
 
@@ -111,15 +123,15 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()   // Or .WithOrigins("http://localhost:4200") etc.
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowAll", policy =>
+//     {
+//         policy.AllowAnyOrigin()   
+//               .AllowAnyHeader()
+//               .AllowAnyMethod();
+//     });
+// });
 
 
 #region AuthenticationFilter
@@ -139,7 +151,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowSpecificOrigin", policy =>
+//     {
+//         policy.WithOrigins("http://127.0.0.1:5500")  
+//               .AllowAnyHeader()
+//               .AllowAnyMethod()
+//               .AllowCredentials(); 
+//     });
+// });
 
+
+// builder.Services.AddSignalR();
 
 
 
@@ -166,6 +190,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+// app.UseCors("AllowSpecificOrigin");
+// app.MapHub<QuizHub>("/quizHub");
 app.UseCors("AllowAll");
 app.Run();
 
