@@ -1,0 +1,4 @@
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Enter city name" aria-label="Recipient's username" aria-describedby="button-addon2" #cityInput [value] = "cityName">
+  <button class="btn btn-outline-secondary custom-hover-btn" style="background-color: rgb(172, 248, 248);" type="button" id="button-addon2" (click)="onSearchClick(cityInput.value); $event.preventDefault()">GetData</button>
+</div>

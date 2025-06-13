@@ -1,0 +1,6 @@
+<div class="container mt-5" style="max-width: 400px; background-color: rgb(212, 251, 252); border-radius: 10px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <app-city-search-component (fetchedWeatherData)="setData($event)"></app-city-search-component>
+</div>
+<div>
+    <app-weather-card-component [render]="render" ></app-weather-card-component>
+</div>

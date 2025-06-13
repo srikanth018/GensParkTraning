@@ -1,0 +1,35 @@
+@if (weatherData && weatherData.length > 0 ) {
+    @if(currentWeatherData) {
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+            <div class="weather-card" style="width: fit-content;">
+                    <h2>{{ currentWeatherData.cityName }}</h2>
+                    <img
+                        [src]="currentWeatherData.icon"
+                        alt="Weather Icon"
+                        class="weather-icon"
+                    />
+                    <p>Temperature: {{ currentWeatherData.temperature }}°C</p>
+                    <p>Condition: {{ currentWeatherData.description }}</p>
+                    <p>Humidity: {{ currentWeatherData.humidity }}%</p>
+                    <p>Wind Speed: {{ currentWeatherData.windSpeed }} km/h</p>
+            </div>
+        </div>
+        
+    }
+<h3>Search History</h3>
+    <div class="weather-container">
+        
+    @for (item of weatherData; track item.cityName) {
+    <div class="weather-card">
+        <h2>{{ item.cityName }}</h2>
+        <img [src]="item.icon" alt="Weather Icon" class="weather-icon" />
+        <p>Temperature: {{ item.temperature }}°C</p>
+        <p>Condition: {{ item.description }}</p>
+        <p>Humidity: {{ item.humidity }}%</p>
+        <p>Wind Speed: {{ item.windSpeed }} km/h</p>
+    </div>
+    }
+    </div>
+} @else {
+<div class="nodata">No Weather data Found</div>
+}

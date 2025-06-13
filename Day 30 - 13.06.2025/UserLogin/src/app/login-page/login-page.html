@@ -1,0 +1,12 @@
+<form class="container mt-5" style="max-width: 400px;">
+    <h2 class="mb-4 text-center">Login</h2>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="text" class="form-control" id="email" #emailInput [value]="user.username" placeholder="Enter email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" #passwordInput [value]="user.password" placeholder="Password" required>
+    </div>
+    <button class="btn btn-primary w-100" (click)="onLoginClick(emailInput.value, passwordInput.value); $event.preventDefault()">Login</button>
+</form>
