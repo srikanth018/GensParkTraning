@@ -20,9 +20,9 @@ namespace QuizApp.Mappers
                     Email = teacherRequest.Email,
                     Password = Generators.GenerateHashedPassword(teacherRequest.Password),
                     Role = "Teacher",
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.UtcNow
                 },
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
             return teacher;
         }

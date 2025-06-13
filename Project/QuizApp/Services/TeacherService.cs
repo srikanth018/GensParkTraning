@@ -19,6 +19,8 @@ namespace QuizApp.Services
         }
         public async Task<Teacher> CreateTeacherAsync(CreateTeacherRequestDTO teacher)
         {
+            
+
             var newTeacher = TeacherMappers.CreateTeacher(teacher);
             var newUser = newTeacher.User;
             if (newUser == null)

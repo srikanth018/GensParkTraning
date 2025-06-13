@@ -18,7 +18,7 @@
 
       // Listen for the 'ReceiveNewQuiz' event from the server
       connection.on("ReceiveNewQuiz", (category, title) => {
-        const message = `📢 New Quiz Added - Category: <strong>${category}</strong>, Title: <strong>${title}</strong>`;
+        const message = `New Quiz Added - Category: <strong>${category}</strong>, Title: <strong>${title}</strong>`;
         const div = document.createElement("div");
         div.innerHTML = message;
         document.getElementById("notifications").prepend(div);
@@ -27,8 +27,8 @@
       // Start the connection
       connection
         .start()
-        .then(() => console.log("✅ Connected to QuizHub"))
-        .catch((err) => console.error("❌ SignalR connection error: ", err));
+        .then(() => console.log("Connected to QuizHub"))
+        .catch((err) => console.error(" SignalR connection error: ", err));
     </script>
   </body>
 </html> -->

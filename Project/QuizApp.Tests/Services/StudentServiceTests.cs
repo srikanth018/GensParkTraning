@@ -183,5 +183,66 @@ namespace QuizApp.Tests.Services
             await Assert.ThrowsAsync<KeyNotFoundException>(() => _studentService.DeleteStudentAsync(studentId));
         }
 
+        [Fact]
+        public async Task GetByEmailAsync_ShouldReturnStudent_WhenEmailExists()
+        {
+            // Arrange
+            var email = "student1@example.com";
+            var studentList = new List<Student>
+    {
+        new Student { Id = "1", Email = email, Name = "Student1" },
+        new Student { Id = "2", Email = "another@example.com", Name = "Student2" }
+    };
+
+            _mockStudentRepo.Setup(r => r.GetAll()).ReturnsAsync(studentList);
+
+            // Act
+            var result = await _studentService.GetByEmailAsync(email);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(email, result.Email);
+        }
+[Fact]
+public async Task CreateStudentAsync_ShouldThrowException_WhenStudentWithSameEmailAlreadyExists()
+{
+    // Arrange
+    var studentDto = new CreateStudentRequestDTO
+    {
+        Name = "New Student",
+        Email = "duplicate@example.com",
+        PhoneNumber = "1234567890",
+        DateOfBirth = new DateTime(2000, 1, 1),
+        HighestQualification = "BSc",
+        Password = "Test@123"
+    };
+
+    var existingStudent = new Student { Id = "1", Email = studentDto.Email };
+
+    _mockStudentRepo.Setup(r => r.GetAll()).ReturnsAsync(new List<Student> { existingStudent });
+
+    // Act & Assert
+    await Assert.ThrowsAsync<InvalidOperationException>(() => _studentService.CreateStudentAsync(studentDto));
+}
+[Fact]
+public async Task GetAllStudentsAsync_ShouldReturnAllStudents()
+{
+    // Arrange
+    var students = new List<Student>
+    {
+        new Student { Id = "1", Name = "Student 1" },
+        new Student { Id = "2", Name = "Student 2" }
+    };
+
+    _mockStudentRepo.Setup(r => r.GetAll()).ReturnsAsync(students);
+
+    // Act
+    var result = await _studentService.GetAllStudentsAsync();
+
+    // Assert
+    Assert.Equal(2, result.Count());
+}
+
+
     }
 }

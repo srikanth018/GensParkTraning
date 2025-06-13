@@ -7,7 +7,5 @@ namespace QuizApp.Models
         public string QuestionId { get; set; } = string.Empty;
         public Question? question { get; set; }
         public bool IsCorrect { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
     }
 }

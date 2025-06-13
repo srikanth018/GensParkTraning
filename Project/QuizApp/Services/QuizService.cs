@@ -10,22 +10,16 @@ namespace QuizApp.Services
     public class QuizService : IQuizService
     {
         private readonly IRepository<string, Quiz> _quizRepository;
-        private readonly IRepository<string, Question> _questionRepository;
-        private readonly IRepository<string, Option> _optionRepository;
         private readonly ITeacherService _teacherService;
         // private readonly IHubContext<QuizHub> _hubContext;
 
 
         public QuizService(IRepository<string, Quiz> quizRepository,
-                           IRepository<string, Question> questionRepository,
-                           IRepository<string, Option> optionRepository,
                            ITeacherService teacherService
                         //    IHubContext<QuizHub> hubContext
                            )
         {
             _quizRepository = quizRepository;
-            _questionRepository = questionRepository;
-            _optionRepository = optionRepository;
             _teacherService = teacherService;
             // _hubContext = hubContext;
         }

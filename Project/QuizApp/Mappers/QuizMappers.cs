@@ -14,7 +14,6 @@ namespace QuizApp.Mappers
             option.OptionText = request.OptionText;
             option.IsCorrect = request.IsCorrect;
             option.QuestionId = questionId;
-            option.CreatedAt = DateTime.UtcNow;
             return option;
         }
         private static async Task<Question> CreateQuestion(string quizId, CreateQuestionDTO request)
