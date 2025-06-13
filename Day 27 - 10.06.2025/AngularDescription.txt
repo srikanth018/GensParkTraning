@@ -1,0 +1,43 @@
+npm install -g @angular/cli
+
+https://angular.dev/installation
+ng version
+
+Google developed angular -> a typescript based framework
+
+TypeScript - when compiled creates JS files
+	   - has typescript compiler
+Structured and Modular
+
+It is a Component based architecture 
+ Every page has building blocks of components
+
+Two way binding(communication b/w Frontend and backend) done by Zone Js
+
+Each Components have these files-> TS-Coding, HTML-UI, CSS, Spec - Karma Unit testing
+
+Dependency Injections -> Component level
+Routing -> Facilitates SPA(single page application)
+Lazy-Loading - Fast Application usage
+
+=====================================================
+
+ng new <project name>
+
+npm install
+
+ng serve -> to run 
+
+
+Diff b/w dependencies and dev dependencies
+
+Poly fills : used to inject new functionalities to the browsers 
+
+I180 -> to internationalise the package -> to be added in poly fills
+
+ng g c <componentName>
+
+
+[] -> property binding 
+
+

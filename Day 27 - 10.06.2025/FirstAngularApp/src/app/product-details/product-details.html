@@ -1,0 +1,15 @@
+<hr>
+
+<div class="header">
+<h1>Product listing with array of products</h1>
+<i [class]="cartBtn"> : {{cartCount}}</i>
+</div>
+
+<div class="products">
+  <div *ngFor="let product of Products" class="product-card">
+    <img [src]="product.ImgUrl" [alt]="product.Title" width="300" />
+    <h3>{{ product.Title }}</h3>
+    <p>{{ product.Description }}</p>
+    <button (click)="oncartClick()">Add to Cart</button>
+  </div>
+</div>

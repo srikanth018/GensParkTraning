@@ -1,0 +1,12 @@
+<p>first-component works!</p>
+<h1>Hiii {{name}}</h1>
+
+<!-- Property binding -->
+<input type="text" #username [value]="name">
+<button (click)="onButtonClick(username.value)">click me</button>
+<br>
+
+<!-- Two way Binding -->
+<input type="text" #username [(ngModel)]="name">
+
+<i [class]="saveHeartClass"></i>
