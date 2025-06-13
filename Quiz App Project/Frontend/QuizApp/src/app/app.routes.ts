@@ -1,0 +1,44 @@
+import { Routes } from '@angular/router';
+import { Login } from './pages/login/login';
+import { Register } from './pages/register/register';
+import { Main } from './pages/main/main';
+import { AuthGuard } from './guard/auth-guard';
+import { TeacherDashboard } from './pages/teacher-dashboard/teacher-dashboard';
+import { CreateQuiz } from './pages/create-quiz/create-quiz';
+import { RedirectGuard } from './guard/redirect-guard-guard';
+import { UploadedQuizzes } from './pages/uploaded-quizzes/uploaded-quizzes';
+import { ViewQuizTeacher } from './pages/view-quiz-teacher/view-quiz-teacher';
+// import { Notifications } from './pages/notifications/notifications';
+
+export const routes: Routes = [
+  { path: '', component: Login, canActivate:[RedirectGuard] },
+  { path: 'register', component: Register, canActivate:[RedirectGuard] },
+
+  {
+    path: 'main',
+    component: Main,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'teacher-dashboard',
+        component: TeacherDashboard,
+        data: { roles: ['Teacher'] }
+      },
+      {
+        path: 'create-quiz',
+        component: CreateQuiz,
+        data: { roles: ['Teacher'] }
+      },
+      {
+        path: 'uploaded-quizzes',
+        component: UploadedQuizzes,
+        data: { roles: ['Teacher'] },
+        children:[
+          
+        ]
+      },
+      {path:'uploaded-quizzes/:id', component:ViewQuizTeacher, data:{ roles: ['Teacher'] }},
+      { path: '', redirectTo: 'teacher-dashboard', pathMatch: 'full' }
+    ]
+  }
+];

@@ -10,3 +10,8 @@
 # Python environment
 .venv/
 __pycache__/
+
+*.pem
+Day 35 - 20.06.2025/
+Day 35 - 20.06.2025/Take away.txt
+Day 36 - 23.06.2025/Take_away.txt

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/UserService';
 import { RouterOutlet } from '@angular/router';
+import { UserModel } from '../../models/UserModel';
 
 @Component({
   selector: 'app-user-details',
@@ -11,7 +12,7 @@ import { RouterOutlet } from '@angular/router';
 export class UserDetails {
   constructor(private userService: UserService) {}
 
-  userData: any[] = [];
+  userData: UserModel[] = [];
 
   ngOnInit() {
     this.userService.getAllUsers().subscribe({

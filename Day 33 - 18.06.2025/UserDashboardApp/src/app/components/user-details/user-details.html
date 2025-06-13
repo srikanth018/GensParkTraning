@@ -29,9 +29,9 @@
       <div class="userCardsContainer">
         @for(user of userData; track user.id) {
           <div class="userCard">
-            <img [src]="user.image" [alt]="user.firstName">
+            <!-- <img [src]="user.image" [alt]="user.firstName"> -->
             <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-            <p>{{ user.email }}</p>
+            <!-- <p>{{ user.email }}</p> -->
             <p>Role: {{ user.role }}</p>
             <p>Gender: {{ user.gender }}</p>
           </div>

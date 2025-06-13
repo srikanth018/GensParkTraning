@@ -55,4 +55,18 @@ export class AddUser implements OnInit {
       this.addUserForm?.get('password')?.value
     );
   }
+
+  startCamera() {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then((stream) => {
+      const videoElement = document.querySelector('video');
+      if (videoElement) {
+        videoElement.srcObject = stream;
+      }
+    })
+    .catch((err) => {
+      console.error("Camera permission denied:", err);
+    });
+}
+
 }
