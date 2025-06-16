@@ -1,0 +1,24 @@
+.products-container{
+    display: flex;
+    justify-items: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    animation: fadeIn 1.5s ease-in-out;
+    align-items: center;
+
+}
+
+.loading-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

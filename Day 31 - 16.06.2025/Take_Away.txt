@@ -1,0 +1,23 @@
+Observable:(subscriber/publisher model)
+
+Do we have more than one Output() in a child
+
+Debounce -> prebuilt 
+
+Rate limit -> to preserve from DoS(Denial of service Attack)
+           -> to reduce the network traffic
+
+Fuzzy search
+
+Debounce is used to reduce the api call for search with fuzzy search
+
+
+Observable: 
+   1. Event emitter -> for sending data from child to parent
+   2. Debounce -> to reduce the no of times making the api call like fuzzy search.
+
+Host listener -> for infinity scroll
+
+
+Today: Debounce, loading gif with tap(), infinity scroll, Routing
+
