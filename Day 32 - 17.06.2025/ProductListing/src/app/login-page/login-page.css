@@ -1,0 +1,100 @@
+
+
+/* Center the login form */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+
+}
+
+/* Heading style */
+.login-page h1 {
+  margin-bottom: 20px;
+  color: #007ea7;
+}
+
+
+
+/* Form container */
+form {
+  width: 100%;
+  max-width: 400px;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 126, 167, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border: 1px solid #bce6f5;
+}
+
+/* Form labels and inputs */
+label {
+  font-weight: 500;
+  color: #005f73;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #a0e7f8;
+  border-radius: 5px;
+  background-color: #f0fbff;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #00b4d8;
+}
+
+/* Submit button */
+button {
+  padding: 12px;
+  background-color: #00b4d8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0096c7;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.redirect-message {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.redirect-message img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+

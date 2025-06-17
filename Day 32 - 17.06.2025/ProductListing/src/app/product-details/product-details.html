@@ -1,0 +1,34 @@
+@if (productData?.title) {
+  <div class="product-card">
+    <div class="product-header">
+      <img [src]="productData.thumbnail || 'https://via.placeholder.com/150'" alt="{{ productData.title }}" class="product-thumbnail" />
+      
+      <div class="product-info">
+        <h2>{{ productData.title }}</h2>
+        <p class="brand">Brand: {{ productData.brand }}</p>
+        <p class="category">Category: {{ productData.category }}</p>
+        <p class="availability" [class.low-stock]="productData.stock <= 5">{{ productData.availabilityStatus }}</p>
+        <p class="price">
+          ${{ productData.price }}
+          <span class="discount">-{{ productData.discountPercentage }}%</span>
+        </p>
+        <p class="rating">⭐ {{ productData.rating }} ({{ productData.reviews.length }} reviews)</p>
+        <p class="stock">Stock: {{ productData.stock }}</p>
+      </div>
+    </div>
+
+    <div class="product-body">
+      <p class="description">{{ productData.description }}</p>
+
+      <div class="additional-info">
+        <p><strong>SKU:</strong> {{ productData.sku }}</p>
+        <p><strong>Weight:</strong> {{ productData.weight }}g</p>
+        <p><strong>Dimensions:</strong> {{ productData.dimensions.width }} x {{ productData.dimensions.height }} x {{ productData.dimensions.depth }} mm</p>
+        <p><strong>Warranty:</strong> {{ productData.warrantyInformation }}</p>
+        <p><strong>Shipping:</strong> {{ productData.shippingInformation }}</p>
+        <p><strong>Return Policy:</strong> {{ productData.returnPolicy }}</p>
+        <p><strong>Minimum Order:</strong> {{ productData.minimumOrderQuantity }}</p>
+      </div>
+    </div>
+  </div>
+}

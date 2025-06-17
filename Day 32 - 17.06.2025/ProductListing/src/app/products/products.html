@@ -1,0 +1,15 @@
+<h1>{{username}}</h1>
+
+<div class="products-container">
+  @for(product of products; track product.id) {
+    <app-product [product]="product"></app-product>
+  }
+</div>
+
+@if (loading) {
+  <div class="loading-container">
+    <img src="assets/Spinner-3.gif" alt="loadingSpinner" />
+  </div>
+}
+
+<router-outlet></router-outlet>

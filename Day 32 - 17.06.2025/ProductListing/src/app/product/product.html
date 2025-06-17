@@ -1,0 +1,11 @@
+<div class="product-card">
+  <img [src]="product.thumbnail" alt="{{ product.title }}" />
+  <h2>{{ product.title }}</h2>
+  <p>Price: {{ product.price }}</p>
+
+  <p>
+    {{ showFull ? product.description : (product.description | slice:0:40) + '... ' }}
+    <span class="read-more-text" (click)="toggleReadMore()">{{ showFull ? 'Read Less' : 'Read More' }}</span>
+  </p>
+  <button (click)="viewProduct(product.id)">View Product</button>
+</div>

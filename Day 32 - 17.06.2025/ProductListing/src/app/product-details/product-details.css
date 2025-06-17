@@ -1,0 +1,78 @@
+.product-card {
+  max-width: 800px;
+  margin: auto;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-top: 20px;
+}
+
+.product-header {
+  display: flex;
+  gap: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.product-thumbnail {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.product-info h2 {
+  margin: 0;
+}
+
+.brand, .category, .availability, .price, .rating, .stock {
+  margin: 0.25rem 0;
+}
+
+.low-stock {
+  color: red;
+  font-weight: bold;
+}
+
+.discount {
+  color: #f44336;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.product-body {
+  margin-top: 1rem;
+}
+
+.additional-info p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.description {
+  margin-bottom: 1rem;
+}
+
+.reviews-section {
+  margin-top: 1.5rem;
+}
+
+.review {
+  border-top: 1px solid #eee;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.comment {
+  font-style: italic;
+  margin: 0.25rem 0;
+}
+
+.review-date {
+  font-size: 0.85rem;
+  color: #666;
+}

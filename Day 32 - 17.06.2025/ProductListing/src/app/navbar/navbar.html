@@ -1,0 +1,24 @@
+<div class="navbar">
+  <ul>
+    <li><a routerLink="/home/products">Home</a></li>
+    <li><a [routerLink]="['/about']">About</a></li>
+  </ul>
+  <div class="user-info">
+    <input
+      type="text"
+      placeholder="Search products..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+    />
+
+      <div class="user-details" (click)="onProfileClick()">
+        <span>{{userData.firstName}} {{userData.lastName}}</span>
+        <img [src]="userData.image" alt="userImage" class="user-image" />
+      </div>
+
+  </div>
+
+  
+</div>
+
+<router-outlet></router-outlet>
