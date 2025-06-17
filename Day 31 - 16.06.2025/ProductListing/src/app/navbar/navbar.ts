@@ -5,7 +5,7 @@ import { SearchService } from '../services/SearchService';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterOutlet, FormsModule],
+  imports: [RouterLink, FormsModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })

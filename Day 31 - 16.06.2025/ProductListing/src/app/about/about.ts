@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-about',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './about.html',
   styleUrl: './about.css'
 })
-export class About {
+export class About implements OnInit  {
+  username:string = "";
+  route = inject(ActivatedRoute);
 
+  ngOnInit():void{
+    this.username = this.route.snapshot.params["un"] as string;
+  }
 }

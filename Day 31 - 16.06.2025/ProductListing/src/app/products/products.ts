@@ -1,10 +1,11 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { ProductService } from '../services/productService';
 import { ProductModel } from '../models/productModel';
 import { Product } from '../product/product';
 import '@lottiefiles/dotlottie-wc';
 import { SearchService } from '../services/SearchService';
-import { debounce, debounceTime, Subject, Subscription, switchMap, tap } from 'rxjs';
+import { debounceTime, Subject, Subscription, switchMap, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -15,6 +16,10 @@ import { debounce, debounceTime, Subject, Subscription, switchMap, tap } from 'r
   styleUrls: ['./products.css'],
 })
 export class Products implements OnInit, OnDestroy {
+
+  route = inject(ActivatedRoute);
+  username:string = "";
+
   products: ProductModel[] = [];
   limit = 10;
   skip = 0;
@@ -27,6 +32,7 @@ export class Products implements OnInit, OnDestroy {
   constructor(private productService: ProductService, private searchService: SearchService) {}
 
   ngOnInit(): void {
+    this.username = this.route.snapshot.params["un"] as string;
     this.loadProductData(); 
 
     // Handle search

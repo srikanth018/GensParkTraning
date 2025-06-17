@@ -1,11 +1,10 @@
 <div class="navbar">
     <ul>
         <li><a routerLink="home">Home</a></li>
-        <li><a routerLink="about">About</a></li>
+        <li><a [routerLink]="['about','ramu','products']">About</a></li>
     </ul>
     <input type="text" placeholder="Search products..." [(ngModel)]="searchTerm" (input)="onSearch()" />
 </div>
 
 
 
-<router-outlet></router-outlet>
