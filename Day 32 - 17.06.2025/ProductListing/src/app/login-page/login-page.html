@@ -1,6 +1,6 @@
-<div class="login-page">
+<!-- <div class="login-page">
   <h1>Login Page</h1>
-  <form (ngSubmit)="handleLogin()">
+  <form (ngSubmit)="handleLogin(un,pw)">
     <div class="form-group">
       <label for="text">Username</label>
       <input
@@ -10,8 +10,13 @@
         name="username"
         placeholder="Enter username"
         [(ngModel)]="userLoginData.username"
+        #un="ngModel"
+        required
       />
     </div>
+    @if(unErrorMessage){
+      <span style="color: red; font-size: 10px; font-weight: 600;" >Username cannot be empty</span>
+    }
     <div class="form-group">
       <label for="password">Password</label>
       <input
@@ -21,8 +26,52 @@
         name="password"
         placeholder="Password"
         [(ngModel)]="userLoginData.password"
+        #pw="ngModel"
+        required
       />
     </div>
+    @if(pwErrorMessage){
+      <span style="color: red; font-size: 10px; font-weight: 600;" >Password cannot be empty</span>
+    }
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<router-outlet></router-outlet> -->
+
+
+<div class="login-page">
+  <h1>Login Page</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
+    <div class="form-group">
+      <label for="text">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        id="text"
+        name="username"
+        placeholder="Enter username"
+        formControlName="un"
+      />
+    </div>
+    @if(unError){
+      <span style="color: red; font-size: 10px; font-weight: 600;" >{{unErrorMessage}}</span>
+    }
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Password"
+        formControlName="pass"
+      />
+    </div>
+    @if(pwError){
+      
+      <span style="color: red; font-size: 10px; font-weight: 600;" >{{passErrorMessage}}</span>
+    }
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>

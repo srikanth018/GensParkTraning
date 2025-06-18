@@ -1,0 +1,8 @@
+Today: Forms and validation, custom validation, 2 types of 
+
+two types of validation:
+    1. template driven validation (done in html itself like required, disable etc..)
+    2. reactive form validation (validation done in ts file)
+
+
+
