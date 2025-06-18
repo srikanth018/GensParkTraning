@@ -1,0 +1,21 @@
+
+<div style="display: flex; gap: 20px; margin-top: 20px">
+  <div class="chart-container">
+    <ag-charts-angular [options]="genderChartOptions"></ag-charts-angular>
+  </div>
+
+  <div class="chart-container">
+    <ag-charts-angular [options]="rolesChartOptions"></ag-charts-angular>
+  </div>
+
+  <!-- Add this after your existing charts -->
+
+</div>
+<div class="chart-container-state">
+  <ag-charts-angular
+    [options]="stateChartOptions"
+    style="height: 500px"
+  ></ag-charts-angular>
+</div>
+
+<router-outlet></router-outlet>

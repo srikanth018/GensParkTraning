@@ -1,0 +1,72 @@
+.userDataContainer {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.filterSidebar {
+  width: 200px;
+  padding: 1em;
+  background-color: #ffffff;
+  border: 2px solid hsl(182, 97%, 40%);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   height: 20vh;
+}
+
+.filterSidebar select {
+  width: 100%;
+  padding: 0.5em;
+  margin: 0.5em 0;
+  border-radius: 4px;
+ 
+}
+
+.userDetails {
+  flex: 1;
+}
+
+.userCardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.userCard {
+  border-radius: 5px;
+  padding: 1em;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px solid hsl(182, 87%, 75%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.userCard img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid hsl(182, 100%, 84%);
+  margin-bottom: 1rem;
+}
+
+.userCard h2 {
+  font-size: 1.2em;
+  margin: 0.5em 0;
+  color: #333;
+}
+
+.userCard p {
+  margin: 0.3em 0;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.no-users {
+  text-align: center;
+  padding: 2em;
+  color: #666;
+}

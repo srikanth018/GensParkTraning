@@ -1,0 +1,46 @@
+<div class="userDataContainer">
+  <div class="filterSidebar">
+    <h3>Filter Users</h3>
+    <select
+      #genderSelect
+      name="gender"
+      id="genderFilter"
+      (change)="filterUsers('gender', genderSelect.value)"
+    >
+      <option value="all">All Genders</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <select
+      #roleSelect
+      name="role"
+      id="roleFilter"
+      (change)="filterUsers('role', roleSelect.value)"
+    >
+      <option value="all">All Roles</option>
+      <option value="admin">Admin</option>
+      <option value="user">User</option>
+      <option value="moderator">Moderator</option>
+    </select>
+  </div>
+  
+  <div class="userDetails">
+    @if(userData && userData.length > 0) {
+      <div class="userCardsContainer">
+        @for(user of userData; track user.id) {
+          <div class="userCard">
+            <img [src]="user.image" [alt]="user.firstName">
+            <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+            <p>{{ user.email }}</p>
+            <p>Role: {{ user.role }}</p>
+            <p>Gender: {{ user.gender }}</p>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="no-users">No users found</p>
+    }
+  </div>
+</div>
+
+<router-outlet></router-outlet>
