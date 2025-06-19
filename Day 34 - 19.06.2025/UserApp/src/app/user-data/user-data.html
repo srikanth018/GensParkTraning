@@ -1,0 +1,30 @@
+<div class="user-data-container">
+  <div class="side-bar">
+    <h3>Filters</h3>
+    <label for="role">Role:</label>
+    <select id="role" #role (change)="onRoleChange(role.value)">
+      <option value="all">All</option>
+      <option value="admin">Admin</option>
+      <option value="user">User</option>
+      <option value="moderator">Moderator</option>
+    </select>
+    <label for="search">Search:</label>
+    <input #search type="text" id="search" placeholder="Search by username or email" (input)="handleSearch(search.value)">
+  </div>
+
+  <div class="main-content">
+    <h3>User List</h3>
+    <div class="user-list">
+      <ng-container *ngIf="users$ | async as users">
+        <div *ngFor="let user of users" class="user-card">
+          <div class="user-info">
+            <h3>{{user.username}}</h3>
+            <p><strong>Email:</strong> {{user.email}}</p>
+            <p><strong>Role:</strong> {{user.role}}</p>
+            <p><strong>Password:</strong>{{user.password.slice(0, 3)}}*****</p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

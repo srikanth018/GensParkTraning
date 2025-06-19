@@ -1,0 +1,41 @@
+nav{
+    background-color: #ffffff;
+    color: rgb(4, 181, 181);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items:  center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 60px;
+    justify-items: end;
+
+}
+nav h1 {
+    margin: 0;
+    font-size: 24px;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+nav ul li {
+    margin: 0 15px;
+}
+nav ul li a {
+    color: rgb(4, 181, 181);
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s ease;
+    font-weight: 600;
+    padding: 5px 10px;
+}
+nav ul li a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+nav ul li a.active {
+    font-weight: bold;
+    color: #ffcc00; /* Highlight active link */
+}

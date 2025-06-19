@@ -1,0 +1,12 @@
+States of the form control
+
+Pristine/dirty, touched/untouched, and valid/invalid,
+
+World Wide Web consortium
+
+State management -> NGRX
+
+Selector -> accessor/retrive data
+Reducer -> Modify/Edit the data
+Action -> editing
+
