@@ -4,18 +4,19 @@ import { AuthService } from '../../services/AuthService';
 import { QuizService } from '../../services/QuizService';
 import { QuizResponseMapper } from '../../misc/QuizResponseMapper';
 import { CompletedQuizService } from '../../services/CompletedQuizService';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
-
+import { QuestionEditPopup } from '../../components/question-edit-popup/question-edit-popup';
 
 @Component({
   selector: 'app-view-quiz-teacher',
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, QuestionEditPopup],
   templateUrl: './view-quiz-teacher.html',
   styleUrl: './view-quiz-teacher.css',
 })
 export class ViewQuizTeacher implements OnInit {
   isloading: boolean = false;
+  isEditing: boolean = false;
   quizId: string = '';
   quiz: any = [];
   completedQuizzes: any = [];
@@ -79,7 +80,8 @@ export class ViewQuizTeacher implements OnInit {
 
   maxMins(): number {
     const maxMinTaken = this.completedQuizzes.map((q: any) => {
-      const ms = new Date(q.endedAt).getTime() - new Date(q.startedAt).getTime();
+      const ms =
+        new Date(q.endedAt).getTime() - new Date(q.startedAt).getTime();
       return Math.floor((ms % 3600) / 60);
     });
     return Math.max(...maxMinTaken);
@@ -92,19 +94,41 @@ export class ViewQuizTeacher implements OnInit {
   }
 
   editQuestionForm!: FormGroup;
+  currentQuestionId: string = '';
+  currentQuestionIndex: number = -1;
+
   editQuestion(quizId: string, questionId: string, questionIndex: number) {
+    this.currentQuestionId = questionId;
+    this.currentQuestionIndex = questionIndex;
+    this.isEditing = true;
+
     this.editQuestionForm = new FormGroup({
-      questionText: new FormControl(this.quiz.questions[questionIndex].questionText, [
+      questionText: new FormControl(
+        this.quiz.questions[questionIndex].questionText,
+        [Validators.required, Validators.minLength(10)]
+      ),
+      mark: new FormControl(this.quiz.questions[questionIndex].mark, [
         Validators.required,
-        Validators.minLength(10),
+        Validators.min(1),
       ]),
-      mark: new FormControl(this.quiz.questions[questionIndex].mark, [Validators.required, Validators.min(1)]),
-      options: this.quiz.questions[questionIndex].options.map((option: any) => {
-        return new FormGroup({
-          optionText: new FormControl(option.optionText, Validators.required),
-          isCorrect: new FormControl(option.isCorrect)
-        });
-      })
+      options: new FormArray(
+        this.quiz.questions[questionIndex].options.map((option: any) => {
+          return new FormGroup({
+            optionText: new FormControl(option.optionText, Validators.required),
+            isCorrect: new FormControl(option.isCorrect),
+          });
+        })
+      ),
     });
+  }
+
+  onSaveEdit() {
+    if (this.editQuestionForm.valid) {
+      // Update your quiz data here
+      const updatedQuestion = this.editQuestionForm.value;
+      // ... your update logic ...
+
+      this.isEditing = false;
+    }
   }
 }

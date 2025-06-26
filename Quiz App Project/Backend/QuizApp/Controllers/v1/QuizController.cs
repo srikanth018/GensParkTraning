@@ -51,7 +51,7 @@ namespace QuizApp.Controllers.v1
         }
         [HttpPost("bulk-upload")]
         [MapToApiVersion("1.0")]
-        // [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> BulkUploadQuiz([FromForm] FileUploadDTO file)
         {
@@ -85,10 +85,20 @@ namespace QuizApp.Controllers.v1
 
         [HttpGet("getbyteacher")]
         [MapToApiVersion("1.0")]
-        public async Task<IActionResult> GetQuizzesByTeacherEmail([FromQuery] string email){
+        public async Task<IActionResult> GetQuizzesByTeacherEmail([FromQuery] string email)
+        {
             var quizzes = await _quizService.GetQuizzesByTeacherEmailAsync(email);
             return Ok(quizzes);
         }
 
+        [HttpGet]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetAllQuizzes()
+        {
+            var quizzes = await _quizService.GetAllQuizzesAsync();
+            if (quizzes == null || !quizzes.Any())
+                return NotFound("No quizzes found.");
+            return Ok(quizzes);
+        }
     }
 }

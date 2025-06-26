@@ -88,7 +88,15 @@ export class Login {
           this.successMessage = 'Login Successful!!!'
           this.showSuccess = true;
           setTimeout(() => {
-            this.router.navigate(['main','teacher-dashboard']);
+            this.showSuccess = false;
+            this.successMessage = null;
+            if (this.loggedInUserData.role === 'Student') {
+              this.router.navigate(['main', 'student-dashboard']);
+            }
+            else if (this.loggedInUserData.role === 'Teacher')
+            {
+              this.router.navigate(['main', 'teacher-dashboard']);
+            }
           }, 3000);
         }
       });

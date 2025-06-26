@@ -8,6 +8,9 @@ import { CreateQuiz } from './pages/create-quiz/create-quiz';
 import { RedirectGuard } from './guard/redirect-guard-guard';
 import { UploadedQuizzes } from './pages/uploaded-quizzes/uploaded-quizzes';
 import { ViewQuizTeacher } from './pages/view-quiz-teacher/view-quiz-teacher';
+import { StudentDashboard } from './pages/student-dashboard/student-dashboard';
+import { Quizzes } from './pages/quizzes/quizzes';
+import { QuizHistory } from './pages/quiz-history/quiz-history';
 // import { Notifications } from './pages/notifications/notifications';
 
 export const routes: Routes = [
@@ -33,12 +36,21 @@ export const routes: Routes = [
         path: 'uploaded-quizzes',
         component: UploadedQuizzes,
         data: { roles: ['Teacher'] },
-        children:[
-          
-        ]
       },
       {path:'uploaded-quizzes/:id', component:ViewQuizTeacher, data:{ roles: ['Teacher'] }},
-      { path: '', redirectTo: 'teacher-dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'teacher-dashboard', pathMatch: 'full' },
+
+      {path: 'student-dashboard', component: StudentDashboard, data: { roles: ['Student'] }},
+      {
+        path: 'available-quizzes',
+        component: Quizzes,
+        data: { roles: ['Student'] }
+      },
+      {
+        path: 'quiz-history',
+        component: QuizHistory,
+        data: { roles: ['Student'] }
+      }
     ]
   }
 ];
