@@ -8,5 +8,6 @@ namespace QuizApp.Interfaces
         Task<ICollection<CompletedQuiz>> GetAllCompletedQuizzesAsync();
         Task<CompletedQuiz?> GetCompletedQuizByIdAsync(string id);
         Task<ICollection<CompletedQuiz>> GetCompletedQuizzesByStudentEmailAsync(string studentEmail);
+        Task<ICollection<CompletedQuiz>> GetCompletedQuizByQuizIdAsync(string quizId);
     }
 }

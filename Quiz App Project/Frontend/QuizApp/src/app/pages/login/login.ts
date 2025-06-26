@@ -88,7 +88,7 @@ export class Login {
           this.successMessage = 'Login Successful!!!'
           this.showSuccess = true;
           setTimeout(() => {
-            this.router.navigate(['create-quiz']);
+            this.router.navigate(['main','teacher-dashboard']);
           }, 3000);
         }
       });

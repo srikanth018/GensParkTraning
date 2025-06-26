@@ -14,6 +14,7 @@ import { provideLottieOptions } from 'ngx-lottie';
 import player from 'lottie-web';
 import { AuthGuard } from './guard/auth-guard';
 import { RedirectGuard } from './guard/redirect-guard-guard';
+import { CompletedQuizService } from './services/CompletedQuizService';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     AuthService,
     RegisterService,
     QuizService,
+    CompletedQuizService,
     provideStore(),
     provideState('auth', authReducer),
     provideEffects(AuthEffects),

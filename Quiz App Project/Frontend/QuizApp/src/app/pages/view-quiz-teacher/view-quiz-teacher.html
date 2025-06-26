@@ -1,1 +1,119 @@
-<p>view-quiz-teacher works!</p>
+<div class="p-4 min-h-screen">
+      <h2 class="text-2xl font-bold text-left mb-3 text-sky-800">
+    Quiz Summary - <span class="text-sky-600">{{quiz.title}}</span>
+  </h2>
+
+  <!-- Consolidated Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+    <!-- Card: Students Completed -->
+    <div class="bg-white shadow-sm rounded-lg p-4 flex items-center border-l-4 border-sky-500 hover:shadow-md transition-shadow duration-200">
+      <div class="bg-sky-100 p-3 rounded-full mr-4">
+        <i class="fas fa-user-graduate text-sky-600 text-lg"></i>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-500">Students Attended</p>
+        <span class="text-2xl font-bold text-gray-700">{{ completedQuizzes.length }}</span>
+      </div>
+    </div>
+    
+    <!-- Card: Average Score -->
+    <div class="bg-white shadow-sm rounded-lg p-4 flex items-center border-l-4 border-sky-500 hover:shadow-md transition-shadow duration-200">
+      <div class="bg-sky-100 p-3 rounded-full mr-4">
+        <i class="fas fa-chart-line text-sky-600 text-lg"></i>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-500">Average Score</p>
+        <span class="text-2xl font-bold text-gray-700">{{ 0 }}</span>
+      </div>
+    </div>
+    
+    <!-- Card: Average Time to Complete -->
+    <div class="bg-white shadow-sm rounded-lg p-4 flex items-center border-l-4 border-sky-500 hover:shadow-md transition-shadow duration-200">
+      <div class="bg-sky-100 p-3 rounded-full mr-4">
+        <i class="fas fa-stopwatch text-sky-600 text-lg"></i>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-500">Average Time to Complete</p>
+        <span class="text-2xl font-bold text-gray-700">{{ averageTimeTaken }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary card -->
+
+  <div class="bg-white shadow-sm rounded-lg p-6 hover:shadow-md transition-shadow duration-200 border border-gray-100">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-xl font-semibold text-sky-700 flex items-center">
+      <i class="fas fa-clipboard-list text-sky-600 mr-2"></i>
+      {{ quiz.title }}
+    </h3>
+    <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+      {{ quiz.category }}
+    </span>
+  </div>
+
+  <p class="text-gray-600 mb-4 text-justify">{{ quiz.description }}</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Left Column -->
+    <div class="space-y-3">
+      <div class="flex items-center">
+        <i class="fas fa-question-circle text-gray-500 w-5 mr-2"></i>
+        <span class="text-sm text-gray-600">Total Questions: <span class="font-medium">{{ quiz.questions?.length }}</span></span>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-star text-gray-500 w-5 mr-2"></i>
+        <span class="text-sm text-gray-600">Total Marks: <span class="font-medium">{{ quiz.totalMarks }}</span></span>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-layer-group text-gray-500 w-5 mr-2"></i>
+        <span class="text-sm text-gray-600">Category: <span class="font-medium">{{ quiz.category }}</span></span>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="space-y-3">
+      <div class="flex items-center">
+        <i class="fas fa-user-tie text-gray-500 w-5 mr-2"></i>
+        <span class="text-sm text-gray-600">Uploaded By: <span class="font-medium">{{ quiz.uploadedBy }}</span></span>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-calendar-alt text-gray-500 w-5 mr-2"></i>
+        <span class="text-sm text-gray-600">Created: <span class="font-medium">{{ quiz.createdAt?.slice(0,10) }}</span></span>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- <div class="mt-5 pt-4 border-t border-gray-100 flex justify-between items-center">
+    <span class="text-xs text-gray-500">Last updated: {{ quiz.createdAt?.slice(0,10) }}</span>
+    <button class="text-sm font-medium text-sky-600 hover:text-sky-800 flex items-center">
+      View Details <i class="fas fa-chevron-right ml-1 text-xs"></i>
+    </button>
+  </div>
+</div> -->
+
+
+</div>
+
+<div class="bg-white shadow-sm rounded-lg p-6 mt-6 hover:shadow-md transition-shadow duration-200 border border-gray-100">
+  <h3 class="text-lg font-semibold text-sky-700 mb-4">Questions</h3>
+  <div class="space-y-4">
+    <ng-container *ngFor="let question of quiz.questions; let i = index">
+      <div class="p-4 bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors duration-200">
+        <div class="flex justify-between items-center mb-2">
+          <h4 class="text-md font-medium text-sky-800">{{ i + 1 }}. {{ question.questionText }}</h4>
+          <button (click)="editQuestion(quiz._id, question._id, i)" class="text-sm text-sky-600 hover:text-sky-800">
+            Edit
+          </button>
+        </div>
+        <ul class="list-disc pl-5 space-y-2">
+          <li *ngFor="let option of question.options" class="text-gray-700">
+            {{ option.optionText }} <span *ngIf="option.isCorrect" class="text-green-500">(Correct)</span>
+          </li>
+        </ul>
+
+      </div>
+    </ng-container>
+  </div>
+</div>

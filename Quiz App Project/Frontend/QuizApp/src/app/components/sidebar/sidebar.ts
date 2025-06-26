@@ -8,5 +8,8 @@ import { RouterModule } from '@angular/router';
   styleUrl: './sidebar.css'
 })
 export class Sidebar {
-
+  logout(){
+    localStorage.removeItem('access_token');
+    window.location.reload();
+  }
 }

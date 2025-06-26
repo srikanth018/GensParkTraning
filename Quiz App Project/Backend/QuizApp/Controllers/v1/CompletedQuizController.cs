@@ -48,5 +48,16 @@ namespace QuizApp.Controllers
             var quizzes = await _completedQuizService.GetCompletedQuizzesByStudentEmailAsync(studentEmail);
             return Ok(quizzes);
         }
+
+        [HttpGet("quizId/{quizId}")]
+        [MapToApiVersion("1.0")]
+        [Authorize]
+        public async Task<ActionResult<ICollection<CompletedQuiz>>> GetCompletedQuizByQuizId(string quizId)
+        {
+            var quizzes = await _completedQuizService.GetCompletedQuizByQuizIdAsync(quizId);
+            if (quizzes == null || !quizzes.Any())
+                return NotFound($"No completed quizzes found for quiz id {quizId}.");
+            return Ok(quizzes);
+        }
     }
 }

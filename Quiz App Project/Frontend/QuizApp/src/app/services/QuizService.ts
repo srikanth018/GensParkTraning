@@ -69,7 +69,7 @@ export class QuizService {
       Authorization: `Bearer ${token}`,
     });
     return this.http
-      .get(`${this.baseUrl}quizzes/teacher/${teacherEmail}`, { headers })
+      .get(`${this.baseUrl}quizzes/getbyteacher?email=${teacherEmail}`, { headers })
       .pipe(
         map((response) => response),
         catchError((error) => {
@@ -85,7 +85,7 @@ export class QuizService {
       Authorization: `Bearer ${token}`,
     });
     return this.http
-      .get(`${this.baseUrl}quizzes/quiz/${quizId}`, { headers })
+      .get(`${this.baseUrl}quizzes/${quizId}`, { headers })
       .pipe(
         map((response) => response),
         catchError((error) => {
@@ -94,4 +94,6 @@ export class QuizService {
         })
       );
   }
+
+  
 }

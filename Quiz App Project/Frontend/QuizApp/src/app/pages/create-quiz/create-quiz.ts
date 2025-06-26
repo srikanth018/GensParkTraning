@@ -15,11 +15,12 @@ import { Question } from '../../components/question/question';
 import { NgFor, NgIf } from '@angular/common';
 import { QuizService } from '../../services/QuizService';
 import { AuthService } from '../../services/AuthService';
+import { Loading } from "../../components/loading/loading";
 
 
 @Component({
   selector: 'app-create-quiz',
-  imports: [Question, NgFor, NgIf, ReactiveFormsModule],
+  imports: [Question, NgFor, NgIf, ReactiveFormsModule, Loading],
   templateUrl: './create-quiz.html',
   styleUrl: './create-quiz.css',
   standalone: true,
@@ -31,6 +32,7 @@ export class CreateQuiz implements OnInit {
 
   private store = inject(Store);
   quizForm: FormGroup;
+  isloading: boolean = false;
 
   constructor(public fb: FormBuilder, private quizService: QuizService) {
     this.quizForm = new FormGroup({
@@ -158,6 +160,7 @@ export class CreateQuiz implements OnInit {
   }
 
   downloadTemplate() {
+    this.isloading=true;
     this.quizService.downloadQuizTemplate(5, 4).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -166,9 +169,11 @@ export class CreateQuiz implements OnInit {
         a.download = 'QuizTemplate.xlsx'; // file name
         a.click();
         window.URL.revokeObjectURL(url);
+        this.isloading=false;
       },
       error: (err) => {
         console.error('Error downloading file:', err);
+        this.isloading=false;
       },
     });
   }
