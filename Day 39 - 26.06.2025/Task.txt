@@ -1,0 +1,56 @@
+
+
+1. You have a file with permissions -rw-r--r--, and you run chmod +x file.sh. What happens?
+
+ -rwxr-xr-x 
+ The +x adds execute permission for all classes (owner, group, others).
+
+
+ 2. What is the difference between chmod 744 file.txt and chmod u=rwx,go=r file.txt?
+
+Both result in the same permissions: -rwxr--r--
+ chmod 744 file.txt sets:
+   u (owner): rwx (7)
+   g (group): r (4)
+   o (others): r (4)
+
+ 3. What is the sticky bit, and when should you use it?
+
+ The sticky bit (symbol: t) is used on directories.
+ It ensures that only the file owner (or root) can delete/rename files inside that directory.
+
+ 4. You are told to give the owner full access, group only execute, and others no permissions. What symbolic command achieves this?
+
+ -rwx--x--- 
+ 710
+
+ 5. What is umask, and why is it important?
+
+ umask defines default permission masks when new files or directories are created.
+ It subtracts permissions from the system default:
+
+   Files: default 666 (rw-rw-rw-)
+   Directories: default 777 (rwxrwxrwx)
+
+ 6. If the umask is 022, what are the default permissions for a new file and a new directory?
+
+ Files: 666 - 022 = 644 → -rw-r--r--
+ Directories: 777 - 022 = 755 → drwxr-xr-x
+
+ 7. Why is umask often set to 002 in development environments but 027 or 077 in production?
+
+
+
+ 002 (Dev):
+   Files: 664, Dirs: 775
+   Allows group collaboration (group can write)
+   Common in shared dev teams.
+
+ 027 or 077 (Prod):
+   027
+   Files : 640 Dirs : 750 
+   Group read-only, others no access.
+
+   077
+   Files: 666 Dirs: 777
+   Only owner has access.
