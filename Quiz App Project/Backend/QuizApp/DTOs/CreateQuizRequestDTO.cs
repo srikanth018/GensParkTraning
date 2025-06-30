@@ -7,6 +7,7 @@ namespace QuizApp.DTOs
         public string Category { get; set; } = string.Empty;
         public string UploadedBy { get; set; } = string.Empty;
         public int TotalMarks { get; set; }
+        public TimeSpan TimeLimit { get; set; }
         public List<CreateQuestionDTO> Questions { get; set; } = new();
     }
 

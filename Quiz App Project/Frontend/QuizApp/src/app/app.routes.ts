@@ -11,11 +11,14 @@ import { ViewQuizTeacher } from './pages/view-quiz-teacher/view-quiz-teacher';
 import { StudentDashboard } from './pages/student-dashboard/student-dashboard';
 import { Quizzes } from './pages/quizzes/quizzes';
 import { QuizHistory } from './pages/quiz-history/quiz-history';
+import { ViewQuizStudent } from './pages/view-quiz-student/view-quiz-student';
+import { AttemptQuiz } from './pages/attempt-quiz/attempt-quiz';
+import { DisplayQuestions } from './components/display-questions/display-questions';
 // import { Notifications } from './pages/notifications/notifications';
 
 export const routes: Routes = [
-  { path: '', component: Login, canActivate:[RedirectGuard] },
-  { path: 'register', component: Register, canActivate:[RedirectGuard] },
+  { path: '', component: Login, canActivate: [RedirectGuard] },
+  { path: 'register', component: Register, canActivate: [RedirectGuard] },
 
   {
     path: 'main',
@@ -25,32 +28,58 @@ export const routes: Routes = [
       {
         path: 'teacher-dashboard',
         component: TeacherDashboard,
-        data: { roles: ['Teacher'] }
+        data: { roles: ['Teacher'] },
       },
       {
         path: 'create-quiz',
         component: CreateQuiz,
-        data: { roles: ['Teacher'] }
+        data: { roles: ['Teacher'] },
       },
       {
         path: 'uploaded-quizzes',
         component: UploadedQuizzes,
         data: { roles: ['Teacher'] },
       },
-      {path:'uploaded-quizzes/:id', component:ViewQuizTeacher, data:{ roles: ['Teacher'] }},
+      {
+        path: 'uploaded-quizzes/:id',
+        component: ViewQuizTeacher,
+        data: { roles: ['Teacher'] },
+      },
       { path: '', redirectTo: 'teacher-dashboard', pathMatch: 'full' },
 
-      {path: 'student-dashboard', component: StudentDashboard, data: { roles: ['Student'] }},
+      {
+        path: 'student-dashboard',
+        component: StudentDashboard,
+        data: { roles: ['Student'] },
+      },
       {
         path: 'available-quizzes',
         component: Quizzes,
-        data: { roles: ['Student'] }
+        data: { roles: ['Student'] },
       },
       {
         path: 'quiz-history',
         component: QuizHistory,
-        data: { roles: ['Student'] }
-      }
-    ]
-  }
+        data: { roles: ['Student'] },
+      },
+      {
+        path: 'available-quizzes/:id',
+        component: ViewQuizStudent,
+        data: { roles: ['Student'] },
+      },
+    ],
+  },
+
+  {
+    path: 'attempt-quiz/:id',
+    component: AttemptQuiz,
+    data: { roles: ['Student'] },
+    canActivate:[AuthGuard],
+    children: [
+      {
+        path: 'start-quiz',
+        component:DisplayQuestions
+      },
+    ],
+  },
 ];

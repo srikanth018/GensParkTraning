@@ -11,6 +11,7 @@ namespace QuizApp.Mappers
             {
                 QuizId = quiz.Id,
                 Title = quiz.Title,
+                TimeLimit = quiz.TimeLimit,
                 Questions = (quiz.Questions ?? new List<Question>()).Select(q => new QuestionForAttemptDTO
                 {
                     QuestionId = q.Id,

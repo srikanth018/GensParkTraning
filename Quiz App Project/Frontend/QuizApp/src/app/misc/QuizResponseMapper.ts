@@ -8,6 +8,7 @@ export class QuizResponseMapper {
       uploadedBy: response.uploadedBy || '',
       totalMarks: response.totalMarks || 0,
       createdAt: response.createdAt || '',
+      timeLimit: response.timeLimit || '',
       questions: (response.questions?.$values || []).map((q: any) =>
         this.questionMapper(q)
       ),

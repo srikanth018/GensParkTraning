@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable } from 'rxjs';
+import { SubmitQuiz } from '../models/SubmitQuiz';
 
 @Injectable()
 export class QuizService {
@@ -111,4 +112,59 @@ export class QuizService {
       );
   }
 
+  attemptQuiz(quizId:string): Observable<any>{
+     const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http
+      .get(`${this.baseUrl}attempt-quiz/${quizId}`, { headers })
+      .pipe(
+        map((response) => response),
+        catchError((error) => {
+          console.error('Error fetching all quizzes:', error);
+          throw error;
+        })
+      );
+  }
+
+  searchQuizzes(searchTerm:string, limit:number = 10, skip:number = 0, category:string): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    let params = new HttpParams()
+      .set('searchTerm', searchTerm)
+      .set('limit', limit.toString())
+      .set('skip', skip.toString())
+      .set('category', category);
+
+    return this.http
+      .get(`${this.baseUrl}quizzes/search`, { headers, params })
+      .pipe(
+        map((response) => response),
+        catchError((error) => {
+          console.error('Error searching quizzes:', error);
+          throw error;
+        })
+      );
+
+  }
+
+  submitQuiz(submitData:SubmitQuiz){
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(`${this.baseUrl}attempt-quiz/submit`, submitData, { headers })
+      .pipe(
+        map((response) => response),
+        catchError((error) => {
+          console.error('Error submitting quiz:', error);
+          throw error;
+        })
+      );
+  }
 }

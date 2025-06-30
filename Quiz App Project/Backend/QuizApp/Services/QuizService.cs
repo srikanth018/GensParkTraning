@@ -88,5 +88,24 @@ namespace QuizApp.Services
             return quizzes.Where(q => q.UploadedBy == email);
         }
 
+        public async Task<IEnumerable<Quiz>> GetAndSearchWithLimit(string? searchTerm = "", int limit = 10, int skip = 0, string? category = "")
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+                searchTerm = string.Empty;
+
+            if (string.IsNullOrEmpty(category))
+                category = string.Empty;
+
+            if (limit <= 0) limit = 10;
+
+            if (skip < 0) skip = 0;
+
+            var quizzes = await _quizRepository.GetAll();
+            return quizzes.Where(q => (q.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                                      q.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) && (q.Category.ToLower() == category.ToLower() || string.IsNullOrEmpty(category)))
+                          .OrderByDescending(q => q.CreatedAt)
+                          .Skip(skip)
+                          .Take(limit);
+        }
     }
 }

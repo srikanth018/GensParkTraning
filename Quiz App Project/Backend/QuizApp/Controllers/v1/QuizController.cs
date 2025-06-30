@@ -100,5 +100,16 @@ namespace QuizApp.Controllers.v1
                 return NotFound("No quizzes found.");
             return Ok(quizzes);
         }
+
+        [HttpGet("search")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> SearchQuizzes([FromQuery] string searchTerm = "",
+                                                      [FromQuery] int limit = 10,
+                                                      [FromQuery] int skip = 0,
+                                                      [FromQuery] string category = "")
+        {
+            var quizzes = await _quizService.GetAndSearchWithLimit(searchTerm, limit, skip, category);
+            return Ok(quizzes);
+        }
     }
 }

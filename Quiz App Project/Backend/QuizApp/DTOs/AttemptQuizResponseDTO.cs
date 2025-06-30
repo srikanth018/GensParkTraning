@@ -4,6 +4,7 @@ namespace QuizApp.DTOs
     {
         public string QuizId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
+        public TimeSpan TimeLimit { get; set; }
         public List<QuestionForAttemptDTO> Questions { get; set; } = new();
     }
 

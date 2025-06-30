@@ -39,8 +39,8 @@ export class Register {
           Validators.required,
           Validators.pattern(/^\d{10}$/),
         ]),
-        highestQualification: new FormControl(null, [Validators.required]),
-        dateOfBirth: new FormControl(null, [Validators.required]),
+        highestQualification: new FormControl(null),
+        dateOfBirth: new FormControl(null),
         password: new FormControl(null, [
           Validators.required,
           registerFormValidators.PasswordValidator(),
@@ -56,8 +56,14 @@ export class Register {
   }
 
   onSubmit() {
+    console.log('Form:', this.registerForm.value);
+    
     if (this.registerForm.valid) {
+      console.log('Form is valid');
+      
       if (this.selectedRole === 'Student') {
+        console.log('Selected role is Student');
+        
         this.userData = RegisterStudentModel.mapStudentModel(
           this.registerForm.value
         );
@@ -73,13 +79,16 @@ export class Register {
         });
       }
       if (this.selectedRole === 'Teacher') {
+        console.log('Selected role is Teacher');
+        
         this.userData = RegisterTeacherModel.mapTeacherModel(
           this.registerForm.value
         );
         this.registerService.registerTeacher(this.userData).subscribe({
           next: (response) => {
             localStorage.setItem('reg', 'Registration Successfull !!!!');
-
+            const successMsg = 'Registration Successful !!!';
+            this.registrationSuccess.emit(successMsg);
             console.log('Teacher registered successfully:', response);
           },
           error: (error) => {

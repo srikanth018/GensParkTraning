@@ -150,6 +150,9 @@ namespace QuizApp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<TimeSpan>("TimeLimit")
+                        .HasColumnType("interval");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");

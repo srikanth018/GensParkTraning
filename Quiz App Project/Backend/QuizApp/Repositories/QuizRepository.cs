@@ -12,7 +12,10 @@ namespace QuizApp.Repositories
 
         public override async Task<ICollection<Quiz>> GetAll()
         {
-            return await _quizAppContext.Quizzes.ToListAsync();
+            return await _quizAppContext.Quizzes
+                .Include(q => q.Questions)
+                    .ThenInclude(question => question.Options)
+                .ToListAsync();
         }
 
         public override async Task<Quiz> GetById(string key)

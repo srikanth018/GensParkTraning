@@ -15,8 +15,7 @@ import { Question } from '../../components/question/question';
 import { NgFor, NgIf } from '@angular/common';
 import { QuizService } from '../../services/QuizService';
 import { AuthService } from '../../services/AuthService';
-import { Loading } from "../../components/loading/loading";
-
+import { Loading } from '../../components/loading/loading';
 
 @Component({
   selector: 'app-create-quiz',
@@ -26,7 +25,6 @@ import { Loading } from "../../components/loading/loading";
   standalone: true,
 })
 export class CreateQuiz implements OnInit {
-
   private authService = inject(AuthService);
   private formSubscription: Subscription | undefined;
 
@@ -53,6 +51,7 @@ export class CreateQuiz implements OnInit {
         Validators.required,
         createQuizFormValidators.totalMarksValidator(),
       ]),
+      timeLimit: new FormControl(null, [Validators.required]),
       questions: new FormArray([]),
     });
   }
@@ -104,7 +103,19 @@ export class CreateQuiz implements OnInit {
 
   submitQuiz() {
     if (this.quizForm.valid) {
-      this.quizService.createQuiz(this.quizForm.value).subscribe({
+      const formData = { ...this.quizForm.value };
+      const totalMinutes = Number(formData.timeLimit || 0);
+
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+
+      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}:00`;
+
+      formData.timeLimit = formattedTime;
+
+      this.quizService.createQuiz(formData).subscribe({
         next: (response) => {
           console.log('Quiz created successfully:', response);
           this.formSubscription?.unsubscribe();
@@ -160,7 +171,7 @@ export class CreateQuiz implements OnInit {
   }
 
   downloadTemplate() {
-    this.isloading=true;
+    this.isloading = true;
     this.quizService.downloadQuizTemplate(5, 4).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -169,11 +180,11 @@ export class CreateQuiz implements OnInit {
         a.download = 'QuizTemplate.xlsx'; // file name
         a.click();
         window.URL.revokeObjectURL(url);
-        this.isloading=false;
+        this.isloading = false;
       },
       error: (err) => {
         console.error('Error downloading file:', err);
-        this.isloading=false;
+        this.isloading = false;
       },
     });
   }

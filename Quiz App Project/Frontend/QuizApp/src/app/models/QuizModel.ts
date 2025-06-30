@@ -6,8 +6,10 @@ export class Quiz {
     public category: string = '',
     public uploadedBy: string = '',
     public totalMarks: number = 0,
+    public timeLimit:string='',
     public questions:any = {},
     public createdAt: string = ''
+
   ) {}
 }
 

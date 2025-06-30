@@ -15,6 +15,10 @@ import player from 'lottie-web';
 import { AuthGuard } from './guard/auth-guard';
 import { RedirectGuard } from './guard/redirect-guard-guard';
 import { CompletedQuizService } from './services/CompletedQuizService';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,6 +35,9 @@ export const appConfig: ApplicationConfig = {
     provideEffects(AuthEffects),
     provideLottieOptions({ player: () => player }),
     AuthGuard,
-    RedirectGuard
+    RedirectGuard,
+    provideAnimationsAsync(),
+       
+    MessageService,
   ]
 };

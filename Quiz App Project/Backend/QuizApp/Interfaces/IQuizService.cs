@@ -10,5 +10,6 @@ namespace QuizApp.Interfaces
         Task<IEnumerable<Quiz>> GetAllQuizzesAsync();
         Task<Quiz> DeleteQuizAsync(string id);
         Task<IEnumerable<Quiz>> GetQuizzesByTeacherEmailAsync(string email);
+        Task<IEnumerable<Quiz>> GetAndSearchWithLimit(string? searchTerm = "", int limit = 10, int skip = 0, string? category = null);
     }
 }

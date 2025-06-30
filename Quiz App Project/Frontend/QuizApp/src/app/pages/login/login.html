@@ -1,3 +1,6 @@
+
+
+<p-toast position="top-right"></p-toast>
 <div
   class="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-sky-200 via-sky-50 to-sky-100"
 >
@@ -9,15 +12,18 @@
         >
           T<span class="text-5xl">est</span>N<span class="text-5xl">est</span>
         </h1>
-        <div class="w-20 h-1.5 bg-gradient-to-r from-sky-700 to-sky-400 rounded-full mb-4"></div>
+        <div
+          class="w-20 h-1.5 bg-gradient-to-r from-sky-700 to-sky-400 rounded-full mb-4"
+        ></div>
       </div>
 
-      <h1 class="text-4xl font-bold text-sky-800">Welcome to QuizApp</h1>
+      <h1 class="text-4xl font-bold text-sky-800">Welcome to our Nest</h1>
       <p class="text-lg text-sky-700 font-mono">
         Hub of Quizzes - Challenge for your learning
       </p>
     </div>
   </div>
+  
 
   <!-- Right Section -->
   @if(!showSuccess){
@@ -79,7 +85,6 @@
               <p class="text-red-500 text-sm">{{ errorMessage }}</p>
             </div>
           </div>
-
           <button
             type="submit"
             class="w-full py-2 font-medium text-white bg-gradient-to-r from-sky-500 to-sky-700 rounded-lg shadow-md shadow-sky-200 hover:from-sky-600 hover:to-sky-800 transition disabled:bg-gray-400 disabled:shadow-none flex items-center justify-center"
@@ -107,7 +112,9 @@
 
       <!-- Register Form -->
       <div *ngIf="!showLogin">
-        <app-register (registrationSuccess)="handleRegistrationSuccess($event)"></app-register>
+        <app-register
+          (registrationSuccess)="handleRegistrationSuccess($event)"
+        ></app-register>
         <div class="text-center mt-4 text-sm text-sky-700">
           Already have an account?
           <button
@@ -126,8 +133,8 @@
     </div>
   </div>
   }@else {
-    <div class="md:w-1/2 flex items-center justify-center p-6">
+  <div class="md:w-1/2 flex items-center justify-center p-6">
     <app-success [message]="successMessage"></app-success>
-    </div>
+  </div>
   }
 </div>

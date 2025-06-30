@@ -52,6 +52,7 @@ namespace QuizApp.Mappers
             quiz.Id = Generators.GenerateID("QI");
             quiz.Title = request.Title;
             quiz.Description = request.Description;
+            quiz.TimeLimit = request.TimeLimit;
             quiz.Category = request.Category;
             quiz.UploadedBy = request.UploadedBy;
             quiz.TotalMarks = request.TotalMarks;

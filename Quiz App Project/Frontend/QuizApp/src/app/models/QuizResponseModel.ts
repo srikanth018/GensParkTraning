@@ -24,6 +24,7 @@ export class QuizResponseModel {
     public category: string = '',
     public uploadedBy: string = '',
     public totalMarks: number = 0,
+    public timeLimit:string='',
     public questions: Question[] = [],
     public createdAt: string = ''
   ) {}

@@ -37,6 +37,7 @@ export class ViewQuizTeacher implements OnInit {
     this.quizService.getQuizById(this.quizId).subscribe({
       next: (data) => {
         this.quiz = QuizResponseMapper.mapResponseToQuiz(data);
+        this.quiz.timeLimit = this.timespanToMinutes(this.quiz.timeLimit);
         this.isloading = false;
         console.log(this.quiz);
       },
@@ -130,5 +131,10 @@ export class ViewQuizTeacher implements OnInit {
 
       this.isEditing = false;
     }
+  }
+
+  timespanToMinutes(timeSpan: string): number {
+    const [hours, minutes, seconds] = timeSpan.split(':').map(Number);
+    return hours * 60 + minutes + Math.floor(seconds / 60);
   }
 }

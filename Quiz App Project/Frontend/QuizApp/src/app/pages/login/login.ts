@@ -20,12 +20,15 @@ import { Register } from '../register/register';
 import { Loading } from '../../components/loading/loading';
 import { Router } from '@angular/router';
 import { Success } from '../../components/success/success';
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, NgIf, Register, Loading, AsyncPipe, Success],
+  imports: [ReactiveFormsModule, NgIf, Register, Loading, AsyncPipe, Success, Toast],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: ['./login.css'],
+  standalone: true,
 })
 export class Login {
   isloading: boolean = false;
@@ -37,7 +40,8 @@ export class Login {
 
   private store = inject(Store);
   private router = inject(Router);
-  constructor(private authService: AuthService) {
+  
+  constructor(private authService: AuthService, private messageService: MessageService) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
@@ -48,6 +52,7 @@ export class Login {
   ngOnInit() {
     const token = localStorage.getItem('access_token');
     if (token) {
+      
       const user = this.authService.decodeToken(token);
       this.store.dispatch(AuthActions.loginSuccess({ token, user }));
     }
@@ -60,6 +65,7 @@ export class Login {
   this.successMessage = message;
   this.showSuccess = true;
 
+
   setTimeout(() => {
     this.toggleForm();
     this.showSuccess = false;
@@ -70,6 +76,10 @@ export class Login {
 }
 
   isloading$ = this.store.select(selectLoading);
+
+  showToast(p_severity:string,p_summary:string, p_detail:string) {
+        this.messageService.add({ severity: p_severity, summary: p_summary, detail: p_detail });
+    }
 
   async login() {
     if (this.loginForm.invalid) return;
@@ -87,6 +97,7 @@ export class Login {
         if (isAuthenticated) {
           this.successMessage = 'Login Successful!!!'
           this.showSuccess = true;
+          this.showToast('success','Login Successful!!!','You have successfully logged in.');
           setTimeout(() => {
             this.showSuccess = false;
             this.successMessage = null;
@@ -104,6 +115,7 @@ export class Login {
     this.store.select(selectError).subscribe((error) => {
       if (error) {
         // alert(error);
+        this.showToast('error','Login Error',error);
         console.error('Login Error:', error);
         this.errorMessage = error;
       }

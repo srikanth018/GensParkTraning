@@ -14,4 +14,13 @@ export class CompletedQuizService {
     };
     return this.http.get(`${this.baseUrl}completed-quizzes/quizId/${quizId}`,{ headers });
   }
+
+  getCompletedQuizByStudentEmail(studentEmail: string): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const HttpParams = { studentEmail: studentEmail };
+    return this.http.get(`${this.baseUrl}completed-quizzes/student`, { headers, params: HttpParams });
+  }
 }
