@@ -1,12 +1,14 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using QuizApp.DTOs;
 using QuizApp.Interfaces;
 
 namespace QuizApp.Controllers.v1
 {
     [ApiController]
+    [EnableRateLimiting("FixedPolicy")]
     [Route("api/v{version:apiVersion}/attempt-quiz")]
     [ApiVersion("1.0")]
     public class AttemptQuizController : ControllerBase

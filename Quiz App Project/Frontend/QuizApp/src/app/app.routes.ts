@@ -14,6 +14,7 @@ import { QuizHistory } from './pages/quiz-history/quiz-history';
 import { ViewQuizStudent } from './pages/view-quiz-student/view-quiz-student';
 import { AttemptQuiz } from './pages/attempt-quiz/attempt-quiz';
 import { DisplayQuestions } from './components/display-questions/display-questions';
+import { ViewCompletedQuiz } from './components/view-completed-quiz/view-completed-quiz';
 // import { Notifications } from './pages/notifications/notifications';
 
 export const routes: Routes = [
@@ -67,6 +68,11 @@ export const routes: Routes = [
         component: ViewQuizStudent,
         data: { roles: ['Student'] },
       },
+      {
+        path: 'quiz-history/:id',
+        component: ViewCompletedQuiz,
+        data: { roles: ['Student'] },
+      }
     ],
   },
 

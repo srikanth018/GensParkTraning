@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using QuizApp.Hubs;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,16 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("FixedPolicy", opt =>
+    {
+        opt.Window = TimeSpan.FromHours(1);    // Time window of 1 hour
+        opt.PermitLimit = 1000;                   // Allow 100 requests per hour
+        opt.QueueLimit = 2;                      // Queue limit of 2
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
+});
 
 
 
@@ -133,6 +145,8 @@ builder.Services.AddSwaggerGen(options =>
 //     });
 // });
 
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
@@ -143,6 +157,11 @@ builder.Services.AddCors(options =>
               .AllowCredentials();
     });
 });
+
+builder.Services.AddSignalR(); 
+
+
+
 
 
 #region AuthenticationFilter
@@ -162,31 +181,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 
-// builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy("AllowSpecificOrigin", policy =>
-//     {
-//         policy.WithOrigins("http://127.0.0.1:5500")  
-//               .AllowAnyHeader()
-//               .AllowAnyMethod()
-//               .AllowCredentials(); 
-//     });
-// });
-
-
-// builder.Services.AddSignalR();
 
 
 
 
-// Optional: Bind versioned Swagger to description provider
-// builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
-// builder.Services.AddHttpsRedirection(options =>
-// {
-//     options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
-//     options.HttpsPort = 7073;
-// });
+
 
 
 var app = builder.Build();
@@ -205,12 +205,12 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-// app.UseCors("AllowSpecificOrigin");
-// app.MapHub<QuizHub>("/quizHub");
 app.UseCors("AllowAngularApp");
+app.MapHub<QuizHub>("/quizhub"); 
+app.UseRateLimiter();
 app.Run();
 

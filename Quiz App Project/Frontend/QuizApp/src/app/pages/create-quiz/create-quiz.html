@@ -92,7 +92,7 @@
     <!-- time limit -->
     <div class="space-y-1 w-1/2">
       <label for="timeLimit" class="block text-sm font-medium text-sky-700"
-        >Time Limit:</label
+        >Time Limit <span class="text-gray-400">(in minutes):</span></label
       >
       <input
         id="timeLimit"
@@ -149,7 +149,8 @@
       <button
         type="submit"
         [disabled]="quizForm.invalid"
-        class="px-4 py-2 font-medium text-white bg-gradient-to-r from-sky-500 to-sky-600 rounded-lg shadow-md hover:from-sky-600 hover:to-sky-700 transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:shadow-none"
+        class="px-4 py-2 font-medium text-white bg-gradient-to-r from-sky-500 to-sky-600 rounded-lg shadow-md hover:from-sky-600 hover:to-sky-700 transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:shadow-none disabled:cursor-not-allowed"
+        [ngClass]="{ 'opacity-50 cursor-not-allowed': quizForm.invalid }"
       >
         Submit Quiz
       </button>

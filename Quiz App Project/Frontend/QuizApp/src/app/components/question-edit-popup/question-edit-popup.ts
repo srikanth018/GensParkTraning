@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } fr
 
 @Component({
   selector: 'app-question-edit-popup',
-  imports: [ReactiveFormsModule, NgFor, NgIf],
+  imports: [ReactiveFormsModule, NgFor],
   templateUrl: './question-edit-popup.html',
   styleUrl: './question-edit-popup.css'
 })
@@ -13,11 +13,13 @@ export class QuestionEditPopup {
 @Output() save = new EventEmitter<void>();
 @Output() cancel = new EventEmitter<void>();
 
-onSubmit() {
+onSubmitUpdate() {
   if (this.questionform.valid) {
     this.save.emit();
   }
 }
+
+
 
 onCancel() {
   this.cancel.emit();

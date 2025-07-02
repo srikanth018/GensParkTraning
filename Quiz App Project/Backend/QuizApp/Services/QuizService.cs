@@ -107,5 +107,43 @@ namespace QuizApp.Services
                           .Skip(skip)
                           .Take(limit);
         }
+
+        public async Task<Question> UpdateQuestionAsync(string id, UpdateQuestionRequestDTO dto)
+        {
+            var question = await _questionRepository.GetById(id);
+            if (question == null)
+                throw new Exception("Question not found");
+
+            // Update question properties
+            if (!string.IsNullOrWhiteSpace(dto.QuestionText))
+                question.QuestionText = dto.QuestionText;
+
+            question.Mark = dto.Mark;
+
+            if (dto.Options != null && dto.Options.Count > 0)
+            {
+                foreach (var optionDto in dto.Options)
+                {
+                    if (string.IsNullOrEmpty(optionDto.Id))
+                        continue;
+
+                    var option = await _optionRepository.GetById(optionDto.Id);
+                    if (option != null && option.QuestionId == id)
+                    {
+                        if (!string.IsNullOrWhiteSpace(optionDto.OptionText))
+                            option.OptionText = optionDto.OptionText;
+
+                        option.IsCorrect = optionDto.IsCorrect;
+
+                        await _optionRepository.Update(option.Id, option);
+                    }
+                }
+            }
+
+            await _questionRepository.Update(question.Id, question);
+
+            return await _questionRepository.Update(question.Id, question);
+        }
+
     }
 }

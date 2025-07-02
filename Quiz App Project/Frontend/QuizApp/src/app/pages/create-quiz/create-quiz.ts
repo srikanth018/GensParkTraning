@@ -12,14 +12,14 @@ import { Store } from '@ngrx/store';
 import { selectUser } from '../../ngrx/authStore/auth.selector';
 import { map, Subscription } from 'rxjs';
 import { Question } from '../../components/question/question';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { QuizService } from '../../services/QuizService';
 import { AuthService } from '../../services/AuthService';
 import { Loading } from '../../components/loading/loading';
 
 @Component({
   selector: 'app-create-quiz',
-  imports: [Question, NgFor, NgIf, ReactiveFormsModule, Loading],
+  imports: [Question, NgFor, NgIf, ReactiveFormsModule, Loading, NgClass],
   templateUrl: './create-quiz.html',
   styleUrl: './create-quiz.css',
   standalone: true,
@@ -101,8 +101,49 @@ export class CreateQuiz implements OnInit {
     });
   }
 
+  validateQuiz(): string | null {
+    const questions = this.quizForm.get('questions') as FormArray;
+
+    if (!questions || questions.length === 0) {
+      return 'The quiz must have at least one question.';
+    }
+
+    let calculatedTotalMarks = 0;
+
+    for (let i = 0; i < questions.length; i++) {
+      const question = questions.at(i) as FormGroup;
+      const mark = question.get('mark')?.value || 0;
+      const options = question.get('options') as FormArray;
+
+      calculatedTotalMarks += Number(mark);
+
+      const hasCorrectOption = options.controls.some(
+        (opt) => opt.get('isCorrect')?.value === true
+      );
+
+      if (!hasCorrectOption) {
+        return `Question ${i + 1} must have at least one correct option.`;
+      }
+    }
+
+    const totalMarks = this.quizForm.get('totalMarks')?.value;
+
+    if (Number(totalMarks) !== calculatedTotalMarks) {
+      return `Total marks (${totalMarks}) must equal the sum of question marks (${calculatedTotalMarks}).`;
+    }
+
+    return null; 
+  }
+
   submitQuiz() {
     if (this.quizForm.valid) {
+      
+      const validationError = this.validateQuiz();
+      if (validationError) {
+        alert(validationError);
+        return;
+      }
+
       const formData = { ...this.quizForm.value };
       const totalMinutes = Number(formData.timeLimit || 0);
 

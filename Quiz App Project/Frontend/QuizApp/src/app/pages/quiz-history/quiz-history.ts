@@ -4,6 +4,7 @@ import { CompletedQuizService } from '../../services/CompletedQuizService';
 import { AuthService } from '../../services/AuthService';
 import { NgFor } from '@angular/common';
 import { QuizService } from '../../services/QuizService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quiz-history',
@@ -14,7 +15,7 @@ import { QuizService } from '../../services/QuizService';
 export class QuizHistory {
   completedQuizzes: CompletedQuiz[] = [];
 
-  constructor(private completedQuizService: CompletedQuizService, private authService: AuthService, private quizService: QuizService) {
+  constructor(private completedQuizService: CompletedQuizService, private authService: AuthService, private quizService: QuizService, private router: Router) {
     this.loadCompletedQuizzes();
   }
 
@@ -52,4 +53,7 @@ export class QuizHistory {
     });
   }
 
+  viewCompletedQuiz(completedQuizId:string) {
+    this.router.navigate([`/main/quiz-history/${completedQuizId}`]);
+  }
 }

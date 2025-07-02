@@ -20,7 +20,8 @@ export class ViewQuizTeacher implements OnInit {
   quizId: string = '';
   quiz: any = [];
   completedQuizzes: any = [];
-  averageTimeTaken: string = '';
+  averageTimePercentage: string = '';
+  averageScorePercentage: string = '';
   constructor(
     private route: ActivatedRoute,
     private quizService: QuizService,
@@ -29,7 +30,6 @@ export class ViewQuizTeacher implements OnInit {
   ngOnInit(): void {
     this.quizId = this.route.snapshot.params['id'];
     this.getQuizData();
-    this.getCompletedQuizzes();
   }
 
   getQuizData() {
@@ -40,6 +40,7 @@ export class ViewQuizTeacher implements OnInit {
         this.quiz.timeLimit = this.timespanToMinutes(this.quiz.timeLimit);
         this.isloading = false;
         console.log(this.quiz);
+        this.getCompletedQuizzes();
       },
       error: (err) => {
         console.log(err);
@@ -52,7 +53,18 @@ export class ViewQuizTeacher implements OnInit {
     this.completedQuizService.getCompletedQuizByQuizId(this.quizId).subscribe({
       next: (data: any) => {
         this.completedQuizzes = data.$values;
-        this.averageTimeTaken = this.averageTime();
+        console.log('Completed Quizzes:', this.completedQuizzes);
+        console.log('Quiz Data:', this.quiz);
+
+        this.averageTimePercentage = this.getAverageTimePercentage(
+          this.completedQuizzes,
+          this.quiz.timeLimit
+        );
+        this.averageScorePercentage = this.getAveragePercentage(
+          this.completedQuizzes,
+          this.quiz.totalMarks
+        );
+
         console.log(data.$values);
       },
       error: (err) => {
@@ -62,30 +74,44 @@ export class ViewQuizTeacher implements OnInit {
     });
   }
 
-  averageTime(): string {
-    if (this.completedQuizzes?.length === 0) {
-      return '';
-    }
-
-    const totalTimeTaken = this.completedQuizzes.reduce(
-      (acc: number, q: any) => {
-        const timeTaken =
-          new Date(q.endedAt).getTime() - new Date(q.startedAt).getTime();
-        return acc + timeTaken;
-      },
-      0
+  getAverageTimePercentage(
+    completedQuizzes: any[],
+    quizTimeLimitMinutes: number
+  ): string {
+    console.log(
+      `Calculating average time percentage for ${completedQuizzes.length} quizzes with a time limit of ${quizTimeLimitMinutes} minutes`
     );
 
-    return this.formatTime(totalTimeTaken / this.completedQuizzes.length);
+    if (!completedQuizzes.length || !quizTimeLimitMinutes) return '0%';
+
+    const totalDurationMs = completedQuizzes.reduce((acc, quiz) => {
+      const start = new Date(quiz.startedAt).getTime();
+      const end = new Date(quiz.endedAt).getTime();
+      const duration = end - start;
+      return acc + duration;
+    }, 0);
+
+    const avgMs = totalDurationMs / completedQuizzes.length;
+    const avgMinutes = avgMs / 60000;
+
+    const percentage = (avgMinutes / quizTimeLimitMinutes) * 100;
+    console.log(`Average Time Percentage: ${percentage.toFixed(1)}%`);
+
+    return `${avgMinutes.toFixed(0)}m`;
   }
 
-  maxMins(): number {
-    const maxMinTaken = this.completedQuizzes.map((q: any) => {
-      const ms =
-        new Date(q.endedAt).getTime() - new Date(q.startedAt).getTime();
-      return Math.floor((ms % 3600) / 60);
-    });
-    return Math.max(...maxMinTaken);
+  getAverageScore(completedQuizzes: any[]): number {
+    if (!completedQuizzes.length) return 0;
+
+    const totalScore = completedQuizzes.reduce(
+      (acc, quiz) => acc + Number(quiz.totalScore || 0),
+      0
+    );
+    return +(totalScore / completedQuizzes.length).toFixed(2); // return average rounded to 2 decimal places
+  }
+  getAveragePercentage(completedQuizzes: any[], totalMarks: number): string {
+    const avg = this.getAverageScore(completedQuizzes);
+    return totalMarks ? `${((avg / totalMarks) * 100).toFixed(1)}%` : '0%';
   }
 
   formatTime(ms: any): string {
@@ -102,6 +128,7 @@ export class ViewQuizTeacher implements OnInit {
     this.currentQuestionId = questionId;
     this.currentQuestionIndex = questionIndex;
     this.isEditing = true;
+    console.log('Editing question', questionId, 'at index', questionIndex);
 
     this.editQuestionForm = new FormGroup({
       questionText: new FormControl(
@@ -124,13 +151,33 @@ export class ViewQuizTeacher implements OnInit {
   }
 
   onSaveEdit() {
+    console.log('Saving edited question', this.editQuestionForm.value);
+    
     if (this.editQuestionForm.valid) {
-      // Update your quiz data here
-      const updatedQuestion = this.editQuestionForm.value;
-      // ... your update logic ...
+        const payload = this.editQuestionForm.value;
 
-      this.isEditing = false;
-    }
+        // Attach Option Ids from quiz data (since form doesn’t hold Ids)
+        const questionOptions =
+          this.quiz.questions[this.currentQuestionIndex].options;
+        payload.options = payload.options.map((opt: any, i: number) => ({
+          ...opt,
+          id: questionOptions[i].id,
+        }));
+        
+        this.quizService
+          .updateQuestion(this.quiz.id, this.currentQuestionId, payload)
+          .subscribe({
+            next: (res) => {
+              this.getQuizData();
+              this.isEditing = false;
+            },
+            error: (err) => {
+              console.error('Update failed', err);
+            },
+          });
+      } else {
+        this.editQuestionForm.markAllAsTouched();
+      }
   }
 
   timespanToMinutes(timeSpan: string): number {

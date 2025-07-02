@@ -3,13 +3,17 @@ using Asp.Versioning;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.SignalR;
 using QuizApp.DTOs;
+using QuizApp.Hubs;
 using QuizApp.Interfaces;
 using QuizApp.Misc;
 
 namespace QuizApp.Controllers.v1
 {
     [ApiController]
+    [EnableRateLimiting("FixedPolicy")]
     [Route("api/v{version:apiVersion}/quizzes")]
     [ApiVersion("1.0")]
     public class QuizController : ControllerBase
@@ -17,13 +21,15 @@ namespace QuizApp.Controllers.v1
         private readonly IQuizService _quizService;
         private readonly ITeacherService _teacherService;
         private readonly IQuizTemplateService _quizTemplateService;
+        private readonly IHubContext<QuizHub> _hubContext;
 
         public QuizController(IQuizService quizService, ITeacherService teacherService,
-                              IQuizTemplateService quizTemplateService)
+                              IQuizTemplateService quizTemplateService, IHubContext<QuizHub> hubContext)
         {
             _quizService = quizService;
             _teacherService = teacherService;
             _quizTemplateService = quizTemplateService;
+            _hubContext = hubContext;
         }
 
         [HttpPost("quiz")]
@@ -33,11 +39,14 @@ namespace QuizApp.Controllers.v1
         {
             var emailClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (emailClaim == null)
-            {
                 return Unauthorized("User email claim not found.");
-            }
+
             quiz.UploadedBy = emailClaim.Value;
             var createdQuiz = await _quizService.CreateQuizAsync(quiz);
+
+            // 🧠 Notify students
+            await _hubContext.Clients.All.SendAsync("ReceiveNewQuiz", quiz.Category, quiz.Title);
+
             return Ok(createdQuiz);
         }
 
@@ -111,5 +120,21 @@ namespace QuizApp.Controllers.v1
             var quizzes = await _quizService.GetAndSearchWithLimit(searchTerm, limit, skip, category);
             return Ok(quizzes);
         }
+
+        [HttpPut("question/{id}")]
+        [MapToApiVersion("1.0")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> UpdateQuestion(string id, [FromBody] UpdateQuestionRequestDTO request)
+        {
+            if (request == null)
+                return BadRequest("Request cannot be null");
+
+            var updatedQuestion = await _quizService.UpdateQuestionAsync(id, request);
+            if(updatedQuestion == null)
+                return NotFound($"Question with ID {id} not found.");
+            return Ok(updatedQuestion);
+
+        }
+
     }
 }

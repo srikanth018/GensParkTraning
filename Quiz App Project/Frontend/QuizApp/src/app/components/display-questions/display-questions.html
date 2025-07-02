@@ -35,10 +35,13 @@
         </p>
       </div>
 
-      <div
-        class="bg-gradient-to-r from-sky-300 via-sky-400 to-sky-600 h-2 rounded-full transition-all duration-1000"
-        [style.width.%]="completedPercentage"
-      ></div>
+      <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+        <div
+          class="bg-gradient-to-r from-sky-300 via-sky-400 to-sky-600 h-2 rounded-full transition-all duration-1000"
+          [style.width.%]="completedPercentage"
+        ></div>
+      </div>
+
       <div
         class="text-end transition-all duration-1000 text-sky-700 font-bold"
         [style.width.%]="completedPercentage"

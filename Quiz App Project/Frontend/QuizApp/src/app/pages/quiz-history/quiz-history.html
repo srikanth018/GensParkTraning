@@ -1,9 +1,9 @@
 <h2 class="text-3xl font-bold text-center mb-3 text-sky-800">
-  Explore Quizzes
+  Completed Quizzes
 </h2>
 
 <h2 class="text-md font-bold text-center mb-6 text-sky-600">
-  Hatch Your Knowledge. Take the Test. Soar to Success!!!
+  Every quiz completed is a feather in your nest — keep soaring with TestNest!
 </h2>
 
 <div
@@ -90,6 +90,7 @@
       <div class="flex-shrink-0">
         <button 
           class="flex items-center gap-2 hover:bg-sky-100 text-sky-600 px-4 py-2 rounded-lg transition-colors duration-200 cursor-pointer"
+          (click)="viewCompletedQuiz(quiz.id)"
         >
           
           <span>View Details</span>

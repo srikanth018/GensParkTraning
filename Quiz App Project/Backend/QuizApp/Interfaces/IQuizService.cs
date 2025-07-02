@@ -11,5 +11,6 @@ namespace QuizApp.Interfaces
         Task<Quiz> DeleteQuizAsync(string id);
         Task<IEnumerable<Quiz>> GetQuizzesByTeacherEmailAsync(string email);
         Task<IEnumerable<Quiz>> GetAndSearchWithLimit(string? searchTerm = "", int limit = 10, int skip = 0, string? category = null);
+        Task<Question> UpdateQuestionAsync(string id, UpdateQuestionRequestDTO quiz);
     }
 }

@@ -167,4 +167,13 @@ export class QuizService {
         })
       );
   }
+
+  updateQuestion(quizId: string, questionId: string, data: any): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.http.put(`${this.baseUrl}quizzes/question/${questionId}`, data, { headers });
+  }
 }
