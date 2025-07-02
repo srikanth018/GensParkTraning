@@ -1,0 +1,41 @@
+Docker Files Concept
+Create and execute docker files
+
+How to create our own docker image:
+    1. create Folder with index.html file
+    2. create server.js
+    3. create a docker file (did't have any extention for file simply name the file should be "Dockerfile")
+
+Dokerfile contents:
+
+'#' -> for comments
+
+FROM -> keyword to fetch image
+
+WORKDIR -> create the work directory
+
+curl -> helps to make http call from command promt
+
+RUN apt-get update -> update all outdated things
+
+statement1 &&\ statement1 
+&&\ -> to execute one after another
+
+apt-get install -y curl -> saying yes to install all
+
+COPY . . -> copying the required files
+
+EXPOSE 3000 -> expose the port
+
+CMD("node" "server.js") -> execute the server file
+
+Build a image for our docker file:
+
+Name your image:
+docker build -t simple-app . => this '.' used to mention the director of the docker file
+
+-t -> tag name
+-y -> yes to install
+
+by default cache is enable -> let if there are 4 steps the docker executing and when it fails at step 3, it caches the previous the 2 steps.
+
