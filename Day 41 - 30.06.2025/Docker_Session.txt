@@ -1,0 +1,62 @@
+Docker:
+
+Transfer project from local to client:
+    1. Through web server with IPs
+    2. Through docker images
+If we and client system have different versions of dependency, then it will throw version compatability error
+
+docker hub:
+    Having images
+
+Virtual machines
+
+Docker has its own hosting systems
+Image -> when we deploy a application an image is created
+
+Image creates Containers 
+
+Docker Daemon needs linux based commands
+
+docker --version
+docker info
+docker ps -> to show the containers
+docker images -> to show the images
+
+build, push, pull, run -> client can do these operations on images
+
+swam -> for security in docker images
+every container have its own isolation to enable security
+
+Easily enable load balancing
+
+dotnet run -> runing an image it creates container
+
+docker ps -> list running containers
+
+docker ps -a -> list all containers
+
+docker rm <containerId> -> remove the container
+
+Alpine -> Linux like environment image
+       -> we can execute linux commands
+
+docker run -it alpine /bin/sh -> command to execute the Alpine environment in the terminal, it opens a interactive terminal we can use that to run linux commands
+            -> i stands for interactive
+            -> t stands for sudo terminal
+            -> alpine image name
+            -> /bin/sh where it executes the terminal
+
+docker stop <containerId> -> to stop the running container
+
+Note: If you want to remove the container, you should stop the container if it is running
+
+Noted: If you want to remove the image, first you should remove the container of that image
+
+docker rmi <imageId> -> removes the image
+
+docker rm <containerId> -> remove the container
+
+docker log -> logs the actions that we have done so for
+
+Perging:
+Prune -> conatiner prune, image prune, network prune, volume prune
