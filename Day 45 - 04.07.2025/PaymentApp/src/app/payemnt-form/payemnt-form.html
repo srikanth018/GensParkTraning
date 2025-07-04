@@ -1,0 +1,57 @@
+<div class="payment-container">
+  <form [formGroup]="paymentForm" (ngSubmit)="openRazorpay()" class="form">
+    <h2>Payment Form</h2>
+
+    <label>
+      Customer Name:
+      <input type="text" formControlName="customerName" />
+    </label>
+    <div *ngIf="paymentForm.get('customerName')?.invalid && paymentForm.get('customerName')?.touched">
+      <small class="error">Name is required</small>
+    </div>
+
+    <label>
+      Email:
+      <input type="email" formControlName="email" />
+    </label>
+    <div *ngIf="paymentForm.get('email')?.invalid && paymentForm.get('email')?.touched">
+      <small class="error">Valid email is required</small>
+    </div>
+
+    <label>
+      Contact Number:
+      <input type="text" formControlName="contactNumber" />
+    </label>
+    <div *ngIf="paymentForm.get('contactNumber')?.invalid && paymentForm.get('contactNumber')?.touched">
+      <small class="error">Enter a valid 10-digit number</small>
+    </div>
+
+    <label>
+      Amount (₹):
+      <input type="number" formControlName="amount" />
+    </label>
+    <div *ngIf="paymentForm.get('amount')?.invalid && paymentForm.get('amount')?.touched">
+      <small class="error">Amount must be at least ₹1</small>
+    </div>
+
+    <button type="submit" [disabled]="paymentForm.invalid">Pay Now</button>
+  </form>
+
+  <div *ngIf="paymentResponse" class="success">
+    <h3>Payment Successful!</h3>
+    <p><strong>Payment ID:</strong> {{ paymentResponse.razorpay_payment_id }}</p>
+  </div>
+
+  <div *ngIf="paymentHistory.length > 0">
+    <h3>Payment History</h3>
+    <ul>
+      <li *ngFor="let payment of paymentHistory">
+        <p><strong>Name:</strong> {{ payment.customerName }}</p>
+
+        <p><strong>Payment ID:</strong> {{ payment.paymentId }}</p>
+        <p><strong>Amount:</strong> ₹{{ payment.amount }}</p>
+      </li>
+    </ul>
+  </div>
+</div>
+
