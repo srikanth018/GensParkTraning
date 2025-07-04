@@ -5,6 +5,8 @@ import { QuizService } from '../../services/QuizService';
 import { provideHttpClient, HttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+import { CompletedQuizService } from '../../services/CompletedQuizService';
+import { AuthService } from '../../services/AuthService';
 
 describe('ViewQuizStudent', () => {
   let component: ViewQuizStudent;
@@ -44,6 +46,8 @@ describe('ViewQuizStudent', () => {
           provide: Router,
           useValue: jasmine.createSpyObj('Router', ['navigate'])
         },
+        CompletedQuizService,
+        AuthService,
         provideHttpClient(),
         provideHttpClientTesting(),
       ]

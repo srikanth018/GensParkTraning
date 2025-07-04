@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuestionEditPopup } from './question-edit-popup';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('QuestionEditPopup', () => {
   let component: QuestionEditPopup;
@@ -8,7 +11,11 @@ describe('QuestionEditPopup', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuestionEditPopup, ReactiveFormsModule], // Include reactive forms
+      imports: [QuestionEditPopup, ReactiveFormsModule, ToastrModule.forRoot()],
+      providers:[
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(QuestionEditPopup);

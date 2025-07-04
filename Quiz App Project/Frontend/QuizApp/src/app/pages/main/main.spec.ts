@@ -9,6 +9,7 @@ import { QuizService } from '../../services/QuizService';
 import { CompletedQuizService } from '../../services/CompletedQuizService';
 import { AuthService } from '../../services/AuthService';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('Main', () => {
   let component: Main;
@@ -16,7 +17,7 @@ describe('Main', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Main],
+      imports: [Main, ToastrModule.forRoot()],
       providers: [
         StudentService,
         TeacherService,

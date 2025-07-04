@@ -5,6 +5,7 @@ import { AuthService } from '../../services/AuthService';
 import { CompletedQuizService } from '../../services/CompletedQuizService';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('StudentDashboard', () => {
   let component: StudentDashboard;
@@ -26,7 +27,7 @@ describe('StudentDashboard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StudentDashboard],
+      imports: [StudentDashboard, ToastrModule.forRoot()],
       providers: [
         QuizService,
         AuthService,

@@ -7,6 +7,7 @@ import { QuizService } from '../../services/QuizService';
 import { CompletedQuizService } from '../../services/CompletedQuizService';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('AttemptQuiz', () => {
   let component: AttemptQuiz;
@@ -14,7 +15,7 @@ describe('AttemptQuiz', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AttemptQuiz],
+      imports: [AttemptQuiz, ToastrModule.forRoot()],
       providers:[
         {
           provide: ActivatedRoute,

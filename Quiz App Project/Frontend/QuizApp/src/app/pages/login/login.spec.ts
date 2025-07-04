@@ -5,6 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MessageService } from 'primeng/api';
 import { provideMockStore } from '@ngrx/store/testing';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('Login', () => {
   let component: Login;
@@ -12,7 +13,7 @@ describe('Login', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Login],
+      imports: [Login, ToastrModule.forRoot()],
       providers: [
         AuthService,
         MessageService,

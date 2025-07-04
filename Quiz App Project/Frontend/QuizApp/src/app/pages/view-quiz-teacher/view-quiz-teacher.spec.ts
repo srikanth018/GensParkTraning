@@ -7,6 +7,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CompletedQuizService } from '../../services/CompletedQuizService';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('ViewQuizTeacher', () => {
   let component: ViewQuizTeacher;
@@ -39,7 +40,7 @@ describe('ViewQuizTeacher', () => {
     }));
 
     await TestBed.configureTestingModule({
-      imports: [ViewQuizTeacher],
+      imports: [ViewQuizTeacher, ToastrModule.forRoot()],
       providers: [
         { provide: QuizService, useValue: mockQuizService },
         { provide: CompletedQuizService, useValue: mockCompletedQuizService },

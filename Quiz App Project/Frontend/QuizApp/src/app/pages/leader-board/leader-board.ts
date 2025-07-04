@@ -109,8 +109,8 @@ export class LeaderBoard implements OnInit {
     if (currentRank === 0 || currentRank >= this.leaderBoardData.length) {
       return 0; 
     }
-    const currentCredits = this.leaderBoardData[currentRank].totalCredits;
-    const nextRankCredits = this.leaderBoardData[currentRank - 1].totalCredits;
+    const currentCredits = this.leaderBoardData[currentRank]?.totalCredits;
+    const nextRankCredits = this.leaderBoardData[currentRank - 1]?.totalCredits;
     return +(nextRankCredits - currentCredits);
   }
 
