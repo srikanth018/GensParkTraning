@@ -1,143 +1,233 @@
-<div *ngFor="let quiz of quizzes" class="p-4 mb-3 rounded-lg border-l-4 border-green-500 bg-green-50 text-green-800 shadow-sm hover:shadow-md transition-shadow duration-200">
-  <div class="flex items-start">
-    <div class="flex-shrink-0 pt-0.5">
-      <svg class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    </div>
-    <div class="ml-3 flex-1">
-      <p class="text-sm font-medium">
-        New quiz added: <span class="font-bold">{{ quiz.title }}</span> in category <span class="font-bold">{{ quiz.category }}</span>
-      </p>
-      <p class="mt-1 text-xs text-green-600 opacity-80">
-        Check it out now!
-      </p>
-    </div>
-  </div>
-</div>
+
 
 <!-- ///////////////// -->
 
 <div class="bg-white p-6 rounded-lg shadow-md">
   <!-- Summary Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
     <!-- Total Quizzes Taken -->
-    <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
-      <p class="text-sm font-medium text-blue-600 mb-1">Total Quizzes Taken</p>
-      <p class="text-3xl font-bold text-blue-700">3</p>
-    </div>
-
-    <!-- Average Score -->
-    <div class="bg-green-50 p-5 rounded-xl border border-green-200">
-      <p class="text-sm font-medium text-green-600 mb-1">Average Score</p>
-      <p class="text-3xl font-bold text-green-700">21.67</p>
-      <p class="text-xs text-gray-500 mt-1">out of 100</p>
-    </div>
-
-    <!-- Total Time Spent -->
-    <div class="bg-amber-50 p-5 rounded-xl border border-amber-200">
-      <p class="text-sm font-medium text-amber-600 mb-1">Total Time Spent</p>
-      <p class="text-3xl font-bold text-amber-700">5m 20s</p>
+    <div
+      class="bg-sky-50 p-5 rounded-xl border border-sky-200 cursor-pointer hover:bg-sky-100 transition-colors duration-200"
+      (click)="viewCompletedQuizHistory()"
+    >
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-medium text-sky-600 mb-1">
+            Total Quizzes Taken
+          </p>
+          <p class="text-3xl font-bold text-sky-700 mt-3">
+            {{completedQuizzes.length}}
+          </p>
+        </div>
+        <i class="fas fa-clipboard-list text-sky-400 text-2xl mt-1"></i>
+      </div>
     </div>
 
     <!-- Best Score -->
-    <div class="bg-purple-50 p-5 rounded-xl border border-purple-200">
-      <p class="text-sm font-medium text-purple-600 mb-1">Best Score</p>
-      <p class="text-3xl font-bold text-purple-700">30</p>
-      <p class="text-xs text-gray-500 mt-1">out of 100</p>
-    </div>
-  </div>
-
-  <!-- Charts Section -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-    <!-- Score Trend Chart -->
-    <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">Score Trend</h3>
-      <div class="h-64">
-        <!-- Chart container - Replace with your actual chart component -->
-        <app-dashboard-chart
-          [chartType]="'line'"
-          [labels]="['Quiz 1', 'Quiz 2', 'Quiz 3']"
-          [datasets]="[{
-            label: 'Scores',
-            data: [15, 20, 30],
-            borderColor: 'rgba(59, 130, 246, 1)',
-            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-            tension: 0.3,
-            fill: true
-          }]"
-          [options]="{
-            scales: { y: { beginAtZero: true, max: 100 } },
-            responsive: true,
-            maintainAspectRatio: false
-          }">
-        </app-dashboard-chart>
+    <div
+      class="bg-purple-50 p-5 rounded-xl border border-purple-200 cursor-pointer hover:bg-purple-100 transition-colors duration-200"
+      (click)="viewBestScoreQuiz()"
+    >
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-medium text-purple-600 mb-1">
+            Best Score Percentage
+          </p>
+          <p class="text-3xl font-bold text-purple-700">
+            {{ bestScorePercentage }}%
+          </p>
+          <p class="text-[10px] font-bold text-purple-500">
+            Best score - {{ bestScore }} / {{ bestScoreOutOf }}
+          </p>
+        </div>
+        <i class="fas fa-trophy text-purple-400 text-2xl mt-1"></i>
       </div>
     </div>
 
-    <!-- Time Spent Chart -->
-    <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">Time Spent per Quiz</h3>
-      <div class="h-64">
-        <!-- Chart container - Replace with your actual chart component -->
-        <app-dashboard-chart
-          [chartType]="'bar'"
-          [labels]="['Quiz 1', 'Quiz 2', 'Quiz 3']"
-          [datasets]="[{
-            label: 'Time (minutes)',
-            data: [3, 0.33, 0.75],
-            backgroundColor: 'rgba(16, 185, 129, 0.2)',
-            borderColor: 'rgba(16, 185, 129, 1)',
-            borderWidth: 1
-          }]"
-          [options]="{
-            scales: { y: { beginAtZero: true } },
-            responsive: true,
-            maintainAspectRatio: false
-          }">
-        </app-dashboard-chart>
+    <!-- Consistency Streak -->
+    <div
+      class="bg-emerald-50 p-5 rounded-xl border border-emerald-200 hover:bg-emerald-100 transition-colors duration-200"
+    >
+      <p class="text-sm font-medium text-emerald-700 mb-2">
+        Consistency Streak
+      </p>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-5">
+          <div class="border-r-2 border-emerald-200 pr-6">
+            <p class="text-xl font-bold text-emerald-700">
+              {{ currentStreak }} Day(s)
+            </p>
+            <span class="text-[10px] text-emerald-500">Current Streak</span>
+          </div>
+          <div class="pl-2">
+            <p class="text-xl font-bold text-emerald-700">
+              {{ highestConsecutiveStreak }} Day(s)
+            </p>
+            <span class="text-[10px] text-emerald-500">Highest Streak</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Quiz Details Table -->
-  <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
-    <h3 class="text-lg font-semibold text-gray-800 mb-4">Quiz Attempts</h3>
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quiz ID</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Time</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">End Time</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500">QI19755F364084B73</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">15</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-06-30 22:21:36</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-06-30 22:24:36</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">~3 min</td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500">QI197B607BEA2C22C</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">20</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-06-30 22:28:26</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-06-30 22:28:46</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">~20 sec</td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500">QI197B04BB70F3342</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">30</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-06-30 22:32:27</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-06-30 22:33:12</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">~45 sec</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Improvement Rate -->
+    <div
+      class="bg-amber-50 p-5 rounded-xl border border-amber-200 hover:bg-amber-100 transition-colors duration-200"
+    >
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-medium text-amber-600 mb-1">Credit Points Earned</p>
+          <p class="text-3xl font-bold text-amber-700 mt-3">
+            {{ totalCreditPoints || 0 }}
+          </p>
+        </div>
+        <i class="fas fa-coins text-amber-400 text-2xl mt-1"></i>
+      </div>
     </div>
   </div>
 </div>
+
+<div class="mt-6 flex w-full gap-5">
+  <div class="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-sm">
+    <div
+      class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4"
+    >
+      <p class="text-xl font-semibold text-sky-700">
+        Completed Quizzes over days
+      </p>
+      <div class="flex gap-2">
+        <select
+          name="Month"
+          id="month"
+          [(ngModel)]="selectedMonth"
+          (change)="onMonthYearChange()"
+          class="border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-sky-200 focus:border-sky-500"
+        >
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+
+        <select
+          name="Year"
+          id="year"
+          [(ngModel)]="selectedYear"
+          (change)="onMonthYearChange()"
+          class="border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500"
+        >
+          <option *ngFor="let y of [2023,2024,2025]" [value]="y">
+            {{ y }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+      <div
+        *ngFor="let i of numArray"
+        [ngClass]="{
+        'bg-emerald-50 border-emerald-200 text-emerald-700 font-semibold py-1': calenderMap[selectedMonth - 1]?.[i],
+        'bg-gray-50 border-gray-200 text-gray-400 py-3': !calenderMap[selectedMonth - 1]?.[i]
+      }"
+        class="border px-2 rounded-md text-center transition-all hover:scale-[1.02] flex flex-col items-center justify-center"
+      >
+        <p
+          class="text-sm"
+          [ngClass]="{'font-semibold text-[10px]': calenderMap[selectedMonth - 1]?.[i]}"
+        >
+          Day {{ i }}
+        </p>
+        <p class="text-xs" *ngIf="calenderMap[selectedMonth - 1]?.[i]">
+          {{ calenderMap[selectedMonth - 1][i] }} quiz{{
+          calenderMap[selectedMonth - 1][i] !== 1 ? 'zes' : '' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  @if(categoryChartData && categoryChartData.labels &&
+  categoryChartData.datasets) {
+  <div class="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-sm">
+    <h3 class="text-xl font-semibold text-sky-700 mb-4">
+      Quiz Categories Distribution
+    </h3>
+    <div class="h-80">
+      <app-dashboard-chart
+        [chartType]="'pie'"
+        [labels]="categoryChartData.labels"
+        [datasets]="categoryChartData.datasets"
+        [options]="categoryChartOptions"
+      >
+      </app-dashboard-chart>
+    </div>
+  </div>
+  }
+</div>
+
+@if (recentCompletedQuizzes && recentCompletedQuizzes.length > 0) {
+<div class="mt-10 bg-white p-6 rounded-lg shadow-md">
+  <h2 class="text-2xl font-semibold text-sky-700 mb-6">
+    Recently Completed Quizzes
+  </h2>
+
+  <div class="flex flex-col divide-y divide-gray-100">
+    <div
+      *ngFor="let quiz of recentCompletedQuizzes"
+      class="px-6 py-4 hover:bg-sky-50 hover:border-sky-400 hover:rounded-lg hover:shadow transition-all duration-150"
+    >
+      <div
+        class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2"
+      >
+        <!-- Left Section -->
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-1">
+            <h3 class="text-lg font-semibold text-sky-800">
+              {{ quiz.quizData?.title }}
+            </h3>
+          </div>
+
+          <div
+            class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-600"
+          >
+            <div class="flex items-center">
+              <i class="fas fa-check-circle text-gray-400 mr-2 w-4"></i>
+              <span>Secured Score: <span>{{ quiz.totalScore }} </span>/ {{ quiz.quizData?.totalMarks }}</span>
+            </div>
+
+            <!-- Category -->
+            <div class="flex items-center">
+              <i class="fas fa-tag text-gray-400 mr-2 w-4"></i>
+              <span>{{ quiz.quizData?.category }}</span>
+            </div>
+
+            <!-- Created At -->
+            <div class="flex items-center">
+              <i class="fas fa-calendar-alt text-gray-400 mr-2 w-4"></i>
+              <span>Created: {{ quiz.createdAt.slice(0, 10) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Section: Button -->
+        <div class="flex-shrink-0">
+          <button
+            class="flex items-center gap-2 text-sky-600 hover:bg-sky-100 px-4 py-2 rounded-lg transition-colors duration-200"
+            (click)="viewCompletedQuiz(quiz.id)"
+          >
+            <span>View Quiz</span>
+            <i class="fas fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

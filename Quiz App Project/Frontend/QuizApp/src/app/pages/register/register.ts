@@ -25,9 +25,8 @@ export class Register {
 
   userData: any;
 
-  private registerService = inject(RegisterService);
 
-  constructor() {
+  constructor(  private registerService: RegisterService) {
     this.registerForm = new FormGroup(
       {
         name: new FormControl(null, [

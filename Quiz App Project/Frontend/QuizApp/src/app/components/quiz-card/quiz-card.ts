@@ -16,11 +16,12 @@ export class QuizCard implements OnInit {
   showFullDescription: boolean = false;
 
   ngOnInit(): void {
-    if (typeof this.quiz.timeLimit === 'string') {
-    this.quiz.timeLimit = this.timespanToMinutes(this.quiz.timeLimit);
-  }
+    if (typeof this.quiz?.timeLimit === 'string') {
+      this.quiz.timeLimit = this.timespanToMinutes(this.quiz.timeLimit);
+    }
   }
   timespanToMinutes(timeSpan: string): any {
+
     const [hours, minutes, seconds] = timeSpan?.split(':').map(Number);
     return hours * 60 + minutes + Math.floor(seconds / 60);
   }

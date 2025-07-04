@@ -6,8 +6,9 @@ import { QuizService } from '../../services/QuizService';
 import { NgIf } from '@angular/common';
 import { StudentService } from '../../services/StudentService';
   import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-
+// import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
+import domtoimage from 'dom-to-image';
 @Component({
   selector: 'app-view-completed-quiz',
   imports: [NgIf],
@@ -104,20 +105,89 @@ export class ViewCompletedQuiz implements OnInit {
 
 
 downloadPDF() {
-  const data = document.getElementById('pdfContent');
-  if (!data) return;
+  const element = document.getElementById('pdfContent');
+  if (!element) return;
 
-  html2canvas(data, { scale: 2 }).then(canvas => {
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('p', 'mm', 'a4');
+  domtoimage.toPng(element, { quality: 1, bgcolor: '#ffffff' })
+    .then((dataUrl: string) => {
+      const img = new Image();
+      img.src = dataUrl;
 
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      img.onload = () => {
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
 
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save('quiz-summary.pdf');
-  });
+        const pxToMm = 0.264583; // 1px = 0.264583 mm
+
+        const imgWidthPx = img.width;
+        const imgHeightPx = img.height;
+
+        const imgWidthMm = imgWidthPx * pxToMm;
+        const imgHeightMm = imgHeightPx * pxToMm;
+
+        const ratio = pageWidth / imgWidthMm;
+        const scaledHeight = imgHeightMm * ratio;
+
+        let position = 0;
+
+        if (scaledHeight <= pageHeight) {
+          // Fits on one page
+          pdf.addImage(img, 'PNG', 0, 0, pageWidth, scaledHeight);
+        } else {
+          // Multi-page logic
+          let remainingHeight = scaledHeight;
+
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d')!;
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          context.drawImage(img, 0, 0);
+
+          let pageCount = 0;
+          const pageHeightPx = (pageHeight / ratio) / pxToMm;
+
+          while (remainingHeight > 0) {
+            const sourceY = pageCount * pageHeightPx;
+            const sliceHeight = Math.min(pageHeightPx, img.height - sourceY);
+
+            const sliceCanvas = document.createElement('canvas');
+            const sliceContext = sliceCanvas.getContext('2d')!;
+            sliceCanvas.width = img.width;
+            sliceCanvas.height = sliceHeight;
+
+            sliceContext.drawImage(
+              canvas,
+              0, sourceY, img.width, sliceHeight,
+              0, 0, img.width, sliceHeight
+            );
+
+            const sliceDataUrl = sliceCanvas.toDataURL('image/png');
+            const sliceHeightMm = sliceHeight * pxToMm * ratio;
+
+            if (pageCount > 0) pdf.addPage();
+            pdf.addImage(sliceDataUrl, 'PNG', 0, 0, pageWidth, sliceHeightMm);
+
+            remainingHeight -= pageHeight;
+            pageCount++;
+          }
+        }
+
+        pdf.save(`${this.completedQuiz?.quizData?.title || 'quiz-summary'}.pdf`);
+      };
+    })
+    .catch((error: any) => {
+      console.error('PDF generation failed', error);
+    });
 }
+
+
+
+
+
+
+
+
 
 }

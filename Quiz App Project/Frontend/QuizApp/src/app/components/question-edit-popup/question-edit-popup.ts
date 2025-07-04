@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-question-edit-popup',
   imports: [ReactiveFormsModule, NgFor],
@@ -13,15 +13,18 @@ export class QuestionEditPopup {
 @Output() save = new EventEmitter<void>();
 @Output() cancel = new EventEmitter<void>();
 
-onSubmitUpdate() {
-  if (this.questionform.valid) {
-    this.save.emit();
+  constructor(private toastr: ToastrService) {}
+
+  onSubmitUpdate() {
+    if (this.questionform.valid) {
+      this.toastr.info('Update is in progress...');
+      this.save.emit();
+      
+    }
   }
-}
 
-
-
-onCancel() {
+  onCancel() {
+    this.toastr.warning('Update cancelled.');
   this.cancel.emit();
 }
 

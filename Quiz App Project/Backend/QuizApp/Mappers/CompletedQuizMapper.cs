@@ -20,6 +20,7 @@ namespace QuizApp.Mappers
                 CreatedAt = DateTime.UtcNow,
                 StartedAt = request.StartedAt,
                 EndedAt = request.EndedAt,
+
             };
         }
     }

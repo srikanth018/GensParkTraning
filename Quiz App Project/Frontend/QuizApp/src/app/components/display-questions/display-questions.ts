@@ -21,7 +21,7 @@ import { AuthService } from '../../services/AuthService';
   standalone: true,
   imports: [NgFor, NgIf],
   templateUrl: './display-questions.html',
-  styleUrls: ['./display-questions.css'], // ✅ fixed key
+  styleUrls: ['./display-questions.css'], 
 })
 export class DisplayQuestions implements OnInit {
   @Input() quizId: string = '';
@@ -32,6 +32,7 @@ export class DisplayQuestions implements OnInit {
   answerData!: QuestionsArray[];
   submitQuizData: SubmitQuiz = new SubmitQuiz();
 
+
   constructor(
     private quizService: QuizService,
     private authService: AuthService
@@ -40,6 +41,7 @@ export class DisplayQuestions implements OnInit {
   ngOnInit(): void {
     this.getQuiz();
     this.AllCompleted();
+   
   }
 
   getQuiz() {
@@ -150,7 +152,7 @@ export class DisplayQuestions implements OnInit {
   private intervalId: any;
 
   startTimer() {
-    // const time = '00:01:00';
+    // const time = '00:00:10';
     const time = this.allotedTimeLimit;
 
     if (!time) return;
@@ -166,7 +168,7 @@ export class DisplayQuestions implements OnInit {
         this.updateRunningTime();
       } else {
         clearInterval(this.intervalId);
-        console.log('Time is up!');
+        this.submitQuizAnswers();
       }
     }, 1000);
   }
@@ -190,4 +192,6 @@ export class DisplayQuestions implements OnInit {
     console.log(this.submitQuizData);
     this.submitQuiz.emit(this.submitQuizData);
   }
+
+  
 }

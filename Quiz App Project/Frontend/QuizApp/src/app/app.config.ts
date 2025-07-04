@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -21,7 +25,8 @@ import Aura from '@primeng/themes/aura';
 import { MessageService } from 'primeng/api';
 import { StudentService } from './services/StudentService';
 import { TeacherService } from './services/TeacherService';
-
+import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -40,8 +45,14 @@ export const appConfig: ApplicationConfig = {
     provideLottieOptions({ player: () => player }),
     AuthGuard,
     RedirectGuard,
-    provideAnimationsAsync(),
-       
+    // provideAnimationsAsync(),
+    provideAnimations(), // required for toast animations
+    provideToastr({
+      timeOut: 5000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
+
     MessageService,
-  ]
+  ],
 };

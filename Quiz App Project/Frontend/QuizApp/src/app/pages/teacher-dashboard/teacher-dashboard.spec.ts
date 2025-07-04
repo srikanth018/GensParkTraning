@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TeacherDashboard } from './teacher-dashboard';
+import { QuizService } from '../../services/QuizService';
+import { AuthService } from '../../services/AuthService';
+import { CompletedQuizService } from '../../services/CompletedQuizService';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('TeacherDashboard', () => {
   let component: TeacherDashboard;
@@ -8,7 +13,14 @@ describe('TeacherDashboard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TeacherDashboard]
+      imports: [TeacherDashboard],
+      providers:[
+            QuizService,
+            AuthService,
+            CompletedQuizService,
+            provideHttpClient(),
+            provideHttpClientTesting(),
+      ]
     })
     .compileComponents();
 

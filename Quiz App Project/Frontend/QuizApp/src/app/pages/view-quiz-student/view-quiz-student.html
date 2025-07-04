@@ -117,10 +117,10 @@
       </div>
       <button
         class="text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 flex items-center px-5 py-2.5 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
-        (click)="attempQuiz()"
+        (click)="isAttempted ? viewResults() : attempQuiz()"
       >
         <i class="fas fa-play mr-2 text-xs"></i>
-        Attempt Now
+        {{ isAttempted ? 'View Results' : 'Attempt Quiz' }}
         <i class="fas fa-chevron-right ml-1 text-xs"></i>
       </button>
     </div>

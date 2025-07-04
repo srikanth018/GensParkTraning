@@ -22,7 +22,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css","node_modules/toastify-js/src/toastify.css"],
+            "styles": ["src/styles.css","node_modules/toastify-js/src/toastify.css","node_modules/ngx-toastr/toastr.css"],
             "scripts": ["node_modules/toastify-js/src/toastify.js"]
           },
           "configurations": {

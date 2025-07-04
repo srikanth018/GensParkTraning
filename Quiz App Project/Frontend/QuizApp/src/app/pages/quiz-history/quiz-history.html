@@ -21,7 +21,9 @@
         name="search"
         id="search"
         placeholder="Search Quizzes here..."
+        #searchInput
         class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-500 text-sm transition duration-200 placeholder:text-gray-400"
+        (input)="searchValue = searchInput.value; filterSearchQuizzes()"
       />
     </div>
 
@@ -36,10 +38,12 @@
         name="category"
         id="category"
         class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm appearance-none transition duration-200"
+        (change)="categoryValue = selectedCategory.value; filterSearchQuizzes()"
+        #selectedCategory
       >
-        <!-- <option *ngFor="let category of categoryList" [value]="category.value">
+        <option *ngFor="let category of categoryList" [value]="category.value">
           {{ category.label }}
-        </option> -->
+        </option>
       </select>
 
       <div
@@ -51,7 +55,7 @@
   </div>
 
 <div >
-  <div *ngFor="let quiz of completedQuizzes" class="p-6 border-b-2 border-gray-100 hover:bg-sky-50 hover:border-2 hover:rounded-lg hover:border-sky-400 transition-colors duration-150">
+  <div *ngFor="let quiz of filteredQuizzes" class="p-6 border-b-2 border-gray-100 hover:bg-sky-50 hover:border-2 hover:rounded-lg hover:border-sky-400 transition-colors duration-150">
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <!-- Left Content -->
       <div class="flex-1 ">

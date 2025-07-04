@@ -10,7 +10,8 @@ export class CompletedQuiz {
     public startedAt: string = "",
     public endedAt: string = "",
     public createdAt: string = "",
-    public quizData: Quiz = new Quiz()
+    public quizData: Quiz = new Quiz(),
+    public creditPoints: number = 0,
   ) {}
 }
 

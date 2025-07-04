@@ -1,5 +1,5 @@
 <div
-  class="max-w-6xl mx-auto p-8 bg-white shadow-lg rounded-xl mt-10"
+  class="max-w-6xl mx-auto p-8 bg-white shadow-lg rounded-xl"
   *ngIf="completedQuiz"
 >
   <h2 class="text-3xl font-bold text-center mb-3 text-sky-800">
@@ -9,7 +9,7 @@
   <h2 class="text-md font-bold text-center mb-6 text-sky-600">
     TestNest insights — where every piece of broken builds a stronger you.
   </h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
     <div class="bg-sky-50 p-5 rounded-xl border border-sky-100">
       <p class="text-sm font-medium text-sky-600 mb-1">Your Score</p>
       <p class="text-3xl font-bold text-sky-700">
@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <!-- Time Card -->
+    
     <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-100">
       <p class="text-sm font-medium text-emerald-600 mb-1">Time Taken</p>
       <p class="text-3xl font-bold text-emerald-700">
@@ -40,16 +40,31 @@
       </div>
     </div>
 
-    <!-- Quiz Info Card -->
-    <div class="bg-purple-50 p-5 rounded-xl border border-purple-100">
+    <div class="bg-amber-50 p-5 rounded-xl border border-amber-100">
+      <p class="text-sm font-medium text-amber-600 mb-1">Secured Credit Points</p>
+      <p class="text-3xl font-bold text-amber-600">
+        {{ completedQuiz?.creditPoints }}<span class="text-lg text-gray-400"
+          >/{{ 10 }}</span>
+      </p>
+      <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+        <div
+          class="bg-amber-600 h-2 rounded-full"
+          [style.width]="(completedQuiz && completedQuiz.creditPoints !== undefined ? (completedQuiz.creditPoints / 10) * 100 : 0) + '%'"
+        ></div>
+      </div>
+    </div>
+
+    
+    
+  </div>
+
+  <div class="bg-purple-50 p-5 rounded-xl border border-purple-100 mb-6">
       <p class="text-sm font-medium text-purple-600 mb-1">Quiz Info</p>
       <p class="text-lg font-semibold text-gray-800">
         {{ completedQuiz?.quizData?.title }}
       </p>
       <p class="text-gray-600 mt-1">{{ completedQuiz?.quizData?.category }}</p>
     </div>
-  </div>
-
   <!-- Detailed Stats -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
     <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">

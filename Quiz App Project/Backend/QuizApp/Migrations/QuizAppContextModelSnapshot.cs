@@ -30,6 +30,9 @@ namespace QuizApp.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("CreditPoints")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("EndedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -179,6 +182,9 @@ namespace QuizApp.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("CreditPoints")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("timestamp with time zone");

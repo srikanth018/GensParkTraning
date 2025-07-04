@@ -12,6 +12,6 @@ namespace QuizApp.Models
         public User? User { get; set; }
         public ICollection<CompletedQuiz>? CompletedQuizzes { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
+        public int CreditPoints { get; set; } 
     }
 }

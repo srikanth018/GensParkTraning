@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -16,20 +16,23 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { QuizService } from '../../services/QuizService';
 import { AuthService } from '../../services/AuthService';
 import { Loading } from '../../components/loading/loading';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-create-quiz',
   imports: [Question, NgFor, NgIf, ReactiveFormsModule, Loading, NgClass],
   templateUrl: './create-quiz.html',
   styleUrl: './create-quiz.css',
   standalone: true,
+  encapsulation: ViewEncapsulation.None
 })
 export class CreateQuiz implements OnInit {
   private authService = inject(AuthService);
   private formSubscription: Subscription | undefined;
 
   private store = inject(Store);
+  private toastr = inject(ToastrService);
   quizForm: FormGroup;
+  
   isloading: boolean = false;
 
   constructor(public fb: FormBuilder, private quizService: QuizService) {
@@ -136,11 +139,13 @@ export class CreateQuiz implements OnInit {
   }
 
   submitQuiz() {
+    
     if (this.quizForm.valid) {
       
       const validationError = this.validateQuiz();
       if (validationError) {
-        alert(validationError);
+        console.error('Validation Error:', validationError);
+        this.toastr.warning(validationError);
         return;
       }
 
@@ -159,12 +164,13 @@ export class CreateQuiz implements OnInit {
       this.quizService.createQuiz(formData).subscribe({
         next: (response) => {
           console.log('Quiz created successfully:', response);
+          this.toastr.success('Quiz created successfully!');
           this.formSubscription?.unsubscribe();
-          localStorage.removeItem('createQuizForm');
-          this.quizForm.reset();
+          this.clearform();
         },
         error: (error) => {
           console.error('Error creating quiz:', error);
+          this.toastr.error('Failed to create quiz. Please try again.');
         },
       });
       console.log('Quiz submitted:', this.quizForm.value);

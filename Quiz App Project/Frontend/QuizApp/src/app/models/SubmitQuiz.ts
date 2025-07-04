@@ -4,7 +4,8 @@ export class SubmitQuiz{
         public studentEmail:string='',
         public questions:QuestionsArray[] = [],
         public startedAt:string='',
-        public endedAt:string=''
+        public endedAt:string='',
+        public negativePoints:number = 0,
     ){}
 }
 export class QuestionsArray{

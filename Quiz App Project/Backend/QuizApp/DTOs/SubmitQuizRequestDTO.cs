@@ -7,6 +7,7 @@ namespace QuizApp.DTOs
         public List<SubmitQuestionDTO> Questions { get; set; } = new();
         public DateTime StartedAt { get; set; }
         public DateTime EndedAt { get; set; }
+        public int negativePoint { get; set; } 
     }
 
     public class SubmitQuestionDTO

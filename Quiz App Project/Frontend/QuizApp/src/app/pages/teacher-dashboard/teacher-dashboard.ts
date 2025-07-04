@@ -2,18 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Toast } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { Ripple } from 'primeng/ripple';
-import { MessageService } from 'primeng/api';
-import { providePrimeNG } from 'primeng/config';
-import Chart from 'chart.js/auto';
 import { QuizService } from '../../services/QuizService';
 import { AuthService } from '../../services/AuthService';
 import { DashboardChart } from '../../components/dashboard-chart/dashboard-chart';
 import { CompletedQuizService } from '../../services/CompletedQuizService';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-teacher-dashboard',
-  imports: [ButtonModule, Toast, Ripple, DashboardChart, NgFor],
+  imports: [ButtonModule, Toast, Ripple, DashboardChart, NgFor, NgIf],
   standalone: true,
   templateUrl: './teacher-dashboard.html',
   styleUrls: ['./teacher-dashboard.css'],
@@ -24,7 +21,6 @@ export class TeacherDashboard implements OnInit {
   uploadedQuizChartData: any = {};
 
   constructor(
-    private messageService: MessageService,
     private quizService: QuizService,
     private authService: AuthService,
     private completedQuizService: CompletedQuizService,
@@ -179,28 +175,30 @@ export class TeacherDashboard implements OnInit {
           label: 'Quizzes by Category',
           data: categoryCounts,
           backgroundColor: [
-            'rgba(199, 210, 254, 0.7)', // indigo-200
-            'rgba(254, 202, 202, 0.7)', // red-200
-            'rgba(167, 243, 208, 0.7)', // emerald-200
-            'rgba(253, 230, 138, 0.7)', // amber-200
-            'rgba(233, 213, 255, 0.7)', // purple-200
-            'rgba(165, 243, 252, 0.7)', // cyan-200
-            'rgba(254, 240, 138, 0.7)', // yellow-200
-            'rgba(187, 247, 208, 0.7)', // green-200
-            'rgba(253, 164, 175, 0.7)', // rose-200
-            'rgba(196, 181, 253, 0.7)', // violet-200
+            'rgba(96, 165, 250, 0.2)',
+            'rgba(167, 139, 250, 0.2)',
+            'rgba(74, 222, 128, 0.2)',
+            'rgba(248, 113, 113, 0.2)',
+            'rgba(251, 146, 60, 0.2)',
+
+            'rgba(245, 158, 11, 0.2)',
+            'rgba(16, 185, 129, 0.2)',
+            'rgba(139, 92, 246, 0.2)',
+            'rgba(244, 114, 182, 0.2)',
+            'rgba(20, 184, 166, 0.2)',
           ],
           borderColor: [
-            'rgba(199, 210, 254, 1)',
-            'rgba(254, 202, 202, 1)',
-            'rgba(167, 243, 208, 1)',
-            'rgba(253, 230, 138, 1)',
-            'rgba(233, 213, 255, 1)',
-            'rgba(165, 243, 252, 1)',
-            'rgba(254, 240, 138, 1)',
-            'rgba(187, 247, 208, 1)',
-            'rgba(253, 164, 175, 1)',
-            'rgba(196, 181, 253, 1)',
+            'rgba(96, 165, 250, 0.4)',
+            'rgba(167, 139, 250, 0.4)',
+            'rgba(74, 222, 128, 0.4)',
+            'rgba(248, 113, 113, 0.4)',
+            'rgba(251, 146, 60, 0.4)',
+
+            'rgba(245, 158, 11, 0.4)',
+            'rgba(16, 185, 129, 0.4)',
+            'rgba(139, 92, 246, 0.4)',
+            'rgba(244, 114, 182, 0.4)',
+            'rgba(20, 184, 166, 0.4)',
           ],
           borderWidth: 1,
         },

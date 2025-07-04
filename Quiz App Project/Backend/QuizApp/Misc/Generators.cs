@@ -130,5 +130,27 @@ namespace QuizApp.Misc
             return TotalMarksSecured;
         }
 
+        public static int GenerateCreditPoints(int totalMarksSecured, int totalMarks, int negativePoint=0)
+        {
+            if (totalMarksSecured < 0)
+                throw new ArgumentException("Total marks secured cannot be negative");
+
+            if (negativePoint < 0)
+                throw new ArgumentException("Negative mark cannot be negative");
+
+            if (totalMarksSecured < 0)
+                totalMarksSecured = 0;
+
+            if (totalMarks <= 0)
+                return 0; 
+
+            if (totalMarks <= 0)
+                throw new ArgumentException("Total marks must be greater than zero");
+
+            double percentage = (double)totalMarksSecured / totalMarks * 100;
+            int creditPoints = (int)Math.Round(percentage / 10);
+            creditPoints -= negativePoint; 
+            return creditPoints;
+        }
     }
 }

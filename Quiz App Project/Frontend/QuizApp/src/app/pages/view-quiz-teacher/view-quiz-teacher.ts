@@ -7,6 +7,7 @@ import { CompletedQuizService } from '../../services/CompletedQuizService';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { QuestionEditPopup } from '../../components/question-edit-popup/question-edit-popup';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-view-quiz-teacher',
@@ -25,7 +26,8 @@ export class ViewQuizTeacher implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private quizService: QuizService,
-    private completedQuizService: CompletedQuizService
+    private completedQuizService: CompletedQuizService,
+    private toastr: ToastrService
   ) {}
   ngOnInit(): void {
     this.quizId = this.route.snapshot.params['id'];
@@ -170,9 +172,11 @@ export class ViewQuizTeacher implements OnInit {
             next: (res) => {
               this.getQuizData();
               this.isEditing = false;
+              this.toastr.success(`Question ${this.currentQuestionIndex+1} updated successfully!`);
             },
             error: (err) => {
               console.error('Update failed', err);
+              this.toastr.error(`Failed to update question ${this.currentQuestionIndex + 1}.`);
             },
           });
       } else {

@@ -10,6 +10,6 @@ namespace QuizApp.Models
         public DateTime StartedAt { get; set; }
         public DateTime EndedAt { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        
+        public int CreditPoints { get; set; } 
     }
 }

@@ -42,6 +42,10 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Configure(builder.Configuration.GetSection("Kestrel"));
+});
 
 
 #region Repositories

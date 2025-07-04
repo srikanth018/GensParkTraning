@@ -21,11 +21,10 @@ import { Loading } from '../../components/loading/loading';
 import { Router } from '@angular/router';
 import { Success } from '../../components/success/success';
 import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, NgIf, Register, Loading, AsyncPipe, Success, Toast],
+  imports: [ReactiveFormsModule, NgIf, Register, Loading, AsyncPipe, Success],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
   standalone: true,
@@ -41,7 +40,7 @@ export class Login {
   private store = inject(Store);
   private router = inject(Router);
   
-  constructor(private authService: AuthService, private messageService: MessageService) {
+  constructor(private authService: AuthService, private messageService: MessageService, private toastr: ToastrService) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
@@ -77,9 +76,7 @@ export class Login {
 
   isloading$ = this.store.select(selectLoading);
 
-  showToast(p_severity:string,p_summary:string, p_detail:string) {
-        this.messageService.add({ severity: p_severity, summary: p_summary, detail: p_detail });
-    }
+
 
   async login() {
     if (this.loginForm.invalid) return;
@@ -92,12 +89,11 @@ export class Login {
     this.store.select(selectUser).subscribe((user) => {
       this.loggedInUserData = user;
       this.store.select(selectIsAuthenticated).subscribe((isAuthenticated) => {
-        console.log('Is Authenticated:', isAuthenticated);
-        console.log('Logged In User Data:', this.loggedInUserData);
+
         if (isAuthenticated) {
           this.successMessage = 'Login Successful!!!'
           this.showSuccess = true;
-          this.showToast('success','Login Successful!!!','You have successfully logged in.');
+          this.toastr.success('Login Successful!!!');
           setTimeout(() => {
             this.showSuccess = false;
             this.successMessage = null;
@@ -115,9 +111,9 @@ export class Login {
     this.store.select(selectError).subscribe((error) => {
       if (error) {
         // alert(error);
-        this.showToast('error','Login Error',error);
         console.error('Login Error:', error);
         this.errorMessage = error;
+        this.toastr.error(error);
       }
     });
   }

@@ -11,7 +11,6 @@ namespace QuizApp.Models
         public int TotalMarks { get; set; }
         public TimeSpan TimeLimit { get; set; }
         public ICollection<Question>? Questions { get; set; }
-
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     }
