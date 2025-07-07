@@ -1,0 +1,19 @@
+docker swarm init
+
+docker service create --name nginx-web --replicas 3 -p 8080:80 nginx
+
+docker service ls
+
+    ID             NAME        MODE         REPLICAS   IMAGE          PORTS
+    71jew2z9pk7h   nginx-web   replicated   3/3        nginx:latest   *:8080->80/tcp
+
+
+docker service ps nginx-web
+
+    ID             NAME          IMAGE          NODE             DESIRED STATE   CURRENT STATE            ERROR     PORTS
+    563zsrccdaef   nginx-web.1   nginx:latest   docker-desktop   Running         Running 38 seconds ago             
+    sr0lg1rz1oxw   nginx-web.2   nginx:latest   docker-desktop   Running         Running 37 seconds ago             
+    wjutyvb3k49x   nginx-web.3   nginx:latest   docker-desktop   Running         Running 38 seconds ago             
+
+docker service rm nginx-web
+

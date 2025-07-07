@@ -1,0 +1,20 @@
+docker swarm init
+
+docker service create --name webapp --replicas 3 --update-delay 10s httpd
+
+docker service ps webapp
+
+    ID             NAME       IMAGE          NODE             DESIRED STATE   CURRENT STATE            ERROR     PORTS
+    hjhb48mmm92e   webapp.1   httpd:latest   docker-desktop   Running         Running 12 seconds ago             
+    shi2joha66tp   webapp.2   httpd:latest   docker-desktop   Running         Running 12 seconds ago             
+    nabxnpfs7faf   webapp.3   httpd:latest   docker-desktop   Running         Running 12 seconds ago             
+
+docker service update --image httpd:alpine webapp
+    ID             NAME           IMAGE          NODE             DESIRED STATE   CURRENT STATE                 ERROR     PORTS
+    v4876vfx55ql   webapp.1       httpd:alpine   docker-desktop   Running         Running 50 seconds ago                  
+    hjhb48mmm92e    \_ webapp.1   httpd:latest   docker-desktop   Shutdown        Shutdown 51 seconds ago                 
+    dzpft0ruwg29   webapp.2       httpd:alpine   docker-desktop   Running         Running about a minute ago              
+    shi2joha66tp    \_ webapp.2   httpd:latest   docker-desktop   Shutdown        Shutdown about a minute ago             
+    6qn4setpo3nw   webapp.3       httpd:alpine   docker-desktop   Running         Running 38 seconds ago                  
+    nabxnpfs7faf    \_ webapp.3   httpd:latest   docker-desktop   Shutdown        Shutdown 38 seconds ago
+

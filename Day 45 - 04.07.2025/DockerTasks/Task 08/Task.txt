@@ -1,0 +1,14 @@
+docker service scale nginx-web=5
+
+docker service ps nginx-web
+
+    ID             NAME              IMAGE          NODE             DESIRED STATE   CURRENT STATE            ERROR     PORTS
+    9tdn5lrpbkhg   nginx-web.1       nginx:alpine   docker-desktop   Running         Running 3 minutes ago              
+    caxvp4692vhm    \_ nginx-web.1   nginx:latest   docker-desktop   Shutdown        Shutdown 3 minutes ago             
+    1spaanpb1v8c   nginx-web.2       nginx:alpine   docker-desktop   Running         Running 3 minutes ago              
+    de0r0u4wg7zi    \_ nginx-web.2   nginx:latest   docker-desktop   Shutdown        Shutdown 3 minutes ago             
+    vb3kwq0oo785   nginx-web.3       nginx:alpine   docker-desktop   Running         Running 3 minutes ago              
+    njze8oy89txf    \_ nginx-web.3   nginx:latest   docker-desktop   Shutdown        Shutdown 3 minutes ago             
+    7okunzkjsbx8   nginx-web.4       nginx:alpine   docker-desktop   Running         Running 9 seconds ago              
+    ixkc115nvso8   nginx-web.5       nginx:alpine   docker-desktop   Running         Running 9 seconds ago 
+
