@@ -37,7 +37,7 @@ namespace QuizApp.Services
             }
             var TotalMarksSecured = Generators.GenerateTotalMarksSecured(request, quiz);
             var CompletedQuiz = CompletedQuizMapper.MapToCompletedQuiz(request, TotalMarksSecured);
-            CompletedQuiz.CreditPoints = Generators.GenerateCreditPoints(TotalMarksSecured, quiz.TotalMarks, request.negativePoint);
+            CompletedQuiz.CreditPoints = Generators.GenerateCreditPoints(TotalMarksSecured, quiz.TotalMarks, request.NegativePoints);
             await _completedQuizRepository.Add(CompletedQuiz);
             return CompletedQuiz;
         }

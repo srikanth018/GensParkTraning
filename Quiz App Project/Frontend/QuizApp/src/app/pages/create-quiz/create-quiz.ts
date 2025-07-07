@@ -1,4 +1,10 @@
-import { Component, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -23,7 +29,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './create-quiz.html',
   styleUrl: './create-quiz.css',
   standalone: true,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class CreateQuiz implements OnInit {
   private authService = inject(AuthService);
@@ -32,7 +38,7 @@ export class CreateQuiz implements OnInit {
   private store = inject(Store);
   private toastr = inject(ToastrService);
   quizForm: FormGroup;
-  
+
   isloading: boolean = false;
 
   constructor(public fb: FormBuilder, private quizService: QuizService) {
@@ -135,13 +141,11 @@ export class CreateQuiz implements OnInit {
       return `Total marks (${totalMarks}) must equal the sum of question marks (${calculatedTotalMarks}).`;
     }
 
-    return null; 
+    return null;
   }
 
   submitQuiz() {
-    
     if (this.quizForm.valid) {
-      
       const validationError = this.validateQuiz();
       if (validationError) {
         console.error('Validation Error:', validationError);
@@ -190,6 +194,7 @@ export class CreateQuiz implements OnInit {
         uploadedBy: parsed.uploadedBy || this.getTeacherEmail(),
         totalMarks: parsed.totalMarks,
         description: parsed.description,
+        timeLimit: parsed.timeLimit,
       });
 
       const questionsArray = this.quizForm.get('questions') as FormArray;
@@ -236,18 +241,48 @@ export class CreateQuiz implements OnInit {
     });
   }
 
+  fileuploadErrorMessage: string | null = '';
   onFileSelected(event: any) {
+    this.fileuploadErrorMessage = '';
+    const quizData = this.quizForm.value;
+    const totalMinutes = Number(quizData.timeLimit || 0);
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:00`;
+
+    quizData.timeLimit = formattedTime;
+    quizData.uploadedBy = this.getTeacherEmail();
+
+    this.isloading = true;
     const file: File = event.target.files[0];
+    if (!file) {
+      this.toastr.error('Please select a file to upload.');
+      this.isloading = false;
+      return;
+    }
+    quizData.file = file;
+    console.log(quizData);
 
     if (file) {
-      this.quizService.bulkUploadQuiz(file).subscribe({
+      this.quizService.bulkUploadQuiz(quizData).subscribe({
         next: (res) => {
           console.log('Bulk upload success:', res);
-          alert(`Quiz "${res.title}" uploaded successfully!`);
+          this.toastr.success(`Quiz "${res.title}" uploaded successfully!`);
+          this.isloading = false;
+          this.clearform();
+          this.fileuploadErrorMessage = null;
         },
         error: (err) => {
           console.error('Error uploading file:', err);
-          alert('Error uploading quiz.');
+          this.toastr.error('Error uploading quiz. Please try again.');
+          this.fileuploadErrorMessage = `Error: ${
+            err.error.message || 'Unknown error occurred'
+          }. Please correct the file and try again.`;
+          this.isloading = false;
         },
       });
     }

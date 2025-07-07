@@ -62,21 +62,23 @@ namespace QuizApp.Controllers.v1
         [MapToApiVersion("1.0")]
         [Authorize(Roles = "Teacher")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> BulkUploadQuiz([FromForm] FileUploadDTO file)
+        public async Task<IActionResult> BulkUploadQuiz([FromForm] FileUploadDTO filedata)
         {
-            if (file == null || file.File.Length == 0)
+            System.Console.WriteLine("Bulk upload quiz called");
+            if (filedata == null || filedata.File.Length == 0)
                 return BadRequest("No file uploaded.");
 
-            using var stream = file.File.OpenReadStream();
+            using var stream = filedata.File.OpenReadStream();
             using var workbook = new XLWorkbook(stream);
             var worksheet = workbook.Worksheets.First();
 
-            var quizDto = Generators.ParseQuizFromWorksheet(worksheet);
+            var quizDto = Generators.ParseQuizFromWorksheet(filedata, worksheet);
 
             var createdQuiz = await _quizService.CreateQuizAsync(quizDto);
 
             return Ok(new { createdQuiz.Id, createdQuiz.Title });
         }
+        
         [HttpGet("{id}")]
         [MapToApiVersion("1.0")]
         public async Task<IActionResult> GetQuizById(string id)

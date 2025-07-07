@@ -38,6 +38,7 @@ export class AttemptQuiz implements OnInit {
   isFullScreen: boolean = false;
   isStarted: boolean = false;
   isCompleted: boolean = false;
+  openbutton: boolean = false;
   negativePoints: number = 0;
   private quizService = inject(QuizService);
   quiz: any;
@@ -71,15 +72,15 @@ export class AttemptQuiz implements OnInit {
         });
         this.enterFullScreen();
         if (this.isStarted && !this.isCompleted) {
-          this.enterFullScreen();
+          // this.enterFullScreen();
+          this.openbutton = true;
 
           if (this.exitCount >= 3) {
             this.negativePoints += 1;
-            console.warn(
-              `You have exited fullscreen ${this.exitCount} times. 1 point will be deducted from your Credit Points.`
-            );
-            this.toastr.error(
-              `You have exited fullscreen ${this.exitCount} times. 1 point will be deducted from your Credit Points.`,
+            
+            
+            this.toastr.warning(
+              `You have exited fullscreen ${this.exitCount} times. ${this.negativePoints} point will be deducted from your Credit Points.`,
               'Negative Points',
               {
                 timeOut: 3000,
@@ -89,10 +90,11 @@ export class AttemptQuiz implements OnInit {
           }
         }
       }
-
       this.isFullScreen = isNowFullScreen;
     });
   }
+
+
 
   enterFullScreen() {
     console.log('Entering Full Screen Mode');
@@ -106,6 +108,7 @@ export class AttemptQuiz implements OnInit {
     }
 
     this.isFullScreen = true;
+    this.openbutton = false;
   }
 
   toggleFullScreen() {
@@ -151,9 +154,9 @@ export class AttemptQuiz implements OnInit {
   agreementForm!: FormGroup;
   rules: string[] = [
     'I agree to enable Full Screen Mode while attempting the quiz.',
-    'If I exit Full Screen Mode more than 3 times, I understand that credit points will be reduced.',
-    'I will not refresh or close the browser window until I submit the quiz.',
-    'I understand the quiz will auto-submit when the timer ends.',
+    // 'If I exit Full Screen Mode more than 3 times, I understand that credit points will be reduced.',
+    // 'I will not refresh or close the browser window until I submit the quiz.',
+    // 'I understand the quiz will auto-submit when the timer ends.',
   ];
 
   showLoader: boolean = true;
@@ -162,12 +165,13 @@ export class AttemptQuiz implements OnInit {
 
   handleQuizSubmit(submittedData: SubmitQuiz) {
     this.totalPossibleScore = this.quiz?.totalMarks || 0;
+    submittedData.negativePoints = this.negativePoints;
 
     console.log('Quiz submitted: from attempt', submittedData);
     this.quizService.submitQuiz(submittedData).subscribe({
       next: (response) => {
         console.log('Quiz submitted successfully:', response);
-        this.toastr.success('Quiz submitted successfully!', 'Success', {
+        this.toastr.success('Quiz Completed successfully!', 'Success', {
           timeOut: 3000,
           positionClass: 'toast-top-right',
         });
@@ -175,18 +179,23 @@ export class AttemptQuiz implements OnInit {
         this.isStarted = false;
         this.isCompleted = true;
 
-        // Show loader for 2 seconds before showing results
         setTimeout(() => {
           this.showLoader = false;
         }, 2000);
 
         if (document.fullscreenElement) {
           document.exitFullscreen();
+          this.isFullScreen = false;
+          this.openbutton = false;
         }
       },
       error: (error) => {
         console.error('Error submitting quiz:', error);
         this.showLoader = false;
+        this.toastr.error('Error submitting quiz. Please try again.', 'Error', {
+          timeOut: 3000,
+          positionClass: 'toast-top-right',
+        });
       },
     });
   }

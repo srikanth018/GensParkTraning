@@ -135,6 +135,7 @@
     </ng-container>
   </div>
 
+  <p class="text-sm text-emerald-500 font-semibold animate-pulse">Note: You can add questions through the "Add Question" button or by uploading an Excel file in below bulk operations section.</p>
   <!-- Buttons Section -->
   <div class="flex justify-between items-center mt-6">
     <div class="flex flex-wrap gap-4 pt-4">
@@ -204,4 +205,10 @@
       </label>
     </div>
   </div>
+  <div
+    *ngIf="fileuploadErrorMessage"
+    class="mt-4 p-2 text-red-500 bg-red-50 border border-red-200 rounded-lg"
+  >
+    <i class="fa-solid fa-exclamation-triangle mr-2"></i>
+    {{ fileuploadErrorMessage }}
 </div>

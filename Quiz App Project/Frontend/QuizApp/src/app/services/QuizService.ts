@@ -49,20 +49,29 @@ export class QuizService {
     });
   }
 
-  bulkUploadQuiz(file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file); // ⚠️ Name 'file' must match parameter [FromForm] FileUploadDTO file.File
+  bulkUploadQuiz(filedata: any): Observable<any> {
+  const formData = new FormData();
+  formData.append('Title', filedata.title);
+  formData.append('Description', filedata.description);
+  formData.append('Category', filedata.category);
+  formData.append('UploadedBy', filedata.uploadedBy);
+  formData.append('TotalMarks', filedata.totalMarks.toString());
+  formData.append('TimeLimit', filedata.timeLimit); 
+  formData.append('File', filedata.file); 
+console.log('File data:', filedata);
 
-    const token = localStorage.getItem('access_token');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    return this.http.post(
-      'http://localhost:5038/api/v1/quizzes/bulk-upload',
-      formData,
-      { headers }
-    );
-  }
+  const token = localStorage.getItem('access_token');
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  return this.http.post(
+    'http://localhost:5038/api/v1/quizzes/bulk-upload',
+    formData,
+    { headers }
+  );
+}
+
 
   getUploadedQuizzes(teacherEmail: string): Observable<any> {
     const token = localStorage.getItem('access_token');

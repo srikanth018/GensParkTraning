@@ -60,37 +60,74 @@ namespace QuizApp.Misc
 
             return await UploadImageAsync(imageFile);
         }
-        public static CreateQuizRequestDTO ParseQuizFromWorksheet(IXLWorksheet worksheet)
+
+        public static CreateQuizRequestDTO ParseQuizFromWorksheet(FileUploadDTO filedata, IXLWorksheet worksheet)
         {
-            var quiz = new CreateQuizRequestDTO();
-            quiz.Questions = new List<CreateQuestionDTO>();
-
-            // Assume quiz-wide info is in first data row (row 2)
-            var firstDataRow = worksheet.Row(2);
-
-            quiz.Title = firstDataRow.Cell(1).GetValue<string>();
-            quiz.Category = firstDataRow.Cell(2).GetValue<string>();
-            quiz.UploadedBy = firstDataRow.Cell(3).GetValue<string>();
-            quiz.TotalMarks = firstDataRow.Cell(4).GetValue<int>();
-
-            int optionStartCol = 8;  // Option1 starts at column 8
-
-            foreach (var row in worksheet.RowsUsed().Skip(1)) // Skip header
+            Console.WriteLine("Parsing quiz from worksheet");
+            var formatErrors = new List<string>();
+            var submissionErrors = new List<string>();
+            var quiz = new CreateQuizRequestDTO
             {
-                if (string.IsNullOrWhiteSpace(row.Cell(5).GetValue<string>())) continue; // Skip if QuestionText is empty
+                Title = filedata.Title,
+                Description = filedata.Description,
+                TimeLimit = filedata.TimeLimit,
+                Category = filedata.Category,
+                UploadedBy = filedata.UploadedBy,
+                TotalMarks = filedata.TotalMarks,
+                Questions = new List<CreateQuestionDTO>()
+            };
 
+            int optionStartCol = 3;
+
+            foreach (var row in worksheet.RowsUsed().Skip(1))
+            {
+                var rowNumber = row.RowNumber();
+
+                if (string.IsNullOrWhiteSpace(row.Cell(1).GetValue<string>()))
+                    formatErrors.Add($"Question text in row {rowNumber} cannot be empty");
+
+                if (string.IsNullOrWhiteSpace(row.Cell(2).GetValue<string>()))
+                    formatErrors.Add($"Question mark in row {rowNumber} cannot be empty");
+
+                else if (!int.TryParse(row.Cell(2).GetValue<string>(), out int mark) || mark <= 0)
+                    formatErrors.Add($"Question mark in row {rowNumber} must be a positive integer");
+
+                for (int i = 3; i <= 9; i += 2)
+                {
+                    if (string.IsNullOrWhiteSpace(row.Cell(i).GetValue<string>()))
+                        formatErrors.Add($"Option text in column  Option{rowNumber-i+2} (row {rowNumber}) cannot be empty");
+                }
+
+                for (int i = 4; i <= 10; i += 2)
+                {
+                    var cellValue = row.Cell(i).GetValue<string>()?.ToLower();
+                    if (string.IsNullOrWhiteSpace(cellValue))
+                    {
+                        formatErrors.Add($"IsCorrect{rowNumber-i+3} in row {rowNumber} cannot be empty");
+                    }
+                    else if (cellValue != "true" && cellValue != "false")
+                    {
+                        formatErrors.Add($"IsCorrect{rowNumber-i+3} in row {rowNumber} must be either 'true' or 'false'");
+                    }
+                }
+            }
+
+            if (formatErrors.Any())
+                throw new ArgumentException("FORMAT_ERRORS: " + string.Join(", ", formatErrors));
+
+            foreach (var row in worksheet.RowsUsed().Skip(1))
+            {
                 var question = new CreateQuestionDTO
                 {
-                    QuestionText = row.Cell(5).GetValue<string>(),
-                    Mark = row.Cell(6).GetValue<int>(),
+                    QuestionText = row.Cell(1).GetValue<string>(),
+                    Mark = row.Cell(2).GetValue<int>(),
                     Options = new List<CreateOptionDTO>()
                 };
 
-                // Parse options dynamically
-                for (int i = optionStartCol; i <= row.LastCellUsed().Address.ColumnNumber; i += 2)
+                for (int i = optionStartCol; i <= 9; i += 2)
                 {
                     var optionText = row.Cell(i).GetValue<string>();
-                    var isCorrect = row.Cell(i + 1).GetValue<bool>();
+                    var isCorrect = bool.Parse(row.Cell(i + 1).GetValue<string>().ToLower());
 
                     if (!string.IsNullOrWhiteSpace(optionText))
                     {
@@ -104,6 +141,26 @@ namespace QuizApp.Misc
 
                 quiz.Questions.Add(question);
             }
+
+            if (!quiz.Questions.Any())
+                submissionErrors.Add("Quiz must have at least one question");
+
+            foreach (var q in quiz.Questions.Select((val, index) => new { val, index }))
+            {
+                var qIndex = q.index + 2;
+                if (!q.val.Options.Any(o => o.IsCorrect))
+                    submissionErrors.Add($"Question in row {qIndex} must have at least one correct option");
+
+                if (q.val.Mark <= 0)
+                    submissionErrors.Add($"Question in row {qIndex} must have a positive mark");
+            }
+
+            var questionsTotalMarks = quiz.Questions.Sum(q => q.Mark);
+            if (questionsTotalMarks != filedata.TotalMarks)
+                submissionErrors.Add($"Total marks of questions do not match the provided total marks ({filedata.TotalMarks}). Your Current Total Marks: {questionsTotalMarks}");
+
+            if (submissionErrors.Any())
+                throw new ArgumentException("SUBMISSION_ERRORS: " + string.Join(", ", submissionErrors));
 
             return quiz;
         }
@@ -130,7 +187,7 @@ namespace QuizApp.Misc
             return TotalMarksSecured;
         }
 
-        public static int GenerateCreditPoints(int totalMarksSecured, int totalMarks, int negativePoint=0)
+        public static int GenerateCreditPoints(int totalMarksSecured, int totalMarks, int negativePoint = 0)
         {
             if (totalMarksSecured < 0)
                 throw new ArgumentException("Total marks secured cannot be negative");
@@ -142,14 +199,14 @@ namespace QuizApp.Misc
                 totalMarksSecured = 0;
 
             if (totalMarks <= 0)
-                return 0; 
+                return 0;
 
             if (totalMarks <= 0)
                 throw new ArgumentException("Total marks must be greater than zero");
 
             double percentage = (double)totalMarksSecured / totalMarks * 100;
             int creditPoints = (int)Math.Round(percentage / 10);
-            creditPoints -= negativePoint; 
+            creditPoints -= negativePoint;
             return creditPoints;
         }
     }

@@ -164,4 +164,21 @@
   </div>
 </div>
 
+<div
+  *ngIf="openbutton"
+  class="fixed inset-0 flex items-center justify-center z-50 bg-transparent backdrop-blur-sm"
+>
+  <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+    <h2 class="text-xl font-bold mb-4">Note</h2>
+    <p class="mb-4">Enter FullScreen mode to continue quiz</p>
+    <button
+      class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded"
+      (click)="enterFullScreen()"
+    >
+       Enter FullScreen <i class="fa-solid fa-expand ml-3"></i>
+    </button>
+  </div>
+</div>
+
+
 <router-outlet></router-outlet>

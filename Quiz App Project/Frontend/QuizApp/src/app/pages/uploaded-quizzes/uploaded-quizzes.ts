@@ -46,7 +46,9 @@ export class UploadedQuizzes {
     if (teacherEmail) {
       this.quizService.getUploadedQuizzes(teacherEmail).subscribe({
         next: (quizzes: any) => {
-          this.quizzes = quizzes?.$values || [];
+          this.quizzes = quizzes?.$values.sort((a: any, b: any) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          ) || [];
           console.log(quizzes);
           console.log(this.quizzes);
           this.currentPage = 1;
