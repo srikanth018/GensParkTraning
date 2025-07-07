@@ -15,13 +15,14 @@ import {
 } from '../../models/AttemptQuizResponse';
 import { QuestionsArray, SubmitQuiz } from '../../models/SubmitQuiz';
 import { AuthService } from '../../services/AuthService';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-display-questions',
   standalone: true,
   imports: [NgFor, NgIf],
   templateUrl: './display-questions.html',
-  styleUrls: ['./display-questions.css'], 
+  styleUrls: ['./display-questions.css'],
 })
 export class DisplayQuestions implements OnInit {
   @Input() quizId: string = '';
@@ -32,16 +33,15 @@ export class DisplayQuestions implements OnInit {
   answerData!: QuestionsArray[];
   submitQuizData: SubmitQuiz = new SubmitQuiz();
 
-
   constructor(
     private quizService: QuizService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.getQuiz();
     this.AllCompleted();
-   
   }
 
   getQuiz() {
@@ -121,6 +121,9 @@ export class DisplayQuestions implements OnInit {
     this.answerData.forEach((qu) => {
       if (qu.questionId === p_questionId) {
         isSelected = qu.selectedOptionIds.includes(p_optionId);
+        if (isSelected) {
+          this.questionsAttended++;
+        }
       }
     });
     return isSelected;
@@ -132,13 +135,15 @@ export class DisplayQuestions implements OnInit {
     const completed = this.answerData.filter(
       (q) => q.selectedOptionIds.length > 0
     ).length;
-    this.completedPercentage = Math.floor(total > 0 ? (completed / total) * 100 : 0);
+    this.completedPercentage = Math.floor(
+      total > 0 ? (completed / total) * 100 : 0
+    );
+
+
   }
 
   isAllCompleted: boolean = false;
   AllCompleted() {
-    console.log('werf');
-
     this.answerData?.forEach((q) => {
       if (q.selectedOptionIds.length == 0 || q.selectedOptionIds.length <= 0) {
         this.isAllCompleted = false;
@@ -193,5 +198,40 @@ export class DisplayQuestions implements OnInit {
     this.submitQuiz.emit(this.submitQuizData);
   }
 
-  
+  endTestpopup: boolean = false;
+  popupMessage: string = '';
+  questionsAttended: number = 0;
+
+  popupData() {
+    // this.answerData.forEach((ques) => {
+    //   if (ques.selectedOptionIds.length > 0) this.questionsAttended++;
+    // });
+    this.popupMessage = `Hey!! You have attended only ${this.questionsAttended} questions. Do you want to end the test now?`;
+  }
+
+  endTest() {
+    this.endTestpopup = true;
+    this.popupData();
+  }
+
+  cancelEndTest() {
+    this.endTestpopup = false;
+  }
+
+  get showEndTestButton(): boolean {
+    return (
+      this.questionsAttended > 0 &&
+      this.questionsAttended < this.answerData.length
+    );
+  }
+
+  confirmEndTest() {
+    this.toastr.warning(
+      `Test will be ended within 2 seconds, and your answers are saved automatically.`
+    );
+    this.endTestpopup = false;
+    setTimeout(() => {
+      this.submitQuizAnswers();
+    }, 2000);
+  }
 }

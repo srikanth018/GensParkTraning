@@ -8,3 +8,21 @@
 .text-gold-500 {
   color: #d4af37;
 }
+
+/* @media print {
+  body * {
+    visibility: hidden;
+  }
+  #pdfContent, #pdfContent * {
+    visibility: visible;
+  }
+  #pdfContent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+} */

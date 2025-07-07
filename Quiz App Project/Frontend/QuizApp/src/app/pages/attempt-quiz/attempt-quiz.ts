@@ -1,4 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { QuizService } from '../../services/QuizService';
 import { QuizResponseMapper } from '../../misc/QuizResponseMapper';
@@ -32,7 +38,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './attempt-quiz.html',
   styleUrl: './attempt-quiz.css',
 })
-export class AttemptQuiz implements OnInit {
+export class AttemptQuiz implements OnInit, OnDestroy {
   exitCount: number = 0;
   message: string = ``;
   isFullScreen: boolean = false;
@@ -57,6 +63,8 @@ export class AttemptQuiz implements OnInit {
     );
     this.agreementForm = this.fb.group(controls);
 
+    window.addEventListener('beforeunload', this.preventReload);
+
     document.addEventListener('fullscreenchange', () => {
       const isNowFullScreen = !!document.fullscreenElement;
 
@@ -70,15 +78,15 @@ export class AttemptQuiz implements OnInit {
           timeOut: 3000,
           positionClass: 'toast-top-right',
         });
-        this.enterFullScreen();
+        // this.enterFullScreen();
+        this.openbutton = true;
         if (this.isStarted && !this.isCompleted) {
           // this.enterFullScreen();
           this.openbutton = true;
 
           if (this.exitCount >= 3) {
             this.negativePoints += 1;
-            
-            
+
             this.toastr.warning(
               `You have exited fullscreen ${this.exitCount} times. ${this.negativePoints} point will be deducted from your Credit Points.`,
               'Negative Points',
@@ -94,17 +102,15 @@ export class AttemptQuiz implements OnInit {
     });
   }
 
-
-
   enterFullScreen() {
     console.log('Entering Full Screen Mode');
-    
+
     const elem = document.documentElement;
 
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
     } else if ((elem as any).webkitRequestFullscreen) {
-      (elem as any).webkitRequestFullscreen(); 
+      (elem as any).webkitRequestFullscreen();
     }
 
     this.isFullScreen = true;
@@ -212,5 +218,25 @@ export class AttemptQuiz implements OnInit {
     const endTime = new Date(end).getTime();
     const diffInMs = endTime - startTime;
     return Math.round(diffInMs / (1000 * 60)); // convert to minutes
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'F5') {
+      event.preventDefault();
+      this.toastr.warning("Refresh/Reload the page is disabled",'Note');
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'r') {
+      event.preventDefault();
+      this.toastr.warning("Refresh/Reload the page is disabled",'Note');
+    }
+  }
+  preventReload = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
+
+  ngOnDestroy(): void {
+    window.removeEventListener('beforeunload', this.preventReload);
   }
 }

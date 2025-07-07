@@ -5,7 +5,7 @@ import { CompletedQuiz } from '../../models/CompletedQuiz';
 import { QuizService } from '../../services/QuizService';
 import { NgIf } from '@angular/common';
 import { StudentService } from '../../services/StudentService';
-  import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas';
 // import jsPDF from 'jspdf';
 import { jsPDF } from 'jspdf';
 import domtoimage from 'dom-to-image';
@@ -22,7 +22,7 @@ export class ViewCompletedQuiz implements OnInit {
     private route: ActivatedRoute,
     private completedQuizService: CompletedQuizService,
     private quizService: QuizService,
-    private studentService: StudentService, 
+    private studentService: StudentService
   ) {}
   ngOnInit() {
     this.completedQuizId = this.route.snapshot.paramMap.get('id') || '';
@@ -102,13 +102,29 @@ export class ViewCompletedQuiz implements OnInit {
     }
   }
 
-
-
+  isDownloadeStarted: boolean = false;
 downloadPDF() {
+  this.isDownloadeStarted = true;
+
   const element = document.getElementById('pdfContent');
   if (!element) return;
 
-  domtoimage.toPng(element, { quality: 1, bgcolor: '#ffffff' })
+  const scaleFactor = 3;
+  const leftRightMarginMm = 20; // 20mm margin on left and right
+
+  domtoimage
+    .toPng(element, {
+      quality: 1,
+      bgcolor: '#ffffff',
+      width: element.offsetWidth * scaleFactor,
+      height: element.offsetHeight * scaleFactor,
+      style: {
+        transform: `scale(${scaleFactor})`,
+        transformOrigin: 'top left',
+        width: `${element.offsetWidth}px`,
+        height: `${element.offsetHeight}px`,
+      },
+    })
     .then((dataUrl: string) => {
       const img = new Image();
       img.src = dataUrl;
@@ -118,76 +134,35 @@ downloadPDF() {
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
 
-        const pxToMm = 0.264583; // 1px = 0.264583 mm
+        const pxToMm = 0.264583;
+        const imgWidthMm = img.width * pxToMm;
+        const imgHeightMm = img.height * pxToMm;
 
-        const imgWidthPx = img.width;
-        const imgHeightPx = img.height;
-
-        const imgWidthMm = imgWidthPx * pxToMm;
-        const imgHeightMm = imgHeightPx * pxToMm;
-
-        const ratio = pageWidth / imgWidthMm;
+        // Fit image within available width (with margin)
+        const availableWidth = pageWidth - leftRightMarginMm * 2;
+        const ratio = Math.min(availableWidth / imgWidthMm, 1);
+        const scaledWidth = imgWidthMm * ratio;
         const scaledHeight = imgHeightMm * ratio;
 
-        let position = 0;
+        const marginX = (pageWidth - scaledWidth) / 2;
+        const marginY = (pageHeight - scaledHeight) / 2;
 
-        if (scaledHeight <= pageHeight) {
-          // Fits on one page
-          pdf.addImage(img, 'PNG', 0, 0, pageWidth, scaledHeight);
-        } else {
-          // Multi-page logic
-          let remainingHeight = scaledHeight;
+        pdf.addImage(
+          img,
+          'PNG',
+          marginX,
+          marginY,
+          scaledWidth,
+          scaledHeight
+        );
 
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d')!;
-          canvas.width = img.width;
-          canvas.height = img.height;
-
-          context.drawImage(img, 0, 0);
-
-          let pageCount = 0;
-          const pageHeightPx = (pageHeight / ratio) / pxToMm;
-
-          while (remainingHeight > 0) {
-            const sourceY = pageCount * pageHeightPx;
-            const sliceHeight = Math.min(pageHeightPx, img.height - sourceY);
-
-            const sliceCanvas = document.createElement('canvas');
-            const sliceContext = sliceCanvas.getContext('2d')!;
-            sliceCanvas.width = img.width;
-            sliceCanvas.height = sliceHeight;
-
-            sliceContext.drawImage(
-              canvas,
-              0, sourceY, img.width, sliceHeight,
-              0, 0, img.width, sliceHeight
-            );
-
-            const sliceDataUrl = sliceCanvas.toDataURL('image/png');
-            const sliceHeightMm = sliceHeight * pxToMm * ratio;
-
-            if (pageCount > 0) pdf.addPage();
-            pdf.addImage(sliceDataUrl, 'PNG', 0, 0, pageWidth, sliceHeightMm);
-
-            remainingHeight -= pageHeight;
-            pageCount++;
-          }
-        }
-
-        pdf.save(`${this.completedQuiz?.quizData?.title || 'quiz-summary'}.pdf`);
+        pdf.save(`Certificate - ${this.completedQuiz?.quizData?.title || 'quiz-summary'}.pdf`);
+        this.isDownloadeStarted = false;
       };
     })
     .catch((error: any) => {
       console.error('PDF generation failed', error);
     });
 }
-
-
-
-
-
-
-
-
 
 }

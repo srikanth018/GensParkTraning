@@ -4,6 +4,7 @@ import { QuizService } from '../../services/QuizService';
 import { AuthService } from '../../services/AuthService';
 import { of } from 'rxjs';
 import { AttemptQuizResponse } from '../../models/AttemptQuizResponse';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('DisplayQuestions', () => {
   let component: DisplayQuestions;
@@ -44,6 +45,7 @@ describe('DisplayQuestions', () => {
       providers: [
         { provide: QuizService, useValue: mockQuizService },
         { provide: AuthService, useValue: mockAuthService },
+        ToastrModule
       ],
     }).compileComponents();
 
