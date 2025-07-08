@@ -18,11 +18,7 @@ describe('QuizService', () => {
     spyOn(localStorage, 'getItem').and.returnValue(token);
 
     TestBed.configureTestingModule({
-      providers: [
-        QuizService,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [QuizService, provideHttpClient(), provideHttpClientTesting()],
     });
 
     service = TestBed.inject(QuizService);
@@ -42,7 +38,9 @@ describe('QuizService', () => {
 
     const req = httpMock.expectOne('http://localhost:5038/api/v1/quizzes/quiz');
     expect(req.request.method).toBe('POST');
-    expect(req.request.headers.get('Authorization')).toBe(authHeader.Authorization);
+    expect(req.request.headers.get('Authorization')).toBe(
+      authHeader.Authorization
+    );
     req.flush({}, { status: 201, statusText: 'Created' });
   });
 
@@ -53,10 +51,11 @@ describe('QuizService', () => {
       expect(res).toEqual(blob);
     });
 
-    const req = httpMock.expectOne((r) =>
-      r.url === 'http://localhost:5038/api/v1/quizzes/template' &&
-      r.params.get('questionCount') === '5' &&
-      r.params.get('optionCount') === '4'
+    const req = httpMock.expectOne(
+      (r) =>
+        r.url === 'http://localhost:5038/api/v1/quizzes/template' &&
+        r.params.get('questionCount') === '5' &&
+        r.params.get('optionCount') === '4'
     );
 
     expect(req.request.method).toBe('GET');
@@ -64,20 +63,37 @@ describe('QuizService', () => {
   });
 
   it('should bulk upload a quiz file', () => {
-    const file = new File(['content'], 'quiz.xlsx');
+    const file = new File(['dummy content'], 'quiz.xlsx', {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
 
-    service.bulkUploadQuiz(file).subscribe((res) => {
+    const filedata = {
+      title: 'Math Quiz',
+      description: 'A basic math quiz',
+      category: 'Mathematics',
+      uploadedBy: 'teacher@gmail.com',
+      totalMarks: 100,
+      timeLimit: '30',
+      file: file,
+    };
+
+    service.bulkUploadQuiz(filedata).subscribe((res) => {
       expect(res).toEqual({ success: true });
     });
 
-    const req = httpMock.expectOne('http://localhost:5038/api/v1/quizzes/bulk-upload');
+    const req = httpMock.expectOne(
+      'http://localhost:5038/api/v1/quizzes/bulk-upload'
+    );
     expect(req.request.method).toBe('POST');
-    expect(req.request.body.has('file')).toBeTrue();
+
+    expect(req.request.body instanceof FormData).toBeTrue();
+    expect(req.request.headers.get('Authorization')).toContain('Bearer');
+
     req.flush({ success: true });
   });
 
   it('should get uploaded quizzes by teacher email', () => {
-    const email = 'teacher@example.com';
+    const email = 'teacher@gmail.com';
 
     service.getUploadedQuizzes(email).subscribe((res) => {
       expect(res).toEqual([{ id: 'q1' }]);
@@ -97,7 +113,9 @@ describe('QuizService', () => {
       expect(res).toEqual({ id: quizId });
     });
 
-    const req = httpMock.expectOne(`http://localhost:5038/api/v1/quizzes/${quizId}`);
+    const req = httpMock.expectOne(
+      `http://localhost:5038/api/v1/quizzes/${quizId}`
+    );
     expect(req.request.method).toBe('GET');
     req.flush({ id: quizId });
   });
@@ -119,7 +137,9 @@ describe('QuizService', () => {
       expect(res).toEqual({ quizId });
     });
 
-    const req = httpMock.expectOne(`http://localhost:5038/api/v1/attempt-quiz/${quizId}`);
+    const req = httpMock.expectOne(
+      `http://localhost:5038/api/v1/attempt-quiz/${quizId}`
+    );
     expect(req.request.method).toBe('GET');
     req.flush({ quizId });
   });
@@ -130,9 +150,11 @@ describe('QuizService', () => {
     const skip = 0;
     const category = 'Science';
 
-    service.searchQuizzes(searchTerm, limit, skip, category).subscribe((res) => {
-      expect(res).toEqual([{ id: 'q1' }]);
-    });
+    service
+      .searchQuizzes(searchTerm, limit, skip, category)
+      .subscribe((res) => {
+        expect(res).toEqual([{ id: 'q1' }]);
+      });
 
     const req = httpMock.expectOne(
       (r) =>
@@ -147,9 +169,9 @@ describe('QuizService', () => {
   });
 
   it('should submit quiz answers', () => {
-    const submitData:any = {
+    const submitData: any = {
       quizId: 'q1',
-      studentEmail: 'student@example.com',
+      studentEmail: 'student@gmail.com',
       answers: [],
     };
 
@@ -157,7 +179,9 @@ describe('QuizService', () => {
       expect(res).toEqual({ message: 'submitted' });
     });
 
-    const req = httpMock.expectOne('http://localhost:5038/api/v1/attempt-quiz/submit');
+    const req = httpMock.expectOne(
+      'http://localhost:5038/api/v1/attempt-quiz/submit'
+    );
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(submitData);
     req.flush({ message: 'submitted' });
@@ -172,7 +196,9 @@ describe('QuizService', () => {
       expect(res).toEqual({ updated: true });
     });
 
-    const req = httpMock.expectOne(`http://localhost:5038/api/v1/quizzes/question/${questionId}`);
+    const req = httpMock.expectOne(
+      `http://localhost:5038/api/v1/quizzes/question/${questionId}`
+    );
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(payload);
     req.flush({ updated: true });

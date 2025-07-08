@@ -35,17 +35,16 @@ describe('DisplayQuestions', () => {
 
   const mockAuthService = {
     decodeToken: jasmine.createSpy('decodeToken').and.returnValue({
-      nameid: 'student@example.com',
+      nameid: 'student@gmail.com',
     }),
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DisplayQuestions],
+      imports: [DisplayQuestions, ToastrModule.forRoot()],
       providers: [
         { provide: QuizService, useValue: mockQuizService },
         { provide: AuthService, useValue: mockAuthService },
-        ToastrModule
       ],
     }).compileComponents();
 

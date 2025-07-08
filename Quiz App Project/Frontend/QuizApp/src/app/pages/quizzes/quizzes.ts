@@ -25,6 +25,9 @@ export class Quizzes {
   categoryList = [{ label: 'All Categories', value: '' }];
   hasMore: boolean = true;
   isInitialLoad: boolean = true;
+  searchCategoryText: string = '';
+  filteredCategoryList: { value: string; label: string }[] = [];
+  showCategoryDropdown: boolean = false;
 
   constructor(private quizService: QuizService, private router: Router) {}
 
@@ -132,30 +135,30 @@ export class Quizzes {
       const newSkip = this.currentSkip + this.currentLimit;
       await this.filterQuizzes(
         this.currentSearchTerm,
-      this.currentLimit,
-      newSkip,
-      this.currentCategory
-    );
-    // Smooth scroll to maintain position
-    setTimeout(() => {
-      const scrollPosition = window.scrollY;
-      const newScrollHeight = document.documentElement.scrollHeight;
-      const heightDiff = newScrollHeight - scrollPosition;
-      
-      if (heightDiff < window.innerHeight * 1.5) {
-        // Only adjust scroll if we're near the bottom
-        window.scrollTo({
-          top: newScrollHeight - window.innerHeight,
-          behavior: 'smooth'
-        });
-      }
-    }, 100);
-  } catch (error) {
-    console.error('Error loading more quizzes:', error);
-  } finally {
-    this.isBottomLoading = false;
+        this.currentLimit,
+        newSkip,
+        this.currentCategory
+      );
+      // Smooth scroll to maintain position
+      setTimeout(() => {
+        const scrollPosition = window.scrollY;
+        const newScrollHeight = document.documentElement.scrollHeight;
+        const heightDiff = newScrollHeight - scrollPosition;
+
+        if (heightDiff < window.innerHeight * 1.5) {
+          // Only adjust scroll if we're near the bottom
+          window.scrollTo({
+            top: newScrollHeight - window.innerHeight,
+            behavior: 'smooth',
+          });
+        }
+      }, 100);
+    } catch (error) {
+      console.error('Error loading more quizzes:', error);
+    } finally {
+      this.isBottomLoading = false;
+    }
   }
-}
 
   viewQuiz(quizId: string) {
     console.log(quizId);
@@ -172,24 +175,24 @@ export class Quizzes {
   }>();
 
   @HostListener('window:scroll', [])
-onWindowScroll(): void {
-  if (this.scrollDebounce || this.isBottomLoading || !this.hasMore) return;
+  onWindowScroll(): void {
+    if (this.scrollDebounce || this.isBottomLoading || !this.hasMore) return;
 
-  const threshold = 50; 
-  const scrollTop = window.scrollY;
-  const clientHeight = document.documentElement.clientHeight;
-  const scrollHeight = document.documentElement.scrollHeight;
+    const threshold = 50;
+    const scrollTop = window.scrollY;
+    const clientHeight = document.documentElement.clientHeight;
+    const scrollHeight = document.documentElement.scrollHeight;
 
-  if (scrollTop + clientHeight >= scrollHeight - threshold) {
-    this.scrollDebounce = true;
-    this.loadMoreQuizzes();
+    if (scrollTop + clientHeight >= scrollHeight - threshold) {
+      this.scrollDebounce = true;
+      this.loadMoreQuizzes();
 
-    // Debounce to prevent multiple rapid triggers
-    setTimeout(() => {
-      this.scrollDebounce = false;
-    }, 1000);
+      // Debounce to prevent multiple rapid triggers
+      setTimeout(() => {
+        this.scrollDebounce = false;
+      }, 1000);
+    }
   }
-}
 
   addCategories() {
     this.filteredQuizzes.forEach((quiz: any) => {
@@ -200,6 +203,25 @@ onWindowScroll(): void {
         this.categoryList.push({ label: quiz.category, value: quiz.category });
       }
     });
-    console.log('Updated category list:', this.categoryList);
+    this.filteredCategoryList = [...this.categoryList];
+  }
+  filterCategoryList(text: string) {
+    const search = text.toLowerCase();
+    this.filteredCategoryList = this.categoryList.filter((category) =>
+      category.label.toLowerCase().includes(search)
+    );
+  }
+
+  selectCategory(category: { value: string; label: string }) {
+    this.currentCategory = category.value;
+    this.searchCategoryText = category.label;
+    this.showCategoryDropdown = false;
+    this.filterQuizzes(this.currentSearchTerm, 10, 0, this.currentCategory);
+  }
+
+  hideDropdownWithDelay() {
+    setTimeout(() => {
+      this.showCategoryDropdown = false;
+    }, 200);
   }
 }

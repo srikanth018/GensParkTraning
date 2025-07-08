@@ -160,9 +160,9 @@ export class AttemptQuiz implements OnInit, OnDestroy {
   agreementForm!: FormGroup;
   rules: string[] = [
     'I agree to enable Full Screen Mode while attempting the quiz.',
-    // 'If I exit Full Screen Mode more than 3 times, I understand that credit points will be reduced.',
-    // 'I will not refresh or close the browser window until I submit the quiz.',
-    // 'I understand the quiz will auto-submit when the timer ends.',
+    'If I exit Full Screen Mode more than 3 times, I understand that credit points will reduce by 1 for each exit.',
+    'I will not refresh or close the browser window until I submit the quiz.',
+    'I understand the quiz will auto-submit when the timer ends.',
   ];
 
   showLoader: boolean = true;

@@ -17,11 +17,10 @@ describe('ViewQuizTeacher', () => {
   let mockCompletedQuizService: jasmine.SpyObj<CompletedQuizService>;
 
   beforeEach(async () => {
-    // Create spies
+    
     mockQuizService = jasmine.createSpyObj('QuizService', ['getQuizById', 'updateQuestion']);
     mockCompletedQuizService = jasmine.createSpyObj('CompletedQuizService', ['getCompletedQuizByQuizId']);
 
-    // Provide dummy return values
     mockQuizService.getQuizById.and.returnValue(of({
       id: 'quiz1',
       timeLimit: '00:30:00',

@@ -138,17 +138,13 @@ export class DisplayQuestions implements OnInit {
     this.completedPercentage = Math.floor(
       total > 0 ? (completed / total) * 100 : 0
     );
-
-
+    this.AllCompleted();
   }
 
   isAllCompleted: boolean = false;
   AllCompleted() {
-    this.answerData?.forEach((q) => {
-      if (q.selectedOptionIds.length == 0 || q.selectedOptionIds.length <= 0) {
-        this.isAllCompleted = false;
-      }
-    });
+    this.isAllCompleted =
+      this.answerData?.every((q) => q.selectedOptionIds.length > 0) ?? false;
   }
 
   allotedTimeLimit: string = '';

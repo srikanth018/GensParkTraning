@@ -49,14 +49,18 @@ describe('CompletedQuizService', () => {
       expect(res).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne(`http://localhost:5038/api/v1/completed-quizzes/quizId/${quizId}`);
+    const req = httpMock.expectOne(
+      `http://localhost:5038/api/v1/completed-quizzes/quizId/${quizId}`
+    );
     expect(req.request.method).toBe('GET');
-    expect(req.request.headers.get('Authorization')).toBe(mockHeaders.Authorization);
+    expect(req.request.headers.get('Authorization')).toBe(
+      mockHeaders.Authorization
+    );
     req.flush(mockResponse);
   });
 
   it('should fetch completed quizzes by student email', () => {
-    const email = 'test@example.com';
+    const email = 'test@gmail.com';
     const mockResponse = [{ id: 2, studentEmail: email }];
 
     service.getCompletedQuizByStudentEmail(email).subscribe((res) => {
@@ -65,12 +69,15 @@ describe('CompletedQuizService', () => {
 
     const req = httpMock.expectOne(
       (request) =>
-        request.url === `http://localhost:5038/api/v1/completed-quizzes/student` &&
+        request.url ===
+          `http://localhost:5038/api/v1/completed-quizzes/student` &&
         request.params.get('studentEmail') === email
     );
 
     expect(req.request.method).toBe('GET');
-    expect(req.request.headers.get('Authorization')).toBe(mockHeaders.Authorization);
+    expect(req.request.headers.get('Authorization')).toBe(
+      mockHeaders.Authorization
+    );
     req.flush(mockResponse);
   });
 
@@ -82,9 +89,13 @@ describe('CompletedQuizService', () => {
       expect(res).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne(`http://localhost:5038/api/v1/completed-quizzes/${completedQuizId}`);
+    const req = httpMock.expectOne(
+      `http://localhost:5038/api/v1/completed-quizzes/${completedQuizId}`
+    );
     expect(req.request.method).toBe('GET');
-    expect(req.request.headers.get('Authorization')).toBe(mockHeaders.Authorization);
+    expect(req.request.headers.get('Authorization')).toBe(
+      mockHeaders.Authorization
+    );
     req.flush(mockResponse);
   });
 
@@ -95,9 +106,13 @@ describe('CompletedQuizService', () => {
       expect(res).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne(`http://localhost:5038/api/v1/completed-quizzes`);
+    const req = httpMock.expectOne(
+      `http://localhost:5038/api/v1/completed-quizzes`
+    );
     expect(req.request.method).toBe('GET');
-    expect(req.request.headers.get('Authorization')).toBe(mockHeaders.Authorization);
+    expect(req.request.headers.get('Authorization')).toBe(
+      mockHeaders.Authorization
+    );
     req.flush(mockResponse);
   });
 });

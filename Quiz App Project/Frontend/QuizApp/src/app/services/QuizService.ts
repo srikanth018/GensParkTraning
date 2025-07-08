@@ -55,10 +55,10 @@ export class QuizService {
   formData.append('Description', filedata.description);
   formData.append('Category', filedata.category);
   formData.append('UploadedBy', filedata.uploadedBy);
-  formData.append('TotalMarks', filedata.totalMarks.toString());
-  formData.append('TimeLimit', filedata.timeLimit); 
-  formData.append('File', filedata.file); 
-console.log('File data:', filedata);
+  formData.append('TotalMarks', filedata?.totalMarks.toString());
+  formData.append('TimeLimit', filedata?.timeLimit);
+  formData.append('File', filedata?.file);
+  console.log('File data:', filedata);
 
   const token = localStorage.getItem('access_token');
   const headers = {

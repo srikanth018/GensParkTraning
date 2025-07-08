@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   imports: [NgIf, NgFor, QuestionEditPopup],
   templateUrl: './view-quiz-teacher.html',
   styleUrl: './view-quiz-teacher.css',
+  standalone: true,
 })
 export class ViewQuizTeacher implements OnInit {
   isloading: boolean = false;

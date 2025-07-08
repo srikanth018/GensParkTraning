@@ -35,7 +35,7 @@ describe('StudentService', () => {
   });
 
   it('should fetch student by email', () => {
-    const email = 'student@example.com';
+    const email = 'student@gmail.com';
     const mockResponse = { id: '1', name: 'Student A', email };
 
     service.getStudentByEmail(email).subscribe((res) => {
@@ -46,7 +46,9 @@ describe('StudentService', () => {
       `http://localhost:5038/api/v1/students/byEmail?email=${email}`
     );
     expect(req.request.method).toBe('GET');
-    expect(req.request.headers.get('Authorization')).toBe(authHeader.Authorization);
+    expect(req.request.headers.get('Authorization')).toBe(
+      authHeader.Authorization
+    );
 
     req.flush(mockResponse);
   });
