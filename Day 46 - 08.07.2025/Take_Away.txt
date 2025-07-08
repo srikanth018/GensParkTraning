@@ -1,0 +1,71 @@
+Cloud:
+    Azure -> Microsoft
+    AWS -> Amazon
+    Google cloud platform -> Google
+    IBM cloud -> IBM
+
+Req -> server
+Server -> Response
+
+Server is known by IP address (Like a physical address on the internet) -> DNS(Map IP to domain names)
+
+How to find ip address of anything?
+Nslook up
+DNS checker
+
+ISP -> 
+Subnet address -> max 250
+
+
+File -> Multiple people edit. View from any system as long as we had the right credientials and access
+
+IaaS -> 
+SaaS ->
+PaaS ->
+(new) FaaS -> Function
+
+Azure are Data Centers -> Infra
+
+We can create a virtual machine in Azure
+Resource Group -> a way to logically collect the resources provisioned
+
+Azure Data centres -> https://datacenters.microsoft.com/globe/explore
+
+
+Create VM
+new resource group name
+Name the VM
+choose the region
+    factors: 
+        Price
+        Closest and low Price (Latency)
+        Local Goverment policies (if you want to store US people data, you should use US zone)
+Administrator deatils
+port
+
+VM docs Link -> https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/windows/windows-vm-deployment-faqs
+
+Azure VM -> https://learn.microsoft.com/en-us/azure/virtual-machines/
+
+Create VM in Azure -> https://learn.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal?tabs=ubuntu
+
+
+
+ARM (Azure resource management) -> Template
+
+
+----------------------------------------------------------------------------------
+
+Azure Boards
+Postgre DB in cloud
+Connect to the DB
+
+Use Azure vault service for storing connection string
+
+Provision Blob service and connect to it for storing files(images and so)
+
+Deploy app in app service
+
+Move to CI CD pipeline
+Use Container to deploy the application
+
