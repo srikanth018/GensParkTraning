@@ -1,0 +1,36 @@
+sudo apt-get update 
+
+sudo apt-get install -y docker.io
+
+sudo systemctl start docker 
+
+sudo systemctl enable docker
+
+Srikanth@DockerDemoLinux:~$ docker --version
+Docker version 27.5.1, build 27.5.1-0ubuntu3~24.04.2
+
+sudo docker pull srikanth1801/docker-linux-api:latest
+    latest: Pulling from srikanth1801/docker-linux-api
+    3da95a905ed5: Pull complete 
+    dcdda036ab40: Pull complete 
+    2af7ab45db44: Pull complete 
+    44bc7aa14c9c: Pull complete 
+    b509daa9c209: Pull complete 
+    b5523f7f70f6: Pull complete 
+    20bf0dd3f436: Pull complete 
+    4f4fb700ef54: Pull complete 
+    8fa8f070897e: Pull complete 
+    Digest: sha256:91aebcc40133572fce26f9622d9a89b5cefd190b592a86786d76af05ee6078af
+    Status: Downloaded newer image for srikanth1801/docker-linux-api:latest
+    docker.io/srikanth1801/docker-linux-api:latest
+
+sudo docker run -d -p 80:8080 srikanth1801/docker-linux-api:latest
+
+Srikanth@DockerDemoLinux:~$ sudo docker ps
+    CONTAINER ID   IMAGE                                  COMMAND                  CREATED         STATUS         PORTS                                             NAMES
+    2f66f60033f3   srikanth1801/docker-linux-api:latest   "dotnet DockerLinuxA…"   3 minutes ago   Up 3 minutes   80/tcp, 0.0.0.0:80->8080/tcp, [::]:80->8080/tcp   practical_thompson
+    Srikanth@DockerDemoLinux:~$ 
+
+Srikanth@DockerDemoLinux:~$ sudo docker run -d -p 80:8080 srikanth1801/docker-linux-api:latest
+    2f66f60033f31a934fe1169ac6498f7343c0f19dc25c521a9d44c2b0d9bb72f0
+

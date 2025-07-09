@@ -1,0 +1,36 @@
+docker build -t docker-linux-api .
+
+presidio@C02DM28PML7H-presidio DockerLinuxApp % docker login
+Authenticating with existing credentials... [Username: srikanth1801]
+
+i Info → To login with a different account, run 'docker logout' followed by 'docker login'
+
+Login Succeeded
+
+
+
+presidio@C02DM28PML7H-presidio DockerLinuxApp % docker tag docker-linux-api srikanth1801/docker-linux-api:latest
+
+
+presidio@C02DM28PML7H-presidio DockerLinuxApp % docker push srikanth1801/docker-linux-api:latest
+
+The push refers to repository [docker.io/srikanth1801/docker-linux-api]
+8fa8f070897e: Pushed 
+20bf0dd3f436: Pushed 
+b509daa9c209: Layer already exists 
+4f4fb700ef54: Layer already exists 
+2a418233d73f: Pushed 
+44bc7aa14c9c: Pushed 
+b5523f7f70f6: Layer already exists 
+3da95a905ed5: Pushed 
+2af7ab45db44: Layer already exists 
+dcdda036ab40: Pushed 
+latest: digest: sha256:91aebcc40133572fce26f9622d9a89b5cefd190b592a86786d76af05ee6078af size: 856
+
+
+presidio@C02DM28PML7H-presidio DockerLinuxApp % docker pull srikanth1801/docker-linux-api:latest
+latest: Pulling from srikanth1801/docker-linux-api
+Digest: sha256:91aebcc40133572fce26f9622d9a89b5cefd190b592a86786d76af05ee6078af
+Status: Image is up to date for srikanth1801/docker-linux-api:latest
+docker.io/srikanth1801/docker-linux-api:latest
+
