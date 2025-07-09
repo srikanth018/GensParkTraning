@@ -1,0 +1,9 @@
+Azure CLI -> for sql 
+
+Install Azure CLI -> brew update && brew install azure-cli
+
+1. az login
+
+
+Set firewall -> add public ip in the firewall
+
