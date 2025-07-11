@@ -1,0 +1,15 @@
+water fall model:
+
+7 steps -> one way model
+
+Iterative model:
+
+we have do the step from 1 to 7 then start over form requirements
+
+SRS -> requirement 
+
+Class diagram
+Sequence diagram -> important
+    to know about intraction between services
+
+Azure boards:
