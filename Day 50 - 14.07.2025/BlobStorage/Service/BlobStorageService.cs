@@ -24,10 +24,10 @@ namespace BlobStorage.Services
             await blobClient.UploadAsync(fileStream, overwrite: true);
         }
 
-        public async Task<Stream> DownloadFile(string fileName)
+        public async Task<Stream?> DownloadFile(string fileName)
         {
             var blobClient = _containerClinet?.GetBlobClient(fileName);
-            if (await blobClient.ExistsAsync())
+            if (blobClient != null && await blobClient.ExistsAsync())
             {
                 var downloadInfor = await blobClient.DownloadStreamingAsync();
                 return downloadInfor.Value.Content;
