@@ -89,12 +89,33 @@ builder.Services.AddControllers(options =>
 
 #endregion
 
+builder.Services.AddTransient<KeyVaultService>();
 
+// using (var tempProvider = builder.Services.BuildServiceProvider())
+// {
+//     var keyVaultService = tempProvider.GetRequiredService<KeyVaultService>();
+
+//     var connectionString = keyVaultService.GetSecretAsync("DbConnectionString").GetAwaiter().GetResult();
+
+//     builder.Services.AddDbContext<QuizAppContext>(opt =>
+//     {
+
+//         opt.UseNpgsql(connectionString);
+//         opt.EnableSensitiveDataLogging();
+//     });
+
+// }
+#region Contexts
 builder.Services.AddDbContext<QuizAppContext>(opt =>
 {
+
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
     opt.EnableSensitiveDataLogging();
 });
+
+#endregion
+
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddApiVersioning(options =>
@@ -162,7 +183,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddSignalR(); 
+builder.Services.AddSignalR();
 
 
 
@@ -214,7 +235,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseCors("AllowAngularApp");
-app.MapHub<QuizHub>("/quizhub"); 
+app.MapHub<QuizHub>("/quizhub");
 app.UseRateLimiter();
 app.Run();
 
