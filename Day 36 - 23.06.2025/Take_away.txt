@@ -1,0 +1,21 @@
+Web worker and Unit testing
+
+It is not 100% compatible
+
+Approach1:
+	push the file directly into the DB as byte array
+	
+For using web worker:
+
+1. Create Function in db
+2. Create controller and service in backend
+3. Create web-worker using ng command
+
+
+Testing:
+
+Unit test is done by Karma in angular
+
+Testing in done in .spec.ts files
+
+1. 

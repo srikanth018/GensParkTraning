@@ -1,0 +1,19 @@
+Lifecycle hooks, SignalR in angular, 
+
+Different ways to communicate between components
+
+Make api call with store
+
+Project structure 
+
+Layered -> which we use now
+DDD - Domain driven design -> module by module for big applications
+
+
+Security, non authorised endpoints, Data should be accessed by only related persons
+
+Web worker / Background worker
+
+Scheduled jobs in backend 
+
+NgonChanges for quiz option selection
