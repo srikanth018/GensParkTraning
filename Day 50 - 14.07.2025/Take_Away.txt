@@ -1,0 +1,4 @@
+Azure vaults (key vaults)
+
+azure.identity pckage for signup
+azure.security.keyvaults.secrets
