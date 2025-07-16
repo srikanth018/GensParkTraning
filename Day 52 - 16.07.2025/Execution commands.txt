@@ -1,0 +1,18 @@
+az version
+
+az group create --name gp-traning --location eastus2
+
+az storage account create --name storageaccountsrim --location eastus2 --resource-group gp-traning --sku Standard_LRS
+
+az functionapp create --resource-group gp-traning --consumption-plan-location eastus2 --name dotnetfunctionsrim --storage-account storageaccountsrim --runtime dotnet-isolated --functions-version 4
+
+az functionapp config appsettings set --name dotnetfunctionsrim --resource-group gp-traning --settings AzureStorageConnectionString="DefaultEndpointsProtocol=https;AccountName=storageaccountsrim;AccountKey=qDT8VSM5GN2b6IcsweQetsbY1gKFW/gLruDG2JKb9TS4RHtFjPzYAfOJlCvK6nLG4E1arTxHrO0j+AStI+xmxw==;EndpointSuffix=core.windows.net" ContainerName="files" KeyVaultUri="https://blobkeystore.vault.azure.net/"
+
+az functionapp identity assign --name dotnetfunctionsrim --resource-group gp-traning
+
+az functionapp function keys list --resource-group gp-traning --name dotnetfunctionsrim --function-name Function
+
+func azure functionapp logstream dotnetfunctionsrim --output json
+
+URL:
+https://dotnetfunctionsrim.azurewebsites.net/api/generate-sas/image.png?code=-msjGygSsRCN1kB96VFN8fuyC8yeGb5GfJvjl_n3bSOIAzFung2rNQ==
