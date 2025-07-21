@@ -5,7 +5,7 @@ namespace QuizApp.Models
         public string Id { get; set; } = string.Empty;
         public string QuestionId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
-        public string ImageUrl { get; set; } = string.Empty;  // Path to the uploaded file
+        public string ImageUrl { get; set; } = string.Empty;  
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public Question? Question { get; set; }
     }
