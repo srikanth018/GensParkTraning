@@ -1,0 +1,6 @@
+@sampleAzureDelpoyApp_HostAddress = http://localhost:5145
+
+GET {{sampleAzureDelpoyApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

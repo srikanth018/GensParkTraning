@@ -1,0 +1,39 @@
+to push image in container registry:
+
+    az acr create --resource-group gp-traning \
+    --name sampledeployapp --sku Basic
+
+    az acr login --name sampledeployapp
+
+    docker build -t sampledeployapp.azurecr.io/sampleapp:latest .
+
+    docker push sampledeployapp.azurecr.io/sampleapp:latest
+
+to deploy in app service with container registry:
+
+    az webapp create --resource-group gp-traning \
+    --plan ASP-QuizApp \
+    --name samplecondeployapp \
+    --deployment-container-image-name sampledeployapp.azurecr.io/sampleapp:latest
+
+    {
+    "passwords": [
+        {
+        "name": "password",
+        "value": "aYUv4xpGq6INudW1sAMGpAzF6JjygXOFOZHkRuSbdt+ACRB2rXjH"
+        },
+        {
+        "name": "password2",
+        "value": "pK7hChz6XNEMn1Lloe5QiVNVyRHE84uUsDA3GnoAAM+ACRDYmGr0"
+        }
+    ],
+    "username": "sampledeployapp"
+    }
+
+    az webapp config container set \
+    --name samplecondeployapp \
+    --resource-group gp-traning \
+    --container-image-name sampledeployapp.azurecr.io/sampleapp:latest \
+    --container-registry-url https://sampledeployapp.azurecr.io \
+    --container-registry-user sampledeployapp \
+    --container-registry-password aYUv4xpGq6INudW1sAMGpAzF6JjygXOFOZHkRuSbdt+ACRB2rXjH

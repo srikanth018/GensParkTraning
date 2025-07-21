@@ -1,0 +1,10 @@
+App deployment:
+
+ways to deploy a app:
+    Publish in vs and use
+    docker container with azure container registry
+    Kubernetes orchestration
+
+Steps
+1. Deploy in azure app service
+
