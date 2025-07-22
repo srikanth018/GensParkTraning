@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { VideoFileService } from '../../services/VideoFileService';
 
@@ -9,6 +9,7 @@ import { VideoFileService } from '../../services/VideoFileService';
   styleUrl: './upload-video.css'
 })
 export class UploadVideo {
+  @Output() videoUploaded: EventEmitter<boolean> = new EventEmitter();
   isUploading: boolean = false;
   uploadForm :FormGroup
 
@@ -44,6 +45,8 @@ export class UploadVideo {
     this.videoFileService.uploadVideo(formData).subscribe({
       next: (response) => {
         console.log('Video uploaded successfully:', response);
+        alert('Video uploaded successfully!');
+        this.videoUploaded.emit(true);
         this.isUploading = false;
         this.uploadForm.reset();
       },

@@ -207,13 +207,6 @@ builder.Services.AddAuthorization();
 
 
 
-
-
-
-
-
-
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -229,7 +222,15 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
+app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+        foreach (var desc in provider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{desc.GroupName}/swagger.json", desc.GroupName.ToUpperInvariant());
+        }
+    });
 
 app.UseAuthentication();
 app.UseAuthorization();

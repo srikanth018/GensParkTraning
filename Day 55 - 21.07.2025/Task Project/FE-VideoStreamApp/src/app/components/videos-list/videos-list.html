@@ -1,7 +1,7 @@
 <div class="videos-container">
   <div class="videos-list" *ngIf="videos && videos.length > 0">
     <div class="header">
-      <h1>Video List</h1>
+      <h1>Training Videos List</h1>
       <button class="upload-button" (click)="openUploadDialog()">
         Upload Video
       </button>
@@ -49,11 +49,11 @@
   </div>
 
   <div *ngIf="isUploadDialogOpen" class="upload-overlay">
-    <div class="video-player-container">
+    <div class="video-player-container" >
       <button class="close-button" (click)="isUploadDialogOpen = false">
         x
       </button>
-      <app-upload-video></app-upload-video>
+      <app-upload-video (videoUploaded)="onVideoUploaded($event)"></app-upload-video>
     </div>
   </div>
 </div>

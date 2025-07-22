@@ -35,19 +35,35 @@ h3 {
 }
 
 .videos-list ul {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
   list-style: none;
   padding: 0;
   width: 100%;
+  gap: 20px; */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
   gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+
 }
 
 li {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  list-style: none;
   gap: 20px;
-  width: 100%;
-  max-width: 1000px;
+  height: 320px;
+  /* width: 100%; */
+  /* max-width: 1000px; */
   border: 1px solid #e0e0e0;
   padding: 15px;
   border-radius: 10px;
@@ -71,7 +87,6 @@ li:hover {
 
 .video-info {
   flex: 1;
-  margin-top: 7%;
 }
 
 .video-info h3 {

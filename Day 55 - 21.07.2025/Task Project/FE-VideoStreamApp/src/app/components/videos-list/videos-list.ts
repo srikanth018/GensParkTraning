@@ -44,4 +44,9 @@ export class VideosList {
     this.playingVideo = null;
     console.log('Video closed');
   }
+  onVideoUploaded(event: any) {
+    console.log('Video uploaded:', event);
+    this.isUploadDialogOpen = false;
+    this.loadVideos();
+  }
 }
