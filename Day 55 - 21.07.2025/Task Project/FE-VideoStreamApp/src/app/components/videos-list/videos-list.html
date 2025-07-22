@@ -1,0 +1,59 @@
+<div class="videos-container">
+  <div class="videos-list" *ngIf="videos && videos.length > 0">
+    <div class="header">
+      <h1>Video List</h1>
+      <button class="upload-button" (click)="openUploadDialog()">
+        Upload Video
+      </button>
+    </div>
+    <ul>
+      <li *ngFor="let video of videos" (click)="playVideo(video)">
+        <div class="video-thumbnail">
+          <video width="300" height="200">
+            <source [src]="video.blobUrl" />
+          </video>
+        </div>
+        <div class="video-info">
+          <h3>{{ video.title }}</h3>
+          <p class="description">{{ video.description }}</p>
+          <p class="upload-date">
+            Uploaded on: {{ video.uploadAt | date:'mediumDate' }}
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div
+    class="video-player-overlay"
+    *ngIf="isVideoPlaying"
+    (click)="closeVideo()"
+  >
+    <div class="video-player-container" (click)="$event.stopPropagation()">
+      <div class="video-player-header">
+        <h2>Now Playing: {{ playingVideo.title }}</h2>
+        <button class="close-button" (click)="closeVideo()">x</button>
+      </div>
+      <video #videoPlayer controls autoplay width="800" height="450">
+        <source [src]="playingVideo.blobUrl" />
+      </video>
+      <div class="video-player-info">
+        <p>{{ playingVideo.description }}</p>
+        <p>Uploaded on: {{ playingVideo.uploadAt | date:'mediumDate' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-videos" *ngIf="!videos || videos.length === 0">
+    <h2>Loading...</h2>
+  </div>
+
+  <div *ngIf="isUploadDialogOpen" class="upload-overlay">
+    <div class="video-player-container">
+      <button class="close-button" (click)="isUploadDialogOpen = false">
+        x
+      </button>
+      <app-upload-video></app-upload-video>
+    </div>
+  </div>
+</div>

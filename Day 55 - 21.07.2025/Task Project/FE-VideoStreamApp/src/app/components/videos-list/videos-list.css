@@ -1,0 +1,151 @@
+.videos-container {
+  font-family: "Arial", sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  color: #333;
+}
+
+.upload-button {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+  background-color: #3367d6;
+}
+
+.videos-list ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  gap: 20px;
+}
+
+li {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+li:hover {
+  transform: translateY(-2px);
+  background-color: #f4faff;
+}
+
+
+
+.video-thumbnail video {
+  border-radius: 4px;
+  display: block;
+}
+
+
+
+.video-info {
+  flex: 1;
+  margin-top: 7%;
+}
+
+.video-info h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #4285f4;
+}
+
+
+
+.description {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.upload-date {
+  color: #888;
+  font-size: 0.9em;
+  margin: 0;
+}
+
+.video-player-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.video-player-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 900px;
+  width: 90%;
+}
+
+.video-player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.video-player-info {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+
+.upload-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}

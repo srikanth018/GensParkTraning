@@ -1,0 +1,15 @@
+<div class="upload-form-container">
+  <h1>Training Video Upload Form</h1>
+  <form [formGroup]="uploadForm" (ngSubmit)="uploadVideo()">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" formControlName="title">
+    
+    <label for="description">Description</label>
+    <input type="text" id="description" name="description" formControlName="description">
+    
+    <label for="vdofile">Video File</label>
+    <input type="file" name="vdofile" id="vdofile" accept="video/mp4" formControlName="videoFile" (change)="onFileSelected($event)">
+
+    <button type="submit" [disabled]="isUploading || uploadForm.invalid">{{isUploading ? 'Uploading...' : 'Upload Video'}}</button>
+  </form>
+</div>

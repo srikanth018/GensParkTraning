@@ -1,0 +1,88 @@
+/* Form Container */
+.upload-form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Title */
+.upload-form-container h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Form Element Styles */
+.upload-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Label Styles */
+.upload-form-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #34495e;
+  font-size: 0.95rem;
+}
+
+/* Input Field Styles */
+.upload-form-container input[type="text"],
+.upload-form-container input[type="file"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.upload-form-container input[type="text"]:focus,
+.upload-form-container input[type="file"]:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* File Input Customization */
+.upload-form-container input[type="file"] {
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+/* Submit Button (you might want to add this) */
+.upload-form-container button[type="submit"] {
+  background-color: #3498db;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.upload-form-container button[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .upload-form-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .upload-form-container h1 {
+    font-size: 1.5rem;
+  }
+}
