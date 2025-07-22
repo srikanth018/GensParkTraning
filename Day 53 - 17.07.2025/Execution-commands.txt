@@ -1,0 +1,81 @@
+az login
+
+az group create --name gp-traning-1 --location eastus
+
+$ACR_NAME = "gptraningsrim"   -> environment variable
+
+az acr create --resource-group gp-traning-1 --name $ACR_NAME --sku Premium   -> create Registry
+
+code Dockerfile -> opens a editor and we can write the docker file contents there and save
+
+az acr build --registry $ACR_NAME --image demotask:v1 . --> building images for the created docker file
+az acr repository list --name $ACR_NAME --output table -> to show the stored registery list                                                                        
+    Result                            
+    --------
+    demotask
+
+Deploy images from Azure Container Registry:
+
+az acr update -n $ACR_NAME --admin-enabled true  -> update admin account
+
+az acr credential show --name $ACR_NAME -> to get the admin account data
+
+    {
+    "passwords": [
+        {
+        "name": "password",
+        "value": "Px80cikaXLNRSqQuJZhIQLvZcB4IzYo+4u2c1FjJqJ+ACRDCp2bM"
+        },
+        {
+        "name": "password2",
+        "value": "JiWWW9ySG6UGC9qlg/rmK0346ZlPV64fMdJaVzwvpG+ACRAV0BjF"
+        }
+    ],
+    "username": "gptraningsrim"
+    }
+
+PS /home/srikanthm> $ACR_NAME = "gptraningsrim"
+PS /home/srikanthm> $IMAGE = "$ACR_NAME.azurecr.io/demotask:v1"
+PS /home/srikanthm> $LOGIN_SERVER = "$ACR_NAME.azurecr.io"
+PS /home/srikanthm> 
+PS /home/srikanthm> az container create `
+>>   --resource-group gp-traning-1 `
+>>   --name acr-tasks `
+>>   --image $IMAGE `
+>>   --registry-login-server $LOGIN_SERVER `
+>>   --registry-username $ACR_NAME `
+>>   --registry-password "Px80cikaXLNRSqQuJZhIQLvZcB4IzYo+4u2c1FjJqJ+ACRDCp2bM" `
+>>   --ip-address Public `
+>>   --location eastus `
+>>   --os-type Linux `
+>>   --cpu 1 `
+>>   --memory 1
+
+PS /home/srikanthm> az container show --resource-group gp-traning-1 --name acr-tasks --query ipAddress.ip --output table                                                               
+Result
+------------
+52.226.88.12
+
+
+
+
+
+
+"loginServer": "registrysrim-b8ezg8hea3dwh9d9.azurecr.io",
+
+"name": "registrysrim",
+
+
+{
+  "passwords": [
+    {
+      "name": "password",
+      "value": "Y5sPkGDu7kLgpZebVkkZ33lbb0oITSm1aN7ehB3Kpi+ACRBzJSlI"
+    },
+    {
+      "name": "password2",
+      "value": "ftrJvSDsRmkXbnULsvBoEMhupbTOJpYUSQldKtPG+7+ACRDwe6Mm"
+    }
+  ],
+  "username": "registrysrim"
+}
