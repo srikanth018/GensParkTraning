@@ -1,0 +1,24 @@
+CI/CD pipe line:
+
+DevOps -> Developmet and Operation
+we create devops pipepline
+
+Deployment Process:
+souce code --> Version Control --> compilation --> testing --> Quality gate --> Quality check --> Release --> View Application
+
+To automates these proces we write scripts.
+once we commit the code in the verion control it triggers the flow one by one 
+
+Pipeline -> CI/CD - the entire flow
+stages -> A big step - Build/Test
+Job -> A group of task in a stage 
+Task -> A singlr command - Restore / Build
+ 
+we do write scripts in yaml file to do the piple flow
+
+Create pipeline:
+    1. Through Azure pipeline
+    2. Through YAML file
+
+Artifact:
+    
