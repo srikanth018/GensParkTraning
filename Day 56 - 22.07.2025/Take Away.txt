@@ -19,6 +19,19 @@ we do write scripts in yaml file to do the piple flow
 Create pipeline:
     1. Through Azure pipeline
     2. Through YAML file
+--------------------------------------------------------------------------------------------
+Kubernetes:
 
-Artifact:
-    
+Uses for Deployment, scaling, loading 
+
+pods -> smallest unit in Kubernetes
+     -> contains container
+
+Node were the pod runs
+Cluster -> collection of node
+Master -> control nodes
+Service -> url to expose the pod
+
+AKS -> Azure Kubernetes Service
+
+
