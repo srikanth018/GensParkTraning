@@ -1,0 +1,5 @@
+VPN -> Virutal private Network gateway
+Tunnels
+site to site connection 
+point to site connection
+VNet to VNet connection (VNet -> Virtual Network)
