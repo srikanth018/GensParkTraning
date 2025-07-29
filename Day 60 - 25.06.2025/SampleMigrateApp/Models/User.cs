@@ -9,6 +9,7 @@ public class User
     {
         News = new HashSet<News>();
         Products = new HashSet<Product>();
+        Carts = new HashSet<Cart>();
     }
 
     [Key]
@@ -22,4 +23,7 @@ public class User
 
     public virtual ICollection<News> News { get; set; }
     public virtual ICollection<Product> Products { get; set; }
+    public virtual ICollection<Cart> Carts { get; set; }
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
 }

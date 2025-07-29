@@ -42,6 +42,7 @@ namespace SampleMigrateApp.Models
         public Product()
         {
             OrderDetails = new HashSet<OrderDetail>();
+            Carts = new HashSet<Cart>();
         }
 
         [Key]
@@ -62,6 +63,7 @@ namespace SampleMigrateApp.Models
         public virtual Color? Color { get; set; }
         public virtual Model? Model { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
         public virtual User? User { get; set; }
     }
 }

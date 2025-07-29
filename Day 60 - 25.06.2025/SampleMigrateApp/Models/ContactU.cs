@@ -11,8 +11,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SampleMigrateApp.Models
 {
-
-
     public class ContactU
     {
         [Key]

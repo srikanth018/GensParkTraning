@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "dotnet",
+      "task": "watch SampleMigrateApp",
+      "file": "/Users/presidio/Library/CloudStorage/OneDrive-PresidioNetworkSolutions/Documents/Presidio-Intern/GensParkTraning/Day 60 - 25.06.2025/SampleMigrateApp/SampleMigrateApp.csproj",
+      "problemMatcher": [],
+      "label": "dotnet: watch SampleMigrateApp"
+    }
+  ]
+}
