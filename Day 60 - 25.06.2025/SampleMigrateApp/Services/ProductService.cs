@@ -14,22 +14,24 @@ namespace SampleMigrateApp.Services
 
         public async Task<IEnumerable<Product>> GetPagedProductsAsync(int? categoryId, int page, int pageSize)
         {
-            var allProducts = await _productRepository.GetAll();
+            var allProducts = await _productRepository.GetAll(); // List<Product>
 
-            var query = allProducts
-                .OrderByDescending(p => p.ProductId)
-                .AsQueryable();
+            if (allProducts == null || !allProducts.Any())
+                return Enumerable.Empty<Product>();
 
             if (categoryId.HasValue)
             {
-                query = query.Where(p => p.CategoryId == categoryId.Value);
+                allProducts = allProducts
+                    .Where(p => p.CategoryId == categoryId.Value)
+                    .ToList();
             }
 
-            return query
+            return allProducts
+                .OrderByDescending(p => p.ProductId)
                 .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
+                .Take(pageSize);
         }
+
 
         public async Task<Product?> GetProductByIdAsync(int id)
         {

@@ -8,7 +8,7 @@ namespace SampleMigrateApp.Services
     {
         private readonly IRepository<int, Category> _categoryRepo;
 
-        public CategoryService(IRepository<int,Category> categoryRepo)
+        public CategoryService(IRepository<int, Category> categoryRepo)
         {
             _categoryRepo = categoryRepo;
         }
@@ -52,10 +52,16 @@ namespace SampleMigrateApp.Services
 
             var categoryList = await _categoryRepo.GetAll();
 
-            if (categoryList.Count() == 0 || categoryList == null)
+            if (categoryList == null || !categoryList.Any())
                 throw new ArgumentException("No Categories Found");
-            categoryList = categoryList.OrderByDescending(c => c.CategoryId).AsQueryable();
-            return categoryList.Skip(pageNumber).Take(pageSize).ToList();
+
+            var paged = categoryList
+                .OrderByDescending(c => c.CategoryId)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
+
+            return paged;
+
         }
     }
 }

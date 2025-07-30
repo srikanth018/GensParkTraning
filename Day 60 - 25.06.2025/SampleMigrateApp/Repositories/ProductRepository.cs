@@ -4,7 +4,7 @@ using SampleMigrateApp.Models;
 using SampleMigrateApp.Repositories;
 
 
-namespace TrueVote.Repositories
+namespace SampleMigrateApp.Repositories
 {
     public class ProductRepository : Repository<int, Product>
     {

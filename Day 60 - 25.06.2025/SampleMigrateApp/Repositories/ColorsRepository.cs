@@ -3,7 +3,7 @@ using SampleMigrateApp.Contexts;
 using SampleMigrateApp.Models;
 using SampleMigrateApp.Repositories;
 
-namespace TrueVote.Repositories
+namespace SampleMigrateApp.Repositories
 {
     public class ColorsRepository : Repository<int, Color>
     {

@@ -1,4 +1,4 @@
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using SampleMigrateApp.Contexts;
 using SampleMigrateApp.Models;
 
