@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using SampleMigrateApp.DTOs;
 using SampleMigrateApp.Interfaces;
+using SampleMigrateApp.Migrations;
 using SampleMigrateApp.Models;
 
 namespace SampleMigrateApp.Services
@@ -11,16 +12,20 @@ namespace SampleMigrateApp.Services
         private readonly IRepository<int, Product> _productRepo;
         private readonly IRepository<int, Order> _orderRepo;
         private readonly IRepository<int, OrderDetail> _orderDetailRepo;
+        private readonly IProductService _productService;
 
-        public ShoppingCartService(IRepository<int, Cart> cartRepo, IRepository<int, Product> productRepo, IRepository<int, Order> orderRepo, IRepository<int, OrderDetail> orderDetailRepo)
+        public ShoppingCartService(IRepository<int, Cart> cartRepo, IRepository<int, Product> productRepo, IRepository<int, Order> orderRepo, IRepository<int, OrderDetail> orderDetailRepo, IProductService productService)
         {
             _cartRepo = cartRepo;
             _productRepo = productRepo;
             _orderRepo = orderRepo;
             _orderDetailRepo = orderDetailRepo;
+            _productService = productService;
         }
         public async Task<Cart> AddToCart(AddToCartDTO addToCartDTO)
         {
+            Console.WriteLine($"{addToCartDTO.ProductId} - {addToCartDTO.UserId} - {addToCartDTO.Quantity}");
+
             var product = await GetProductById(addToCartDTO.ProductId);
             if (product.Price == null)
                 throw new InvalidOperationException("Product price is not set.");
@@ -45,7 +50,7 @@ namespace SampleMigrateApp.Services
 
         public async Task<Cart> UpdateProductQuantity(UpdateProductQuantityDTO quantityDTO)
         {
-            var existingCartItems = await GetCartItemsByUserId(quantityDTO.UserId);
+            var existingCartItems = await GetCartItems(quantityDTO.UserId);
             var cartItem = existingCartItems.FirstOrDefault(c => c.ProductId == quantityDTO.ProductId);
             if (cartItem == null)
                 throw new KeyNotFoundException("Cart Item not found for the provided user Id and product Id");
@@ -68,11 +73,43 @@ namespace SampleMigrateApp.Services
             return updatedCartItem;
         }
 
-        public async Task<IEnumerable<Cart>> GetCartItemsByUserId(int id)
+        private async Task<IEnumerable<Cart>> GetCartItems(int userId)
         {
-            var existingCartItems = await _cartRepo.GetAll();
-            existingCartItems = existingCartItems.Where(c => c.UserId == id);
-            return existingCartItems;
+            if (userId < 0)
+                throw new ArgumentException("User Id Cannot be less than zero");
+            var item = await _cartRepo.GetAll();
+            if (item == null)
+                throw new KeyNotFoundException("Cart Item not exists");
+            return item.Where(c => c.UserId == userId);
+        }
+        
+
+        public async Task<IEnumerable<CartResponseDTO>> GetCartItemsByUserId(int id)
+        {
+            var existingCartItems = await GetCartItems(id);
+            if (existingCartItems == null || !existingCartItems.Any())
+                throw new ArgumentException("No Cart Items Found for this User Id");
+            if (existingCartItems.Count() == 0)
+                return Enumerable.Empty<CartResponseDTO>();
+            var cartResponseList = new List<CartResponseDTO>();
+            foreach (var cart in existingCartItems)
+            {
+                var product = await GetFullProductById(cart.ProductId);
+                if (product == null)
+                    throw new KeyNotFoundException("Product not found for the Cart Item");
+                var cartResponse = new CartResponseDTO
+                {
+                    CartId = cart.CartId,
+                    UserId = cart.UserId,
+                    ProductId = cart.ProductId,
+                    Quantity = cart.Quantity,
+                    TotalPrice = cart.TotalPrice,
+                    CreatedDate = cart.CreatedDate,
+                    Product = product
+                };
+                cartResponseList.Add(cartResponse);
+            }
+            return cartResponseList;
         }
 
         public async Task<Cart> RemoveFromCart(int cartId)
@@ -99,9 +136,17 @@ namespace SampleMigrateApp.Services
             return product;
         }
 
+        private async Task<ProductResponseDTO> GetFullProductById(int id)
+        {
+            var product = await _productService.GetProductByIdAsync(id);
+            if (product == null)
+                throw new KeyNotFoundException("Product not found");
+            return product;
+        }
+        
         public async Task<Order> PlaceOrder(PlaceOrderDTO placeOrderDTO)
         {
-            var cartItems = await GetCartItemsByUserId(placeOrderDTO.UserId);
+            var cartItems = await GetCartItems(placeOrderDTO.UserId);
             var order = new Order
             {
                 CustomerName = placeOrderDTO.CustomerName,

@@ -39,8 +39,17 @@ builder.Services.AddTransient<IRepository<int, News>, NewsManagementRepository>(
 builder.Services.AddTransient<IRepository<int, Color>, ColorsRepository>();
 builder.Services.AddTransient<IRepository<int, Category>, CategoryRepository>();
 builder.Services.AddTransient<IRepository<int, OrderDetail>, OrderDetailRepository>();
+builder.Services.AddTransient<IRepository<int, Model>, ModelRepository>();
 #endregion
 
+// cros origin
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -51,6 +60,7 @@ if (app.Environment.IsDevelopment())
 }
 app.MapControllers();
 app.UseHttpsRedirection();
+app.UseCors("AllowAllOrigins");
 
 
 

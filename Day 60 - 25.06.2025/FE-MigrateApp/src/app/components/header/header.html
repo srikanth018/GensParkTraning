@@ -1,0 +1,78 @@
+<div class="min-h-screen flex flex-col font-sans">
+  <!-- Header -->
+  <div class="flex bg-sky-800 justify-between items-center fixed top-0 w-full z-50">
+    <h1 class="text-white text-2xl font-bold p-4 text-center">ChienVh Shop!</h1>
+
+    <!-- Top Menu -->
+    <nav class="text-white">
+      <ul class="flex space-x-6 px-6 py-3 text-sm">
+        <li>
+          <a
+            routerLink="/home"
+            routerLinkActive="text-sky-800 font-semibold bg-sky-200 p-2 rounded-md transition-all duration-300"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Home</a
+          >
+        </li>
+        <!-- <li><a href="#">News</a></li> -->
+        <!-- <li>
+          <a
+            routerLink="/products"
+            routerLinkActive="text-sky-800 font-semibold bg-sky-200 p-2 rounded-md transition-all duration-300"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Products</a
+          >
+        </li> -->
+        <!-- <li>
+          <a
+            routerLink="/contact"
+            routerLinkActive="text-sky-800 font-semibold bg-sky-200 p-2 rounded-md transition-all duration-300"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Contact Us</a
+          >
+        </li> -->
+        <!-- <li>
+          <a
+            routerLink="/colors"
+            routerLinkActive="text-sky-800 font-semibold bg-sky-200 p-2 rounded-md transition-all duration-300"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Manage Color</a
+          >
+        </li> -->
+        <!-- <li>
+          <a
+            routerLink="/news-management"
+            routerLinkActive="text-sky-800 font-semibold bg-sky-200 p-2 rounded-md transition-all duration-300"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >News Management</a
+          >
+        </li> -->
+        <li>
+          <a
+            routerLink="/cart"
+            routerLinkActive="text-sky-800 font-semibold bg-sky-200 p-2 rounded-md transition-all duration-300"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Cart ({{ cartItemCount }})</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/my-orders"
+            routerLinkActive="text-sky-800 font-semibold bg-sky-200 p-2 rounded-md transition-all duration-300"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >My Orders</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main Body -->
+  <div class="flex flex-1 justify-center mt-16">
+    <!-- Main Content -->
+    <main class="p-6 transition-all duration-300">
+
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

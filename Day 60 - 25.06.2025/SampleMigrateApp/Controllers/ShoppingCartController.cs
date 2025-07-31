@@ -22,6 +22,7 @@ namespace SampleMigrateApp.Controllers
         {
             try
             {
+                System.Console.WriteLine($"Adding to cart: ProductId={dto.ProductId}, UserId={dto.UserId}, Quantity={dto.Quantity}");
                 var result = await _shoppingCartService.AddToCart(dto);
                 return Ok(result);
             }

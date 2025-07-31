@@ -15,7 +15,7 @@ namespace SampleMigrateApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts(int? category, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetProducts(int? category, int? page, int? pageSize)
         {
             var products = await _productService.GetPagedProductsAsync(category, page, pageSize);
             return Ok(products);
