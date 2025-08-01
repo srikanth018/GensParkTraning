@@ -13,12 +13,17 @@ namespace SampleMigrateApp.Repositories
         public override async Task<Order?> Get(int key)
         {
             return await _appDbContext.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.User)
                 .SingleOrDefaultAsync(c => c.OrderID == key);
         }
 
         public override async Task<IEnumerable<Order>> GetAll()
         {
             return await _appDbContext.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.User)
+                .OrderByDescending(o => o.OrderID)
                 .ToListAsync();
         }
     }

@@ -2,6 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { AddToCartModel } from "../Models/AddToCartModel";
+import { UpdateQuantityModel } from "../Models/UpdateQuantityModel";
+import { PlaceOrderModel } from "../Models/PlaceOrderModel";
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,13 @@ export class CartService {
 
     removeFromCart(cartId:number){
         return this.http.delete(`${this.baseUrl}remove/${cartId}`);
+    }
+
+    updateQuantity(updateData:UpdateQuantityModel){
+        return this.http.put(`${this.baseUrl}update-quantity`,updateData);
+    }
+
+    placeOrder(orderData:PlaceOrderModel){
+        return this.http.post(`${this.baseUrl}place-order`, orderData);
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SampleMigrateApp.DTOs;
 using SampleMigrateApp.Models;
 using SampleMigrateApp.Services;
 
@@ -32,19 +33,16 @@ namespace SampleMigrateApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<News>> Create([FromBody] News news)
+        public async Task<ActionResult<News>> Create([FromBody] CreateNewsDTO news)
         {
             var created = await _newsService.CreateNewsAsync(news);
             return CreatedAtAction(nameof(GetById), new { id = created.NewsId }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] News news)
+        public async Task<ActionResult> Update(int id, [FromBody] UpdateNewsDTO news)
         {
-            if (id != news.NewsId)
-                return BadRequest(new { message = "ID mismatch." });
-
-            var updated = await _newsService.UpdateNewsAsync(news);
+            var updated = await _newsService.UpdateNewsAsync(id, news);
             if (!updated)
                 return NotFound(new { message = $"News with ID {id} not found." });
 

@@ -1,3 +1,4 @@
+using SampleMigrateApp.DTOs;
 using SampleMigrateApp.Interfaces;
 using SampleMigrateApp.Models;
 using SampleMigrateApp.Repositories;
@@ -27,19 +28,42 @@ namespace SampleMigrateApp.Services
             return await _newsRepository.Get(id);
         }
 
-        public async Task<News> CreateNewsAsync(News news)
+        public async Task<News> CreateNewsAsync(CreateNewsDTO news)
         {
-            await _newsRepository.Add(news);
-            return news;
+            Console.WriteLine(news.Content);
+            Console.WriteLine(news.Image);
+            Console.WriteLine(news.ShortDescription);
+            Console.WriteLine(news.Title);
+            
+            var newsEntity = new News
+            {
+                Title = news.Title,
+                ShortDescription = news.ShortDescription,
+                Image = news.Image,
+                Content = news.Content,
+                CreatedDate = DateTime.UtcNow,
+                Status = 1,
+                UserId = news.UserId
+            };
+
+            await _newsRepository.Add(newsEntity);
+            return newsEntity;
         }
 
-        public async Task<bool> UpdateNewsAsync(News news)
+        public async Task<bool> UpdateNewsAsync(int newsId, UpdateNewsDTO news)
         {
-            var existing = await _newsRepository.Get(news.NewsId);
+            var existing = await _newsRepository.Get(newsId);
             if (existing == null)
                 return false;
 
-            await _newsRepository.Update(existing.NewsId, news);
+            existing.Title = news.Title ?? existing.Title;
+            existing.ShortDescription = news.ShortDescription ?? existing.ShortDescription;
+            existing.Image = news.Image ?? existing.Image;
+            existing.Content = news.Content ?? existing.Content;
+            existing.Status = news.Status ?? existing.Status;
+            existing.UserId = news.UserId ?? existing.UserId;
+
+            await _newsRepository.Update(existing.NewsId, existing);
             return true;
         }
 

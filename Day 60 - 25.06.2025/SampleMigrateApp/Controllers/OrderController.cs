@@ -68,5 +68,20 @@ namespace SampleMigrateApp.Controllers
 
             return NoContent();
         }
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByUserId(int userId)
+        {
+            try
+            {
+                var orders = await _orderService.GetOrdersByUserIdAsync(userId);
+                if (orders == null || !orders.Any())
+                    return NotFound(new { message = $"No orders found for user with ID {userId}." });
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while processing your request.", error = ex.Message });
+            }
+        }
     }
 }

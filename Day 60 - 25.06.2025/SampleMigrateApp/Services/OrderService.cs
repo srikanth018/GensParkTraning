@@ -60,5 +60,46 @@ namespace SampleMigrateApp.Services
             await _orderRepository.Delete(id);
             return true;
         }
+
+        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
+        {
+            var allOrders = await _orderRepository.GetAll();
+
+            // Filter orders that have at least one OrderDetail with the given userId
+            var userOrders = allOrders
+                .Where(o => o.OrderDetails != null && o.OrderDetails.Any(od => od.UserId == userId))
+                .Select(o => new Order
+                {
+                    OrderID = o.OrderID,
+                    OrderName = o.OrderName,
+                    OrderDate = o.OrderDate,
+                    PaymentType = o.PaymentType,
+                    TotalAmount = o.TotalAmount,
+                    Status = o.Status,
+                    CustomerName = o.CustomerName,
+                    CustomerPhone = o.CustomerPhone,
+                    CustomerEmail = o.CustomerEmail,
+                    CustomerAddress = o.CustomerAddress,
+                    OrderDetails = o.OrderDetails
+                        .Where(od => od.UserId == userId)
+                        .Select(od => new OrderDetail
+                        {
+                            OrderID = od.OrderID,
+                            ProductId = od.ProductId,
+                            Price = od.Price,
+                            Quantity = od.Quantity,
+                            UserId = od.UserId,
+                            Product = od.Product,
+                            User = null // Avoid circular reference
+                        })
+                        .ToList()
+                })
+                .OrderByDescending(o => o.OrderDate)
+                .ToList();
+
+            return userOrders;
+        }
+
+
     }
 }

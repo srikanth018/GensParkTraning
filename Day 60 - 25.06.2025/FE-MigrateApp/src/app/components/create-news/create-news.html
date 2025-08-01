@@ -1,0 +1,87 @@
+<div class="fixed inset-0 bg-transparent backdrop-blur-md flex items-center justify-center z-50 p-4">
+  <div class="bg-white shadow-lg border-1 border-sky-400 rounded-xl overflow-hidden w-full max-w-3xl">
+    <div class="bg-gradient-to-r from-sky-600 to-sky-800 p-6 text-white">
+      <h1 class="text-3xl font-bold">{{ 'Add News' }}</h1>
+      <p class="text-sky-100">
+        Please Add the news details
+      </p>
+    </div>
+
+    <form [formGroup]="newsForm" (ngSubmit)="onSubmit()" class="px-6 pb-6 space-y-6 mt-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">Title*</label>
+          <input
+            formControlName="title"
+            type="text"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 outline-none transition placeholder:text-gray-400"
+            placeholder="News title"
+          />
+          <div *ngIf="newsForm.get('title')?.invalid && newsForm.get('title')?.touched" class="mt-1 text-sm text-red-600">
+            Title is required
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">Short Description*</label>
+          <input
+            formControlName="shortDescription"
+            type="text"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 outline-none transition placeholder:text-gray-400"
+            placeholder="Brief description"
+          />
+          <div *ngIf="newsForm.get('shortDescription')?.invalid && newsForm.get('shortDescription')?.touched" class="mt-1 text-sm text-red-600">
+            Short description is required
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Image URL*</label>
+        <input
+          formControlName="image"
+          type="text"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 outline-none transition placeholder:text-gray-400"
+          placeholder="https://example.com/image.jpg"
+        />
+        <div *ngIf="newsForm.get('image')?.invalid && newsForm.get('image')?.touched" class="mt-1 text-sm text-red-600">
+          Valid image URL is required
+        </div>
+        <div *ngIf="newsForm.get('image')?.value" class="mt-2">
+          <img [src]="newsForm.get('image')?.value" alt="Preview" class="h-32 object-contain rounded border">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Content*</label>
+        <textarea
+          formControlName="content"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 outline-none transition placeholder:text-gray-400"
+          rows="3"
+          placeholder="News content"
+        ></textarea>
+        <div *ngIf="newsForm.get('content')?.invalid && newsForm.get('content')?.touched" class="mt-1 text-sm text-red-600">
+          Content is required
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-4 pt-4">
+        <button
+          type="button"
+          (click)="closeEditModal()"
+          class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          [disabled]="newsForm.invalid || isSaving"
+          class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span *ngIf="!isSaving">Create News</span>
+          <span *ngIf="isSaving"> Creating...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

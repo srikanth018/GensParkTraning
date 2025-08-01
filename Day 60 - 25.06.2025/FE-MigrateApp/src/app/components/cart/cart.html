@@ -1,8 +1,28 @@
 <div
   class="flex flex-col items-center justify-center transition-all duration-300"
 >
-  <h1 class="text-3xl text-sky-800 font-bold mb-4">Cart Items List</h1>
-  <p *ngIf="cartList.length === 0">No products available.</p>
+  <div class="mb-4 flex items-center justify-between w-full">
+    <div></div>
+    <h1 class="text-3xl text-sky-800 font-bold mb-2">Cart Items List</h1>
+    <div class="gap-4 flex flex-col justify-end">
+      
+      <button
+      class="bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      (click)="buyNow()"
+      [disabled]="isOrderNowFormOpened"
+    >
+      Buy Now
+    </button>
+    <div class="flex items-center gap-2">
+      <p class="text-md font-semibold">Total Payable Amount:</p>
+      <p class="text-lg font-bold text-indigo-600">₹{{ totalPayableAmount | number: '1.2-2' }}</p>
+    </div>
+    </div>
+    
+  </div>
+  <p *ngIf="cartList.length === 0" class="text-gray-500">
+    No products available.
+  </p>
 
   <!-- When product list has items -->
   <div
@@ -10,7 +30,7 @@
     *ngIf="cartList.length > 0"
   >
     <div
-      class="grid grid-cols-7 items-center p-4 border rounded-lg shadow-md w-full"
+      class="grid grid-cols-7 items-center p-4 border rounded-lg shadow-md w-xl"
       *ngFor="let product of cartList"
     >
       <div class="col-span-3">
@@ -24,39 +44,70 @@
         />
       </div>
 
-      <div class="text-center col-span-2 space-y-2">
-  <div class="space-y-1.5">
-    <p class="text-gray-800 font-medium">
-      Price: <span class="text-indigo-600">{{ product.product.price | currency: 'INR' }}</span>
-    </p>
-    <p class="text-gray-700 text-sm">Category: <span class="text-gray-900">{{ product.product.category }}</span></p>
-    <p class="text-gray-700 text-sm">Color: <span class="text-gray-900">{{ product.product.color }}</span></p>
-    <p class="text-gray-700 text-sm">Model: <span class="text-gray-900">{{ product.product.model }}</span></p>
-    <p class="text-gray-700 text-sm">Storage: <span class="text-gray-900">{{ product.product.storage }}</span></p>
-  </div>
+      <div class="text-center col-span-4 space-y-2">
+        <div class="space-y-1.5">
+          <p class="text-gray-800 font-medium">
+            Price:
+            <span class="text-indigo-600"
+              >{{ product.totalPrice | currency: 'INR' }}</span
+            >
+          </p>
+          <p class="text-gray-700 text-sm">
+            Category:
+            <span class="text-gray-900">{{ product.product.category }}</span>
+          </p>
+          <p class="text-gray-700 text-sm">
+            Color:
+            <span class="text-gray-900">{{ product.product.color }}</span>
+          </p>
+          <p class="text-gray-700 text-sm">
+            Model:
+            <span class="text-gray-900">{{ product.product.model }}</span>
+          </p>
+          <p class="text-gray-700 text-sm">
+            Storage:
+            <span class="text-gray-900">{{ product.product.storage }}</span>
+          </p>
+        </div>
 
-  <div class="pt-2">
-    <p class="flex justify-between items-center gap-3 bg-amber-50 text-amber-700 border border-amber-200 font-medium px-4 py-1.5 text-sm rounded-lg transition-all duration-200 cursor-pointer hover:shadow-sm hover:shadow-amber-500/50">
-      <span class="text-lg w-6 h-6 flex items-center justify-center rounded hover:bg-amber-200/50">-</span>
-      <span class="flex-1 text-base font-semibold">{{ product.quantity }}</span>
-      <span class="text-lg w-6 h-6 flex items-center justify-center rounded hover:bg-amber-200/50">+</span>
-    </p>
+        <div class="pt-2 flex items-center gap-4 justify-center">
+          <p
+            class="flex justify-between items-center gap-3 bg-amber-50 text-amber-700 border border-amber-200 font-medium px-4 py-1.5 text-sm rounded-lg transition-all duration-200 cursor-pointer hover:shadow-sm hover:shadow-amber-500/50 w-1/2"
+          >
+            <span
+              class="text-lg w-6 h-6 flex items-center justify-center rounded hover:bg-amber-200/50"
+              (click)="decrement(product.quantity, product.cartId, product.product.productId)"
+              >-</span
+            >
+            <span class="flex-1 text-base font-semibold"
+              >{{ product.quantity }}</span
+            >
+            <span
+              class="text-lg w-6 h-6 flex items-center justify-center rounded hover:bg-amber-200/50"
+              (click)="increment(product.quantity, product.cartId, product.product.productId)"
+              >+</span
+            >
+          </p>
+          <button
+            class="bg-red-100 font-bold border-1 border-red-600 text-red-600 hover:bg-red-300 w-20 py-1.5 text-sm rounded-md transition-all duration-300 cursor-pointer"
+            (click)="removeFromCart(product.cartId, product.product.productId)"
+          >
+            {{'Remove'}}
+          </button>
+        </div>
+      </div>
+      <span
+        *ngIf="errorMessageProductId === product.product.productId"
+        class="text-xs text-red-600 col-start-4 col-span-4"
+        >{{errorMessage}}</span
+      >
+    </div>
   </div>
 </div>
 
-      <div class="col-span-2 flex flex-col items-center gap-4">
-        <button
-          class="bg-red-100 font-bold border-1 border-red-600 text-red-600 hover:bg-red-300 py-1 w-20 text-sm rounded-md transition-all duration-300 cursor-pointer"
-          (click)="removeFromCart(product.cartId, product.product.productId)"
-        >
-          {{'Remove'}}
-        </button>
-        <button
-          class="bg-sky-200 font-bold border-1 border-sky-600 text-sky-600 hover:bg-sky-300 py-1 w-20 text-sm rounded-md transition-all duration-300 cursor-pointer"
-        >
-          {{'Buy Now'}}
-        </button>
-      </div>
-    </div>
-  </div>
+<div
+  *ngIf="isOrderNowFormOpened"
+  class="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center justify-center z-50"
+>
+  <app-buynow-form [cartList]="cartList" (orderData)="placeOrder($event)"></app-buynow-form>
 </div>

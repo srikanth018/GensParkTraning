@@ -50,10 +50,10 @@ namespace SampleMigrateApp.Services
 
         public async Task<Cart> UpdateProductQuantity(UpdateProductQuantityDTO quantityDTO)
         {
-            var existingCartItems = await GetCartItems(quantityDTO.UserId);
-            var cartItem = existingCartItems.FirstOrDefault(c => c.ProductId == quantityDTO.ProductId);
+
+            var cartItem = await isItemExists(quantityDTO.CartId);
             if (cartItem == null)
-                throw new KeyNotFoundException("Cart Item not found for the provided user Id and product Id");
+                throw new KeyNotFoundException("Cart Item not found for the provided Cart Id");
             if (cartItem.Quantity == quantityDTO.Quantity)
                 throw new ArgumentException("Update not possible as the new quantity and existing quantity are same");
             if (quantityDTO.Quantity < 0)
@@ -82,7 +82,7 @@ namespace SampleMigrateApp.Services
                 throw new KeyNotFoundException("Cart Item not exists");
             return item.Where(c => c.UserId == userId);
         }
-        
+
 
         public async Task<IEnumerable<CartResponseDTO>> GetCartItemsByUserId(int id)
         {
@@ -143,10 +143,11 @@ namespace SampleMigrateApp.Services
                 throw new KeyNotFoundException("Product not found");
             return product;
         }
-        
+
         public async Task<Order> PlaceOrder(PlaceOrderDTO placeOrderDTO)
         {
             var cartItems = await GetCartItems(placeOrderDTO.UserId);
+
             var order = new Order
             {
                 CustomerName = placeOrderDTO.CustomerName,
@@ -154,22 +155,28 @@ namespace SampleMigrateApp.Services
                 CustomerAddress = placeOrderDTO.CustomerAddress,
                 CustomerPhone = placeOrderDTO.CustomerPhone,
                 OrderDate = DateTime.UtcNow,
-                PaymentType = "Cash",
-                Status = "Processing"
+                PaymentType = placeOrderDTO.PaymentType,
+                TotalAmount = placeOrderDTO.TotalAmount,
+                Status = "Processing",
+                OrderDetails = new List<OrderDetail>()
             };
-            await _orderRepo.Add(order);
+
             foreach (Cart cart in cartItems)
             {
-                OrderDetail orderDetail = new OrderDetail
+                var orderDetail = new OrderDetail
                 {
-                    OrderID = order.OrderID,
                     ProductId = cart.ProductId,
                     Quantity = cart.Quantity,
-                    Price = cart.TotalPrice
+                    Price = cart.TotalPrice,
+                    UserId = placeOrderDTO.UserId
                 };
-                await _orderDetailRepo.Add(orderDetail);
+
+                order.OrderDetails.Add(orderDetail);
                 await _cartRepo.Delete(cart.CartId);
             }
+
+            await _orderRepo.Add(order);
+
             return order;
         }
     }

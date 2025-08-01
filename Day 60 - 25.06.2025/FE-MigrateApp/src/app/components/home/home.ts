@@ -11,7 +11,8 @@ import { AddToCartModel } from '../../Models/AddToCartModel';
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
-  productList: any = [];
+  productList: any[] = [];
+  allProducts: any[] = [];
   cartProductIds: number[] = [];
   constructor(
     private productService: ProductService,
@@ -26,9 +27,8 @@ export class Home implements OnInit {
     this.productService.getProducts().subscribe({
       next: (data: any) => {
         this.productList = data.$values || [];
-        console.log('data');
-
-        console.log(this.productList);
+        this.allProducts = [...this.productList];
+        this.getAllCategories();
       },
       error: (error) => {
         console.error('Error fetching products:', error);
@@ -60,6 +60,30 @@ export class Home implements OnInit {
           console.log(err);
         },
       });
+    }
+  }
+
+  categoryList: string[] = [];
+  getAllCategories() {
+  const unique = new Set<string>();
+  this.productList.forEach((product: any) => {
+    if (product.category) {
+      unique.add(product.category);
+    }
+  });
+  this.categoryList = Array.from(unique);
+}
+
+  selectedCategory: string = 'All';
+  filterByCategory(event: Event) {
+    const category = (event.target as HTMLSelectElement).value;
+    if (category === 'All') {
+      this.productList = this.allProducts;
+    } else {
+      this.selectedCategory = category;
+      this.productList = this.allProducts.filter(
+        (product) => product.category === category
+      );
     }
   }
 }

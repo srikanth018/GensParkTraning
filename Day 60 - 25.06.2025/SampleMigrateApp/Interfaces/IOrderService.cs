@@ -12,5 +12,6 @@ namespace SampleMigrateApp.Services
         Task<Order> CreateOrderAsync(Order order);
         Task<bool> UpdateOrderAsync(Order order);
         Task<bool> DeleteOrderAsync(int id);
+        Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId);
     }
 }

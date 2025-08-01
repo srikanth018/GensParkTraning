@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SampleMigrateApp.Contexts;
@@ -11,9 +12,11 @@ using SampleMigrateApp.Contexts;
 namespace SampleMigrateApp.Migrations
 {
     [DbContext(typeof(ChienVHShopDBEntities))]
-    partial class ChienVHShopDBEntitiesModelSnapshot : ModelSnapshot
+    [Migration("20250731072803_modelbuilder")]
+    partial class modelbuilder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,11 +224,11 @@ namespace SampleMigrateApp.Migrations
                     b.Property<int>("OrderID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
                     b.Property<double?>("Price")
                         .HasColumnType("double precision");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("Quantity")
                         .HasColumnType("integer");
@@ -233,7 +236,7 @@ namespace SampleMigrateApp.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("OrderID", "ProductId");
+                    b.HasKey("OrderID");
 
                     b.HasIndex("ProductId");
 

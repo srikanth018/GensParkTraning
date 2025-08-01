@@ -43,12 +43,6 @@ namespace SampleMigrateApp.Contexts
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            // Product - OrderDetail (1-to-many)
-            modelBuilder.Entity<OrderDetail>()
-                .HasOne(od => od.Product)
-                .WithMany(p => p.OrderDetails)
-                .HasForeignKey(od => od.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<News>()
                 .HasOne(n => n.User)
@@ -68,6 +62,9 @@ namespace SampleMigrateApp.Contexts
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrderDetail>()
+    .HasKey(od => new { od.OrderID, od.ProductId });
+
+            modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.Order)
                 .WithMany(o => o.OrderDetails)
                 .HasForeignKey(od => od.OrderID)
@@ -84,6 +81,7 @@ namespace SampleMigrateApp.Contexts
                 .WithMany(u => u.OrderDetails)
                 .HasForeignKey(od => od.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
+
         }
 
 
