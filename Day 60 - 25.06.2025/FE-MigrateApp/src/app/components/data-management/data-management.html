@@ -1,0 +1,174 @@
+<div class="mb-8 flex flex-col ml-auto">
+  <!-- Category Management Section -->
+  <div class="mb-4 flex justify-between items-center">
+    <div>
+      <h1 class="text-2xl font-bold text-sky-800">Category Management</h1>
+      <p class="text-gray-500 text-xs">Manage your product categories here.</p>
+    </div>
+    <div>
+      <form #categoryForm="ngForm" class="flex items-center space-x-4 mb-4">
+        <input
+          type="text"
+          name="categoryName"
+          ngModel
+          required
+          placeholder="Category Name"
+          class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 outline-none transition w-40 placeholder:text-gray-400"
+          [(ngModel)]="categoryName"
+        />
+        <button
+          type="submit"
+          class="px-4 py-2 bg-sky-800 text-white rounded-lg hover:bg-sky-700 transition-colors"
+          (click)="addCategory(categoryForm); "
+        >
+          Add
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div
+      class="grid grid-cols-12 gap-4 font-semibold text-gray-700 px-4 py-2 bg-sky-50 border-b"
+    >
+      <div class="col-span-1">Sl No.</div>
+      <div class="col-span-9">Category</div>
+      <div class="col-span-2 text-right">Actions</div>
+    </div>
+
+    <div class="h-52 overflow-y-auto">
+      <div
+        *ngFor="let item of categoryList; let i = index"
+        class="grid grid-cols-12 gap-4 px-4 py-2 hover:bg-gray-50 transition-colors border-b last:border-b-0"
+      >
+        <div class="col-span-1 text-gray-800">{{i + 1}}</div>
+
+        <div
+          *ngIf="editCategoryId !== item.categoryId"
+          class="col-span-9 text-gray-600 truncate"
+        >
+          {{ item.name }}
+        </div>
+
+        <div *ngIf="editCategoryId === item.categoryId" class="col-span-9">
+          <input
+            type="text"
+            [(ngModel)]="editCategoryName"
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 outline-none transition w-full"
+          />
+          <button (click)="updateCategory(item.categoryId, editCategoryName)" class=" text-sm mt-2 p-1 px-2 bg-sky-800 text-white rounded-lg hover:bg-sky-700 transition-colors">
+            Save
+          </button>
+          <button class="ml-2 text-red-500" (click)="cancelEditing()">
+            Cancel
+          </button>
+        </div>
+
+        <div class="col-span-2 text-right space-x-3">
+          <button
+            class="text-blue-600 hover:text-blue-800 transition-colors p-1 rounded-full hover:bg-blue-50"
+            title="Edit"
+            (click)="editCategory(item)"
+          >
+            <i class="fas fa-edit w-4 h-4"></i>
+          </button>
+          <button
+            class="text-red-600 hover:text-red-800 transition-colors p-1 rounded-full hover:bg-red-50"
+            title="Delete"
+            (click)="deleteCategory(item.categoryId)"
+          >
+            <i class="fas fa-trash-alt w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-8 flex flex-col ml-auto">
+  <!-- Color Management Section -->
+  <div class="mb-4 flex justify-between items-center">
+    <div>
+      <h1 class="text-2xl font-bold text-sky-800">Color Management</h1>
+      <p class="text-gray-500 text-xs">Manage your product colors here.</p>
+    </div>
+    <div>
+      <form #colorForm="ngForm" class="flex items-center space-x-4 mb-4">
+        <input
+          type="text"
+          name="colorName"
+          ngModel
+          required
+          placeholder="Color Name"
+          class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 outline-none transition w-40 placeholder:text-gray-400"
+          [(ngModel)]="colorName"
+        />
+        <button
+          type="submit"
+          class="px-4 py-2 bg-sky-800 text-white rounded-lg hover:bg-sky-700 transition-colors"
+          (click)="addColor(colorName)"
+        >
+          Add
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div
+      class="grid grid-cols-12 gap-4 font-semibold text-gray-700 px-4 py-2 bg-sky-50 border-b"
+    >
+      <div class="col-span-1">Sl No.</div>
+      <div class="col-span-9">Color</div>
+      <div class="col-span-2 text-right">Actions</div>
+    </div>
+
+    <div class="h-52 overflow-y-auto">
+      <div
+        *ngFor="let item of colorList; let i = index"
+        class="grid grid-cols-12 gap-4 px-4 py-2 hover:bg-gray-50 transition-colors border-b last:border-b-0"
+      >
+        <div class="col-span-1 text-gray-800">{{i + 1}}</div>
+
+        <div
+          *ngIf="editColorId !== item.colorId"
+          class="col-span-9 text-gray-600 truncate"
+        >
+          {{ item.color1 }}
+        </div>
+
+        <div *ngIf="editColorId === item.colorId" class="col-span-7">
+          <input
+            type="text"
+            [(ngModel)]="editColorName"
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500 outline-none transition w-full"
+          />
+          <button (click)="updateColor(item.colorId, editColorName)" class="text-sm mt-2 p-1 px-2 bg-sky-800 text-white rounded-lg hover:bg-sky-700 transition-colors">
+            Save
+          </button>
+          <button class="ml-2 text-red-500" (click)="cancelColorEditing()">
+            Cancel
+          </button>
+        </div>
+
+        
+        <div class="col-span-2 text-right space-x-3">
+          <button
+            class="text-blue-600 hover:text-blue-800 transition-colors p-1 rounded-full hover:bg-blue-50"
+            title="Edit"
+            (click)="editColor(item)"
+          >
+            <i class="fas fa-edit w-4 h-4"></i>
+          </button>
+          <button
+            class="text-red-600 hover:text-red-800 transition-colors p-1 rounded-full hover:bg-red-50"
+            title="Delete"
+            (click)="deleteColor(item.colorId)"
+          >
+            <i class="fas fa-trash-alt w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

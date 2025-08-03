@@ -10,5 +10,6 @@ namespace SampleMigrateApp.Interfaces
         Task<Category> GetCategoryById(int id);
         Task<Category> EditCategory(int id, EditCategoryDTO editCategoryDTO);
         Task<Category> DeleteCategory(int id);
+        Task<Category> CreateCategory(string name);
     }
 }

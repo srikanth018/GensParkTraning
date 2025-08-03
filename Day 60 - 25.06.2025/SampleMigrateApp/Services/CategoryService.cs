@@ -63,5 +63,14 @@ namespace SampleMigrateApp.Services
             return paged;
 
         }
+
+        public async Task<Category> CreateCategory(string name)
+        {
+            var category = new Category
+            {
+                Name = name
+            };
+            return await _categoryRepo.Add(category);
+        }
     }
 }

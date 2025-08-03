@@ -63,15 +63,22 @@ export class Home implements OnInit {
     }
   }
 
+  getAllCategoriesFromAPI() {
+    this.productService.getAllCategories().subscribe({
+      next: (data: any) => {
+        data.$values.forEach((category: any) => {
+          this.categoryList.push(category.name);
+        });        
+      },
+      error: (error) => {
+        console.error('Error fetching categories:', error);
+      },
+    });
+  }
+
   categoryList: string[] = [];
   getAllCategories() {
-  const unique = new Set<string>();
-  this.productList.forEach((product: any) => {
-    if (product.category) {
-      unique.add(product.category);
-    }
-  });
-  this.categoryList = Array.from(unique);
+    this.getAllCategoriesFromAPI();
 }
 
   selectedCategory: string = 'All';

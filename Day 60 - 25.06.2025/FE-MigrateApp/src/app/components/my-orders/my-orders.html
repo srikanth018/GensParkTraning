@@ -5,6 +5,7 @@
     <div></div> <!-- Empty div for balance -->
   </div>
 
+
   <p *ngIf="orders.length === 0" class="text-gray-500">
     No orders found.
   </p>
@@ -175,4 +176,13 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="flex justify-end w-full mb-4">
+  <button
+    (click)="exportOrdersToPDF()"
+    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300"
+  >
+    Export as PDF
+  </button>
 </div>

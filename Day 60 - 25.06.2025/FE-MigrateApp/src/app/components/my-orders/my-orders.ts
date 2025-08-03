@@ -3,6 +3,8 @@ import { OrderService } from '../../services/OrderService';
 import { DatePipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ProductService } from '../../services/ProductService';
 import { CartService } from '../../services/CartService';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-my-orders',
@@ -60,6 +62,38 @@ export class MyOrders implements OnInit {
     this.isOrderDetailsOpen = false;
     this.selectedOrder = null;
     this.selectedOrderProducts = [];
+  }
+
+  exportOrdersToPDF() {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('My Orders Report', 14, 22);
+
+    const headers = [['Order ID', 'Order Date', 'Payment Method', 'Total Items', 'Total Amount (₹)']];
+
+    const data = this.orders.map(order => [
+      order.orderID,
+      new Date(order.orderDate).toLocaleDateString(),
+      order.paymentType,
+      order.orderDetails?.$values?.length || 0,
+      order.totalAmount.toFixed(2)
+    ]);
+
+    autoTable(doc, {
+      head: headers,
+      body: data,
+      startY: 30,
+      styles: {
+        fontSize: 10,
+        cellPadding: 4,
+      },
+      headStyles: {
+        fillColor: [3, 105, 161] // Tailwind sky-800
+      }
+    });
+
+    doc.save('my-orders.pdf');
   }
 
 
